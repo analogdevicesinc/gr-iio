@@ -41,7 +41,7 @@ endif(ENABLE_GR_CTRLPORT)
 # Setup library
 ########################################################################
 list(APPEND iio_sources
-    device_impl.cc
+    device_source_impl.cc
 )
 
 list(APPEND iio_libs

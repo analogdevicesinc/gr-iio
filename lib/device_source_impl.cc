@@ -24,7 +24,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "device_impl.h"
+#include "device_source_impl.h"
 
 #define SAMPLES_COUNT 16000
 
@@ -54,18 +54,19 @@ ssize_t demux_sample(const struct iio_channel *chn,
 namespace gr {
   namespace iio {
 
-    device::sptr
-    device::make(const std::string &host, const std::string &device,
+    device_source::sptr
+    device_source::make(const std::string &host, const std::string &device,
 		    const std::vector<std::string> &channels)
     {
       return gnuradio::get_initial_sptr
-        (new device_impl(host, device, channels));
+        (new device_source_impl(host, device, channels));
     }
 
     /*
      * The private constructor
      */
-    device_impl::device_impl(const std::string &host, const std::string &device,
+    device_source_impl::device_source_impl(const std::string &host,
+		    const std::string &device,
 		    const std::vector<std::string> &channels)
       : gr::sync_block("device",
               gr::io_signature::make(0, 0, 0),
@@ -110,13 +111,13 @@ namespace gr {
 	    }
 
 	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT);
-	    refill_thd = new std::thread(&device_impl::refill, this);
+	    refill_thd = new std::thread(&device_source_impl::refill, this);
     }
 
     /*
      * Our virtual destructor.
      */
-    device_impl::~device_impl()
+    device_source_impl::~device_source_impl()
     {
 	    refill_thd->join();
 	    delete refill_thd;
@@ -125,13 +126,13 @@ namespace gr {
 	    iio_context_destroy(ctx);
     }
 
-    void device_impl::refill()
+    void device_source_impl::refill()
     {
 	    while (!iio_buffer_refill(buf));
     }
 
     int
-    device_impl::work(int noutput_items,
+    device_source_impl::work(int noutput_items,
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
@@ -148,7 +149,7 @@ namespace gr {
 	int ret = iio_buffer_foreach_sample(buf, demux_sample, NULL);
 
 	/* Refill the buffer for next time */
-	refill_thd = new std::thread(&device_impl::refill, this);
+	refill_thd = new std::thread(&device_source_impl::refill, this);
 	return ret;
     }
 

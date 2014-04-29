@@ -18,5 +18,5 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    iio_device.xml DESTINATION share/gnuradio/grc/blocks
+    iio_device_source.xml DESTINATION share/gnuradio/grc/blocks
 )

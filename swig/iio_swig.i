@@ -5,8 +5,8 @@
 %include "gnuradio.i"
 
 %{
-#include "gnuradio/iio/device.h"
+#include "gnuradio/iio/device_source.h"
 %}
 
-%include "gnuradio/iio/device.h"
-GR_SWIG_BLOCK_MAGIC2(iio, device);
+%include "gnuradio/iio/device_source.h"
+GR_SWIG_BLOCK_MAGIC2(iio, device_source);

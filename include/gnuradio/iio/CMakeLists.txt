@@ -22,6 +22,6 @@
 ########################################################################
 install(FILES
     api.h
-    device.h
+    device_source.h
 	DESTINATION include/iio
 )

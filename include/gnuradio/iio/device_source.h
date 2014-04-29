@@ -1,7 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2014 Analog Devices Inc.
- * Author: Paul Cercueil <paul.cercueil@analog.com>
+ * Copyright 2014 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,44 +18,40 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_DEVICE_IMPL_H
-#define INCLUDED_IIO_DEVICE_IMPL_H
 
-#include <string>
-#include <thread>
-#include <vector>
+#ifndef INCLUDED_IIO_DEVICE_SOURCE_H
+#define INCLUDED_IIO_DEVICE_SOURCE_H
 
-#include <iio.h>
-#include <gnuradio/iio/device.h>
+#include <gnuradio/iio/api.h>
+#include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace iio {
 
-    class device_impl : public device
+    /*!
+     * \brief <+description of block+>
+     * \ingroup iio
+     *
+     */
+    class IIO_API device_source : virtual public gr::sync_block
     {
-     private:
-	     struct iio_context *ctx;
-	     struct iio_buffer *buf;
-	     std::vector <struct iio_channel *> channel_list;
-	     std::thread *refill_thd;
-
-	     void refill();
-
      public:
-      device_impl(const std::string &host, const std::string &device,
-		      const std::vector<std::string> &channels);
-      ~device_impl();
+      typedef boost::shared_ptr<device_source> sptr;
 
-      // Where all the action really happens
-      int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
+      /*!
+       * \brief Return a shared_ptr to a new instance of iio::device.
+       *
+       * To avoid accidental use of raw pointers, iio::device's
+       * constructor is in a private implementation
+       * class. iio::device::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(const std::string &host, const std::string &device,
+		      const std::vector<std::string> &channels);
     };
 
   } // namespace iio
 } // namespace gr
 
-extern "C" ssize_t demux_sample(const struct iio_channel *chn,
-		void *sample, size_t size, void *d);
+#endif /* INCLUDED_IIO_DEVICE_SOURCE_H */
 
-#endif /* INCLUDED_IIO_DEVICE_IMPL_H */
