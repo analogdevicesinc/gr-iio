@@ -109,7 +109,7 @@ namespace gr {
 		    channel_list.push_back(chn);
 	    }
 
-	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
+	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT);
 	    refill_thd = new std::thread(&device_impl::refill, this);
     }
 
