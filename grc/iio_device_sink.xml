@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<block>
+	<name>IIO Device Sink</name>
+	<key>iio_device_sink</key>
+	<category>Industrial IO</category>
+	<import>from gnuradio import iio</import>
+	<make>iio.device_sink($host, $device, $channels)</make>
+
+	<param>
+		<name>Hostname</name>
+		<key>host</key>
+		<value>localhost</value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>Device Name/ID</name>
+		<key>device</key>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>Channels</name>
+		<key>channels</key>
+		<value>[]</value>
+		<type>raw</type>
+	</param>
+
+	<!-- Refuse empty strings -->
+	<check>$host</check>
+	<check>$device</check>
+
+	<!-- We need at least one channel -->
+	<check>len($channels) &gt; 0</check>
+
+	<sink>
+		<name>in</name>
+		<type>float</type>
+		<nports>len($channels)</nports>
+	</sink>
+</block>

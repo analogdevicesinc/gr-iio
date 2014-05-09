@@ -23,5 +23,6 @@
 install(FILES
     api.h
     device_source.h
+    device_sink.h
 	DESTINATION include/iio
 )

@@ -42,6 +42,7 @@ endif(ENABLE_GR_CTRLPORT)
 ########################################################################
 list(APPEND iio_sources
     device_source_impl.cc
+    device_sink_impl.cc
 )
 
 list(APPEND iio_libs
