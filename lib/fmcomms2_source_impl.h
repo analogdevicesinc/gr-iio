@@ -19,35 +19,30 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_DEVICE_SOURCE_IMPL_H
-#define INCLUDED_IIO_DEVICE_SOURCE_IMPL_H
+#ifndef INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H
+#define INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H
 
 #include <string>
 #include <thread>
 #include <vector>
 
-#include <iio.h>
-#include <gnuradio/iio/device_source.h>
+#include <gnuradio/iio/fmcomms2_source.h>
+
+#include "device_source_impl.h"
 
 namespace gr {
   namespace iio {
 
-    class device_source_impl : public device_source
+    class fmcomms2_source_impl : public fmcomms2_source
     {
      private:
-	     struct iio_context *ctx;
-	     struct iio_buffer *buf;
-	     std::vector <struct iio_channel *> channel_list;
-	     std::thread *refill_thd;
-
-	     void refill();
+      device_source_impl *device;
 
      public:
-      device_source_impl(const std::string &host, const std::string &device,
-		      const std::vector<std::string> &channels);
-      ~device_source_impl();
-
-      struct iio_context *get_context(void) { return ctx; }
+      fmcomms2_source_impl(const std::string &host,
+		    double frequency, double samplerate, double bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
+      ~fmcomms2_source_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
@@ -58,7 +53,4 @@ namespace gr {
   } // namespace iio
 } // namespace gr
 
-extern "C" ssize_t demux_sample(const struct iio_channel *chn,
-		void *sample, size_t size, void *d);
-
-#endif /* INCLUDED_IIO_DEVICE_SOURCE_IMPL_H */
+#endif /* INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H */

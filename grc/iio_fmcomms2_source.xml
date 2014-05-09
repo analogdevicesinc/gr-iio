@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<block>
+	<name>FMComms2 Source</name>
+	<key>iio_fmcomms2_source</key>
+	<category>Industrial IO</category>
+	<import>from gnuradio import iio</import>
+	<make>iio.fmcomms2_source($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en)</make>
+
+	<param>
+		<name>Hostname</name>
+		<key>host</key>
+		<value>localhost</value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>LO Frequency</name>
+		<key>frequency</key>
+		<value>2400000000</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Sample rate</name>
+		<key>samplerate</key>
+		<value>1536000</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>RF bandwidth</name>
+		<key>bandwidth</key>
+		<value>20000000</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Channel 1 Enabled</name>
+		<key>ch1_en</key>
+		<value>True</value>
+		<type>bool</type>
+	</param>
+
+	<param>
+		<name>Channel 2 Enabled</name>
+		<key>ch2_en</key>
+		<value>True</value>
+		<type>bool</type>
+	</param>
+
+	<param>
+		<name>Channel 3 Enabled</name>
+		<key>ch3_en</key>
+		<value>True</value>
+		<type>bool</type>
+	</param>
+
+	<param>
+		<name>Channel 4 Enabled</name>
+		<key>ch4_en</key>
+		<value>True</value>
+		<type>bool</type>
+	</param>
+
+	<!-- Refuse empty strings -->
+	<check>$host</check>
+
+	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
+
+	<source>
+		<name>out</name>
+		<type>float</type>
+		<nports>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en])</nports>
+	</source>
+</block>
