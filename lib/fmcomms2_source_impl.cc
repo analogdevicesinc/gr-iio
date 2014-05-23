@@ -47,7 +47,7 @@ namespace gr {
     fmcomms2_source_impl::fmcomms2_source_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en)
-      : gr::sync_block("device",
+      : gr::sync_block("fmcomms2_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float)))
     {

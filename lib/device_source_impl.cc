@@ -68,7 +68,7 @@ namespace gr {
     device_source_impl::device_source_impl(const std::string &host,
 		    const std::string &device,
 		    const std::vector<std::string> &channels)
-      : gr::sync_block("device",
+      : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float)))
     {
@@ -109,7 +109,7 @@ namespace gr {
 		    channel_list.push_back(chn);
 	    }
 
-	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT);
+	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
 	    refill_thd = new std::thread(&device_source_impl::refill, this);
     }
 

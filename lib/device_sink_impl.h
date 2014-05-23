@@ -38,7 +38,6 @@ namespace gr {
 	     struct iio_context *ctx;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
-	     std::thread *refill_thd;
 
      public:
       device_sink_impl(const std::string &host, const std::string &device,
