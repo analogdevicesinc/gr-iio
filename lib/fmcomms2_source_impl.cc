@@ -41,20 +41,10 @@ namespace gr {
 				  ch1_en, ch2_en, ch3_en, ch4_en));
     }
 
-    /*
-     * The private constructor
-     */
-    fmcomms2_source_impl::fmcomms2_source_impl(const std::string &host,
-		    double frequency, double samplerate, double bandwidth,
+    std::vector<std::string> fmcomms2_source_impl::get_channels_vector(
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en)
-      : gr::sync_block("fmcomms2_source",
-              gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, -1, sizeof(float)))
     {
-	    struct iio_device *dev;
-	    struct iio_channel *ch;
 	    std::vector<std::string> channels;
-
 	    if (ch1_en)
 		    channels.push_back("voltage0");
 	    if (ch2_en)
@@ -63,10 +53,20 @@ namespace gr {
 		    channels.push_back("voltage2");
 	    if (ch4_en)
 		    channels.push_back("voltage3");
+	    return channels;
+    }
 
-	    device = new device_source_impl(host, "cf-ad9361-lpc", channels);
-
-	    dev = iio_context_find_device(device->get_context(), "ad9361-phy");
+    fmcomms2_source_impl::fmcomms2_source_impl(const std::string &host,
+		    double frequency, double samplerate, double bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en)
+      : gr::sync_block("fmcomms2_source",
+              gr::io_signature::make(0, 0, 0),
+              gr::io_signature::make(1, -1, sizeof(float)))
+      , device_source_impl(host, "cf-ad9361-lpc",
+		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en))
+    {
+	    struct iio_channel *ch;
+	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
 		    throw std::runtime_error("Device not found");
 
@@ -80,22 +80,5 @@ namespace gr {
 	    iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
     }
-
-    /*
-     * Our virtual destructor.
-     */
-    fmcomms2_source_impl::~fmcomms2_source_impl()
-    {
-	    delete device;
-    }
-
-    int
-    fmcomms2_source_impl::work(int noutput_items,
-			  gr_vector_const_void_star &input_items,
-			  gr_vector_void_star &output_items)
-    {
-	    return device->work(noutput_items, input_items, output_items);
-    }
-
   } /* namespace iio */
 } /* namespace gr */

@@ -34,7 +34,7 @@ namespace gr {
 
     class device_source_impl : public device_source
     {
-     private:
+     protected:
 	     struct iio_context *ctx;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
@@ -46,8 +46,6 @@ namespace gr {
       device_source_impl(const std::string &host, const std::string &device,
 		      const std::vector<std::string> &channels);
       ~device_source_impl();
-
-      struct iio_context *get_context(void) { return ctx; }
 
       // Where all the action really happens
       int work(int noutput_items,

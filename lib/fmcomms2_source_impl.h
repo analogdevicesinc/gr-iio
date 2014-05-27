@@ -34,20 +34,16 @@ namespace gr {
   namespace iio {
 
     class fmcomms2_source_impl : public fmcomms2_source
+			       , public device_source_impl
     {
      private:
-      device_source_impl *device;
+      std::vector<std::string> get_channels_vector(
+		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
 
      public:
       fmcomms2_source_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
-      ~fmcomms2_source_impl();
-
-      // Where all the action really happens
-      int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
     };
 
   } // namespace iio
