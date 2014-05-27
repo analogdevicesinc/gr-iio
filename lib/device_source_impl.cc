@@ -26,7 +26,7 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
-#define SAMPLES_COUNT 16000
+#define SAMPLES_COUNT 0x8000
 
 ssize_t demux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *d)

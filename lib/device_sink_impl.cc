@@ -26,7 +26,7 @@
 #include <gnuradio/io_signature.h>
 #include "device_sink_impl.h"
 
-#define SAMPLES_COUNT 4000
+#define SAMPLES_COUNT 0x8000
 
 struct mux_sample_data {
 	const float *in;
