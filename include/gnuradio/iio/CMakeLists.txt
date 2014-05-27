@@ -22,8 +22,7 @@
 ########################################################################
 install(FILES
     api.h
-    device_source.h
-    device_sink.h
-	fmcomms2_source.h
+    device_source.h device_sink.h
+	fmcomms2_source.h fmcomms2_sink.h
 	DESTINATION include/iio
 )

@@ -44,6 +44,7 @@ list(APPEND iio_sources
     device_source_impl.cc
     device_sink_impl.cc
 	fmcomms2_source_impl.cc
+	fmcomms2_sink_impl.cc
 )
 
 list(APPEND iio_libs

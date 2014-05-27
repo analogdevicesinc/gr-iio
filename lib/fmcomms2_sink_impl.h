@@ -19,43 +19,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_DEVICE_SINK_IMPL_H
-#define INCLUDED_IIO_DEVICE_SINK_IMPL_H
+#ifndef INCLUDED_IIO_FMCOMMS2_SINK_IMPL_H
+#define INCLUDED_IIO_FMCOMMS2_SINK_IMPL_H
 
 #include <string>
 #include <thread>
 #include <vector>
 
-#include <iio.h>
-#include <gnuradio/iio/device_sink.h>
+#include <gnuradio/iio/fmcomms2_sink.h>
+
+#include "device_sink_impl.h"
 
 namespace gr {
   namespace iio {
 
-    class device_sink_impl : public device_sink
+    class fmcomms2_sink_impl : public fmcomms2_sink, public device_sink_impl
     {
-     protected:
-	     struct iio_context *ctx;
-	     struct iio_buffer *buf;
-	     std::vector <struct iio_channel *> channel_list;
+     private:
+      std::vector<std::string> get_channels_vector(
+		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
 
      public:
-      device_sink_impl(const std::string &host, const std::string &device,
-		      const std::vector<std::string> &channels);
-      ~device_sink_impl();
-
-      // Where all the action really happens
-      int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
-
-      void forecast(int noutput_items, gr_vector_int &ninput_items_required);
+      fmcomms2_sink_impl(const std::string &host,
+		    double frequency, double samplerate, double bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
     };
 
   } // namespace iio
 } // namespace gr
 
-extern "C" ssize_t demux_sample(const struct iio_channel *chn,
-		void *sample, size_t size, void *d);
-
-#endif /* INCLUDED_IIO_DEVICE_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_FMCOMMS2_SINK_IMPL_H */
