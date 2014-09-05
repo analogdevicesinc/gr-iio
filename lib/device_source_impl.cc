@@ -32,6 +32,10 @@ ssize_t demux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *d)
 {
 	float **out = (float **) iio_channel_get_data(chn);
+	int *noutput_items = (int *) d;
+
+	if (!*noutput_items)
+		return 0;
 
 	if (size == 1) {
 		int8_t val;
@@ -47,6 +51,7 @@ ssize_t demux_sample(const struct iio_channel *chn,
 		**out = (float) val;
 	}
 
+	(*noutput_items)--;
 	(*out)++;
 	return 1;
 }
@@ -151,7 +156,7 @@ namespace gr {
 
 	refill_thd->join();
 	delete refill_thd;
-	int ret = iio_buffer_foreach_sample(buf, demux_sample, NULL);
+	int ret = iio_buffer_foreach_sample(buf, demux_sample, &noutput_items);
 
 	/* Refill the buffer for next time */
 	refill_thd = new std::thread(&device_source_impl::refill, this);
