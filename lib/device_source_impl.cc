@@ -110,6 +110,9 @@ namespace gr {
 	    }
 
 	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
+	    if (!buf)
+		    throw std::runtime_error("Unable to create buffer");
+
 	    refill_thd = new std::thread(&device_source_impl::refill, this);
     }
 
