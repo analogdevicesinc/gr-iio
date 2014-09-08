@@ -54,9 +54,6 @@ if (ENABLE_GR_IIO)
 # Setup CPack components
 ########################################################################
 
-# Our blocks require c++11
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11")
-
 include(GrPackage)
 CPACK_SET(CPACK_COMPONENT_GROUP_IIO_DESCRIPTION "GNU Radio IIO Blocks")
 

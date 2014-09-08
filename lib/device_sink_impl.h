@@ -23,7 +23,6 @@
 #define INCLUDED_IIO_DEVICE_SINK_IMPL_H
 
 #include <string>
-#include <thread>
 #include <vector>
 
 #include <iio.h>

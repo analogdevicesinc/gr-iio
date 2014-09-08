@@ -23,7 +23,6 @@
 #define INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H
 
 #include <string>
-#include <thread>
 #include <vector>
 
 #include <gnuradio/iio/fmcomms2_source.h>

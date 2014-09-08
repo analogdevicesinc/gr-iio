@@ -23,7 +23,6 @@
 #define INCLUDED_IIO_FMCOMMS2_SINK_IMPL_H
 
 #include <string>
-#include <thread>
 #include <vector>
 
 #include <gnuradio/iio/fmcomms2_sink.h>
