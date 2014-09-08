@@ -26,7 +26,7 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
-#define SAMPLES_COUNT 0x8000
+#define SAMPLES_COUNT 0x2000
 
 ssize_t demux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *d)
@@ -145,9 +145,6 @@ namespace gr {
     {
 	float *out[output_items.size()];
 
-	if (noutput_items > SAMPLES_COUNT)
-		noutput_items = SAMPLES_COUNT;
-
 	for (unsigned int i = 0; i < output_items.size(); i++) {
 		struct iio_channel *chn = channel_list[i];
 		out[i] = (float *) output_items[i];
@@ -156,11 +153,17 @@ namespace gr {
 
 	refill_thd->join();
 	delete refill_thd;
+
+	noutput_items = SAMPLES_COUNT * output_items.size();
 	int ret = iio_buffer_foreach_sample(buf, demux_sample, &noutput_items);
 
 	/* Refill the buffer for next time */
 	refill_thd = new std::thread(&device_source_impl::refill, this);
-	return ret / output_items.size();
+
+	if (ret < 0)
+		return ret;
+	else
+		return ret / output_items.size();
     }
 
   } /* namespace iio */
