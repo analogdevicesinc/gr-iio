@@ -117,8 +117,6 @@ namespace gr {
 	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
 	    if (!buf)
 		    throw std::runtime_error("Unable to create buffer");
-
-	    refill_thd = new std::thread(&device_source_impl::refill, this);
     }
 
     /*
@@ -126,16 +124,8 @@ namespace gr {
      */
     device_source_impl::~device_source_impl()
     {
-	    refill_thd->join();
-	    delete refill_thd;
-
 	    iio_buffer_destroy(buf);
 	    iio_context_destroy(ctx);
-    }
-
-    void device_source_impl::refill()
-    {
-	    while (!iio_buffer_refill(buf));
     }
 
     int
@@ -151,15 +141,10 @@ namespace gr {
 		iio_channel_set_data(chn, &out[i]);
 	}
 
-	refill_thd->join();
-	delete refill_thd;
+	iio_buffer_refill(buf);
 
 	noutput_items = SAMPLES_COUNT * output_items.size();
 	int ret = iio_buffer_foreach_sample(buf, demux_sample, &noutput_items);
-
-	/* Refill the buffer for next time */
-	refill_thd = new std::thread(&device_source_impl::refill, this);
-
 	if (ret < 0)
 		return ret;
 	else

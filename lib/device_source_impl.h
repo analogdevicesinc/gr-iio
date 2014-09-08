@@ -23,7 +23,6 @@
 #define INCLUDED_IIO_DEVICE_SOURCE_IMPL_H
 
 #include <string>
-#include <thread>
 #include <vector>
 
 #include <iio.h>
@@ -38,9 +37,6 @@ namespace gr {
 	     struct iio_context *ctx;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
-	     std::thread *refill_thd;
-
-	     void refill();
 
      public:
       device_source_impl(const std::string &host, const std::string &device,
