@@ -28,35 +28,29 @@
 
 #define SAMPLES_COUNT 0x8000
 
-struct mux_sample_data {
-	const float *in;
-	unsigned int nb;
-};
-
 ssize_t mux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *data)
 {
-	struct mux_sample_data *d =
-		(struct mux_sample_data *) iio_channel_get_data(chn);
-	const float *in = d->in;
+	const float **in = (const float **) iio_channel_get_data(chn);
+	unsigned int *nb = (unsigned int *) data;
 
-	if (!d->nb)
+	if (!*nb)
 		return 0;
 
 	if (size == 1) {
-		int8_t val = (int8_t) *in;
+		int8_t val = (int8_t) **in;
 		iio_channel_convert_inverse(chn, sample, &val);
 	} else if (size == 2) {
-		int16_t val = (int16_t) *in;
+		int16_t val = (int16_t) **in;
 		iio_channel_convert_inverse(chn, sample, &val);
 	} else {
-		int32_t val = (int32_t) *in;
+		int32_t val = (int32_t) **in;
 		iio_channel_convert_inverse(chn, sample, &val);
 	}
 
-	d->in++;
-	d->nb--;
-	return size;
+	(*in)++;
+	(*nb)--;
+	return 1;
 }
 
 namespace gr {
@@ -139,26 +133,26 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-	struct mux_sample_data d[input_items.size()];
-
-	if (noutput_items > SAMPLES_COUNT)
-		noutput_items = SAMPLES_COUNT;
+	const float *in[input_items.size()];
 
 	for (unsigned int i = 0; i < input_items.size(); i++) {
 		struct iio_channel *chn = channel_list[i];
-		d[i].in = (const float *) input_items[i];
-		d[i].nb = noutput_items;
-		iio_channel_set_data(chn, &d[i]);
+		in[i] = (const float *) input_items[i];
+		iio_channel_set_data(chn, &in[i]);
 	}
 
-	ssize_t ret = iio_buffer_foreach_sample(buf, mux_sample, NULL);
-	if (ret > 0) {
-		ret = iio_buffer_push(buf);
+	noutput_items = SAMPLES_COUNT * input_items.size();
+	ssize_t ret = iio_buffer_foreach_sample(buf, mux_sample,
+			&noutput_items);
+	if (ret < 0)
+		return ret;
 
-		for (unsigned int i = 0; i < input_items.size(); i++)
-			consume(i, noutput_items - d[i].nb);
-	}
-	return noutput_items;
+	ret = iio_buffer_push(buf);
+	if (ret < 0)
+		return ret;
+
+	consume_each(SAMPLES_COUNT);
+	return 0;
     }
 
     void
