@@ -4,7 +4,7 @@
 	<key>iio_fmcomms2_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size)</make>
+	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic)</make>
 
 	<param>
 		<name>Hostname</name>
@@ -66,6 +66,13 @@
 		<name>Channel 4 Enabled</name>
 		<key>ch4_en</key>
 		<value>True</value>
+		<type>bool</type>
+	</param>
+
+	<param>
+		<name>Cyclic</name>
+		<key>cyclic</key>
+		<value>False</value>
 		<type>bool</type>
 	</param>
 

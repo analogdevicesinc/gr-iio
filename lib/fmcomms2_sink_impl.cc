@@ -35,12 +35,12 @@ namespace gr {
     fmcomms2_sink::make(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size)
+		    unsigned int buffer_size, bool cyclic)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(host, frequency,
 		    samplerate, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
-		    buffer_size));
+		    buffer_size, cyclic));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -61,13 +61,13 @@ namespace gr {
     fmcomms2_sink_impl::fmcomms2_sink_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size)
+		    unsigned int buffer_size, bool _cyclic)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(float)),
 			    gr::io_signature::make(0, 0, 0))
 	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
-			    buffer_size)
+			    buffer_size, _cyclic)
     {
 	    struct iio_channel *ch;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
@@ -83,6 +83,20 @@ namespace gr {
 			    "sampling_frequency", (long long) samplerate);
 	    iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
+
+	    cyclic = _cyclic;
+    }
+
+    int fmcomms2_sink_impl::work(int noutput_items,
+		    gr_vector_const_void_star &input_items,
+		    gr_vector_void_star &output_items)
+    {
+	    int ret = device_sink_impl::work(noutput_items, input_items,
+			    output_items);
+	    if (ret < 0 || !cyclic)
+		    return ret;
+	    else
+		    return WORK_DONE;
     }
   } /* namespace iio */
 } /* namespace gr */

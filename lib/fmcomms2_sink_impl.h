@@ -35,6 +35,8 @@ namespace gr {
     class fmcomms2_sink_impl : public fmcomms2_sink, public device_sink_impl
     {
      private:
+      bool cyclic;
+
       std::vector<std::string> get_channels_vector(
 		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
 
@@ -42,7 +44,11 @@ namespace gr {
       fmcomms2_sink_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size);
+		    unsigned int buffer_size, bool cyclic);
+
+      int work(int noutput_items,
+		    gr_vector_const_void_star &input_items,
+		    gr_vector_void_star &output_items);
     };
 
   } // namespace iio
