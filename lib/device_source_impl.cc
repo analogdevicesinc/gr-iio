@@ -26,8 +26,6 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
-#define SAMPLES_COUNT 0x2000
-
 ssize_t demux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *d)
 {
@@ -61,10 +59,11 @@ namespace gr {
 
     device_source::sptr
     device_source::make(const std::string &host, const std::string &device,
-		    const std::vector<std::string> &channels)
+		    const std::vector<std::string> &channels,
+		    unsigned int buffer_size)
     {
       return gnuradio::get_initial_sptr
-        (new device_source_impl(host, device, channels));
+        (new device_source_impl(host, device, channels, buffer_size));
     }
 
     /*
@@ -72,7 +71,8 @@ namespace gr {
      */
     device_source_impl::device_source_impl(const std::string &host,
 		    const std::string &device,
-		    const std::vector<std::string> &channels)
+		    const std::vector<std::string> &channels,
+		    unsigned int _buffer_size)
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float)))
@@ -80,8 +80,10 @@ namespace gr {
 	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
 
+	    buffer_size = _buffer_size;
+
 	    /* Set minimum output size */
-	    set_min_output_buffer(SAMPLES_COUNT);
+	    set_min_output_buffer(buffer_size);
 
 	    if (!host.compare("localhost"))
 		    ctx = iio_create_local_context();
@@ -114,7 +116,7 @@ namespace gr {
 		    channel_list.push_back(chn);
 	    }
 
-	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
+	    buf = iio_device_create_buffer(dev, buffer_size, false);
 	    if (!buf)
 		    throw std::runtime_error("Unable to create buffer");
     }
@@ -143,7 +145,7 @@ namespace gr {
 
 	iio_buffer_refill(buf);
 
-	noutput_items = SAMPLES_COUNT * output_items.size();
+	noutput_items = buffer_size * output_items.size();
 	int ret = iio_buffer_foreach_sample(buf, demux_sample, &noutput_items);
 	if (ret < 0)
 		return ret;

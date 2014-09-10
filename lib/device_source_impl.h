@@ -37,10 +37,12 @@ namespace gr {
 	     struct iio_context *ctx;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
+	     unsigned int buffer_size;
 
      public:
       device_source_impl(const std::string &host, const std::string &device,
-		      const std::vector<std::string> &channels);
+		      const std::vector<std::string> &channels,
+		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE);
       ~device_source_impl();
 
       // Where all the action really happens
