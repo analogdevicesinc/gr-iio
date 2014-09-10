@@ -69,7 +69,7 @@ namespace gr {
     device_sink_impl::device_sink_impl(const std::string &host,
 		    const std::string &device,
 		    const std::vector<std::string> &channels,
-		    unsigned int _buffer_size)
+		    unsigned int _buffer_size, bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(float)),
               gr::io_signature::make(0, 0, 0))
@@ -115,7 +115,7 @@ namespace gr {
 		    channel_list.push_back(chn);
 	    }
 
-	    buf = iio_device_create_buffer(dev, buffer_size, false);
+	    buf = iio_device_create_buffer(dev, buffer_size, cyclic);
 	    if (!buf)
 		    throw std::runtime_error("Unable to create buffer");
     }
