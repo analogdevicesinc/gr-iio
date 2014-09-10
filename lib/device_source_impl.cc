@@ -83,7 +83,7 @@ namespace gr {
 	    buffer_size = _buffer_size;
 
 	    /* Set minimum output size */
-	    set_min_output_buffer(buffer_size);
+	    set_output_multiple(buffer_size);
 
 	    if (!host.compare("localhost"))
 		    ctx = iio_create_local_context();
