@@ -26,8 +26,6 @@
 #include <gnuradio/io_signature.h>
 #include "device_sink_impl.h"
 
-#define SAMPLES_COUNT 0x8000
-
 ssize_t mux_sample(const struct iio_channel *chn,
 		void *sample, size_t size, void *data)
 {
@@ -58,10 +56,11 @@ namespace gr {
 
     device_sink::sptr
     device_sink::make(const std::string &host, const std::string &device,
-		    const std::vector<std::string> &channels)
+		    const std::vector<std::string> &channels,
+		    unsigned int buffer_size)
     {
       return gnuradio::get_initial_sptr
-        (new device_sink_impl(host, device, channels));
+        (new device_sink_impl(host, device, channels, buffer_size));
     }
 
     /*
@@ -69,7 +68,8 @@ namespace gr {
      */
     device_sink_impl::device_sink_impl(const std::string &host,
 		    const std::string &device,
-		    const std::vector<std::string> &channels)
+		    const std::vector<std::string> &channels,
+		    unsigned int _buffer_size)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(float)),
               gr::io_signature::make(0, 0, 0))
@@ -77,8 +77,10 @@ namespace gr {
 	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
 
+	    buffer_size = _buffer_size;
+
 	    /* Set minimum input size */
-	    set_output_multiple(SAMPLES_COUNT);
+	    set_output_multiple(buffer_size);
 
 	    if (!host.compare("localhost"))
 		    ctx = iio_create_local_context();
@@ -113,7 +115,7 @@ namespace gr {
 		    channel_list.push_back(chn);
 	    }
 
-	    buf = iio_device_create_buffer(dev, SAMPLES_COUNT, false);
+	    buf = iio_device_create_buffer(dev, buffer_size, false);
 	    if (!buf)
 		    throw std::runtime_error("Unable to create buffer");
     }
@@ -141,7 +143,7 @@ namespace gr {
 		iio_channel_set_data(chn, &in[i]);
 	}
 
-	noutput_items = SAMPLES_COUNT * input_items.size();
+	noutput_items = buffer_size * input_items.size();
 	ssize_t ret = iio_buffer_foreach_sample(buf, mux_sample,
 			&noutput_items);
 	if (ret < 0)
@@ -151,7 +153,7 @@ namespace gr {
 	if (ret < 0)
 		return ret;
 
-	consume_each(SAMPLES_COUNT);
+	consume_each(buffer_size);
 	return 0;
     }
 

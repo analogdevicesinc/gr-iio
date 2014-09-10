@@ -26,6 +26,8 @@
 #include <gnuradio/iio/api.h>
 #include <gnuradio/sync_block.h>
 
+#define DEFAULT_BUFFER_SIZE 0x8000
+
 namespace gr {
   namespace iio {
 
@@ -48,7 +50,8 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(const std::string &host, const std::string &device,
-		      const std::vector<std::string> &channels);
+		      const std::vector<std::string> &channels,
+		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE);
     };
 
   } // namespace iio

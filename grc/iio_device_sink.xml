@@ -4,7 +4,7 @@
 	<key>iio_device_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.device_sink($host, $device, $channels)</make>
+	<make>iio.device_sink($host, $device, $channels, $buffer_size)</make>
 
 	<param>
 		<name>Hostname</name>
@@ -24,6 +24,13 @@
 		<key>channels</key>
 		<value>[]</value>
 		<type>raw</type>
+	</param>
+
+	<param>
+		<name>Buffer size</name>
+		<key>buffer_size</key>
+		<value>0x8000</value>
+		<type>int</type>
 	</param>
 
 	<!-- Refuse empty strings -->
