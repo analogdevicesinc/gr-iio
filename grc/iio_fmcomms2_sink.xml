@@ -4,7 +4,7 @@
 	<key>iio_fmcomms2_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en)</make>
+	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size)</make>
 
 	<param>
 		<name>Hostname</name>
@@ -32,6 +32,13 @@
 		<key>bandwidth</key>
 		<value>20000000</value>
 		<type>real</type>
+	</param>
+
+	<param>
+		<name>Buffer size</name>
+		<key>buffer_size</key>
+		<value>0x8000</value>
+		<type>int</type>
 	</param>
 
 	<param>

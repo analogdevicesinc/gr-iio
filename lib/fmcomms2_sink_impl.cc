@@ -34,11 +34,13 @@ namespace gr {
     fmcomms2_sink::sptr
     fmcomms2_sink::make(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
-		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en)
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    unsigned int buffer_size)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(host, frequency,
-		    samplerate, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en));
+		    samplerate, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
+		    buffer_size));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -58,12 +60,14 @@ namespace gr {
 
     fmcomms2_sink_impl::fmcomms2_sink_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
-		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en)
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    unsigned int buffer_size)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(float)),
 			    gr::io_signature::make(0, 0, 0))
 	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
-			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en))
+			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
+			    buffer_size)
     {
 	    struct iio_channel *ch;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
