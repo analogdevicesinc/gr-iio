@@ -42,7 +42,8 @@ namespace gr {
      public:
       fmcomms2_source_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
-		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    unsigned int buffer_size);
     };
 
   } // namespace iio
