@@ -39,7 +39,9 @@ namespace gr {
       static sptr make(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool cyclic);
+		    unsigned int buffer_size, bool cyclic,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2);
     };
 
   } // namespace iio

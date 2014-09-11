@@ -35,12 +35,15 @@ namespace gr {
     fmcomms2_sink::make(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool cyclic)
+		    unsigned int buffer_size, bool cyclic,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(host, frequency,
 		    samplerate, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
-		    buffer_size, cyclic));
+		    buffer_size, cyclic, rf_port_select,
+		    attenuation1, attenuation2));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -61,7 +64,9 @@ namespace gr {
     fmcomms2_sink_impl::fmcomms2_sink_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool _cyclic)
+		    unsigned int buffer_size, bool _cyclic,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(float)),
 			    gr::io_signature::make(0, 0, 0))
@@ -69,7 +74,7 @@ namespace gr {
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 			    buffer_size, _cyclic)
     {
-	    struct iio_channel *ch;
+	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
 		    throw std::runtime_error("Device not found");
@@ -79,10 +84,14 @@ namespace gr {
 			    "frequency", (long long) frequency);
 
 	    ch = iio_device_find_channel(dev, "voltage0", true);
+	    ch2 = iio_device_find_channel(dev, "voltage1", true);
 	    iio_channel_attr_write_longlong(ch,
 			    "sampling_frequency", (long long) samplerate);
 	    iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
+	    iio_channel_attr_write(ch, "rf_port_select", rf_port_select);
+	    iio_channel_attr_write_double(ch, "hardwaregain", attenuation1);
+	    iio_channel_attr_write_double(ch2, "hardwaregain", attenuation2);
 
 	    cyclic = _cyclic;
     }

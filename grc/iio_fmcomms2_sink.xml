@@ -4,7 +4,7 @@
 	<key>iio_fmcomms2_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic)</make>
+	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
 
 	<param>
 		<name>Hostname</name>
@@ -84,6 +84,34 @@
 		<type>enum</type>
 		<option><name>True</name><key>True</key></option>
 		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>RF Port Select</name>
+		<key>rf_port_select</key>
+		<type>enum</type>
+		<option>
+			<name>A</name>
+			<key>"A"</key>
+		</option>
+		<option>
+			<name>B</name>
+			<key>"B"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Attenuation TX1 (dB)</name>
+		<key>attenuation1</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Attenuation TX2 (dB)</name>
+		<key>attenuation2</key>
+		<value>10.0</value>
+		<type>real</type>
 	</param>
 
 	<!-- Refuse empty strings -->
