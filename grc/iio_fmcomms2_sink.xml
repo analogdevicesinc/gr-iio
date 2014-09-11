@@ -45,35 +45,45 @@
 		<name>Channel 1 Enabled</name>
 		<key>ch1_en</key>
 		<value>True</value>
-		<type>bool</type>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
 	</param>
 
 	<param>
 		<name>Channel 2 Enabled</name>
 		<key>ch2_en</key>
 		<value>True</value>
-		<type>bool</type>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
 	</param>
 
 	<param>
 		<name>Channel 3 Enabled</name>
 		<key>ch3_en</key>
 		<value>True</value>
-		<type>bool</type>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
 	</param>
 
 	<param>
 		<name>Channel 4 Enabled</name>
 		<key>ch4_en</key>
 		<value>True</value>
-		<type>bool</type>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
 	</param>
 
 	<param>
 		<name>Cyclic</name>
 		<key>cyclic</key>
 		<value>False</value>
-		<type>bool</type>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
 	</param>
 
 	<!-- Refuse empty strings -->
