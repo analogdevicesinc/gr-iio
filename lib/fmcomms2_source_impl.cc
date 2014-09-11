@@ -35,11 +35,16 @@ namespace gr {
     fmcomms2_source::make(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size)
+		    unsigned int buffer_size, bool quadrature, bool rfdc,
+		    bool bbdc, const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *port_select)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(host, frequency, samplerate, bandwidth,
-				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size));
+				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
+				  quadrature, rfdc, bbdc, gain1, gain1_value,
+				  gain2, gain2_value, port_select));
     }
 
     std::vector<std::string> fmcomms2_source_impl::get_channels_vector(
@@ -60,7 +65,10 @@ namespace gr {
     fmcomms2_source_impl::fmcomms2_source_impl(const std::string &host,
 		    double frequency, double samplerate, double bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size)
+		    unsigned int buffer_size, bool quadrature, bool rfdc,
+		    bool bbdc, const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *port_select)
       : gr::sync_block("fmcomms2_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float)))
@@ -68,7 +76,7 @@ namespace gr {
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 		      buffer_size)
     {
-	    struct iio_channel *ch;
+	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
 		    throw std::runtime_error("Device not found");
@@ -78,10 +86,22 @@ namespace gr {
 			    "frequency", (long long) frequency);
 
 	    ch = iio_device_find_channel(dev, "voltage0", false);
+	    ch2 = iio_device_find_channel(dev, "voltage1", false);
 	    iio_channel_attr_write_longlong(ch,
 			    "sampling_frequency", (long long) samplerate);
 	    iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
+	    iio_channel_attr_write_bool(ch,
+			    "quadrature_tracking_en", quadrature);
+	    iio_channel_attr_write_bool(ch,
+			    "rf_dc_offset_tracking_en", rfdc);
+	    iio_channel_attr_write_bool(ch,
+			    "bb_dc_offset_tracking_en", bbdc);
+	    iio_channel_attr_write_double(ch, "hardwaregain", gain1_value);
+	    iio_channel_attr_write_double(ch2, "hardwaregain", gain2_value);
+	    iio_channel_attr_write(ch, "gain_control_mode", gain1);
+	    iio_channel_attr_write(ch2, "gain_control_mode", gain2);
+	    iio_channel_attr_write(ch, "rf_port_select", port_select);
     }
   } /* namespace iio */
 } /* namespace gr */
