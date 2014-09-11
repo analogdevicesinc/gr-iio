@@ -32,10 +32,10 @@ namespace gr {
   namespace iio {
 
     fmcomms2_source::sptr
-    fmcomms2_source::make(const std::string &host,
-		    double frequency, double samplerate, double bandwidth,
+    fmcomms2_source::make(const std::string &host, unsigned long long frequency,
+		    unsigned long samplerate, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool quadrature, bool rfdc,
+		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
 		    const char *port_select)
@@ -63,9 +63,10 @@ namespace gr {
     }
 
     fmcomms2_source_impl::fmcomms2_source_impl(const std::string &host,
-		    double frequency, double samplerate, double bandwidth,
+		    unsigned long long frequency,
+		    unsigned long samplerate, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool quadrature, bool rfdc,
+		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
 		    const char *port_select)
@@ -82,8 +83,7 @@ namespace gr {
 		    throw std::runtime_error("Device not found");
 
 	    ch = iio_device_find_channel(dev, "altvoltage0", true);
-	    iio_channel_attr_write_longlong(ch,
-			    "frequency", (long long) frequency);
+	    iio_channel_attr_write_longlong(ch, "frequency", frequency);
 
 	    ch = iio_device_find_channel(dev, "voltage0", false);
 	    ch2 = iio_device_find_channel(dev, "voltage1", false);
