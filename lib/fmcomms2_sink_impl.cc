@@ -32,10 +32,10 @@ namespace gr {
   namespace iio {
 
     fmcomms2_sink::sptr
-    fmcomms2_sink::make(const std::string &host,
-		    double frequency, double samplerate, double bandwidth,
+    fmcomms2_sink::make(const std::string &host, unsigned long long frequency,
+		    unsigned long samplerate, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool cyclic,
+		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
     {
@@ -62,9 +62,10 @@ namespace gr {
     }
 
     fmcomms2_sink_impl::fmcomms2_sink_impl(const std::string &host,
-		    double frequency, double samplerate, double bandwidth,
+		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
-		    unsigned int buffer_size, bool _cyclic,
+		    unsigned long buffer_size, bool _cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
 	    : gr::sync_block("fmcomms2_sink",
@@ -80,8 +81,7 @@ namespace gr {
 		    throw std::runtime_error("Device not found");
 
 	    ch = iio_device_find_channel(dev, "altvoltage1", true);
-	    iio_channel_attr_write_longlong(ch,
-			    "frequency", (long long) frequency);
+	    iio_channel_attr_write_longlong(ch, "frequency", frequency);
 
 	    ch = iio_device_find_channel(dev, "voltage0", true);
 	    ch2 = iio_device_find_channel(dev, "voltage1", true);

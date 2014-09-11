@@ -17,21 +17,21 @@
 		<name>LO Frequency</name>
 		<key>frequency</key>
 		<value>2400000000</value>
-		<type>real</type>
+		<type>int</type>
 	</param>
 
 	<param>
 		<name>Sample rate</name>
 		<key>samplerate</key>
 		<value>1536000</value>
-		<type>real</type>
+		<type>int</type>
 	</param>
 
 	<param>
 		<name>RF bandwidth</name>
 		<key>bandwidth</key>
 		<value>20000000</value>
-		<type>real</type>
+		<type>int</type>
 	</param>
 
 	<param>
