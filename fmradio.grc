@@ -1,43 +1,86 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Mon Sep  8 11:20:06 2014</timestamp>
+  <timestamp>Mon Sep 15 13:50:32 2014</timestamp>
   <block>
-    <key>audio_sink</key>
+    <key>options</key>
     <param>
       <key>id</key>
-      <value>audio_sink_0</value>
+      <value>top_block</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>samp_rate</key>
-      <value>48000</value>
-    </param>
-    <param>
-      <key>device_name</key>
+      <key>title</key>
       <value></value>
     </param>
     <param>
-      <key>ok_to_block</key>
+      <key>author</key>
+      <value></value>
+    </param>
+    <param>
+      <key>description</key>
+      <value></value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>1280, 1024</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>no_gui</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>Custom</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>run</value>
+    </param>
+    <param>
+      <key>run</key>
       <value>True</value>
     </param>
     <param>
-      <key>num_inputs</key>
+      <key>max_nouts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
       <value>1</value>
     </param>
     <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(281, 294)</value>
+      <value>(10, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>fm_station</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>93300000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(471, 24)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -64,22 +107,133 @@
     </param>
   </block>
   <block>
-    <key>variable</key>
+    <key>parameter</key>
     <param>
       <key>id</key>
-      <value>fm_station</value>
+      <value>hostname</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
+      <key>label</key>
+      <value>hostname</value>
+    </param>
+    <param>
       <key>value</key>
-      <value>96300000</value>
+      <value>10.44.2.195</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(530, 23)</value>
+      <value>(583, 25)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>iio_fmcomms2_source</key>
+    <param>
+      <key>id</key>
+      <value>iio_fmcomms2_source_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>host</key>
+      <value>hostname</value>
+    </param>
+    <param>
+      <key>frequency</key>
+      <value>fm_station</value>
+    </param>
+    <param>
+      <key>samplerate</key>
+      <value>sample_rate</value>
+    </param>
+    <param>
+      <key>bandwidth</key>
+      <value>200000</value>
+    </param>
+    <param>
+      <key>buffer_size</key>
+      <value>0x4000</value>
+    </param>
+    <param>
+      <key>ch1_en</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>ch2_en</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>ch3_en</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>ch4_en</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>quadrature</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>rfdc</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>bbdc</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>gain1</key>
+      <value>"slow_attack"</value>
+    </param>
+    <param>
+      <key>manual_gain1</key>
+      <value>64.0</value>
+    </param>
+    <param>
+      <key>gain2</key>
+      <value>"manual"</value>
+    </param>
+    <param>
+      <key>manual_gain2</key>
+      <value>64.0</value>
+    </param>
+    <param>
+      <key>rf_port_select</key>
+      <value>"A_BALANCED"</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(21, 155)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -118,7 +272,46 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 287)</value>
+      <value>(533, 373)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+  </block>
+  <block>
+    <key>audio_sink</key>
+    <param>
+      <key>id</key>
+      <value>audio_sink_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>48000</value>
+    </param>
+    <param>
+      <key>device_name</key>
+      <value></value>
+    </param>
+    <param>
+      <key>ok_to_block</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(326, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -153,70 +346,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(265, 141)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_fmcomms2_source</key>
-    <param>
-      <key>id</key>
-      <value>iio_fmcomms2_source_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>host</key>
-      <value>10.44.2.195</value>
-    </param>
-    <param>
-      <key>frequency</key>
-      <value>fm_station</value>
-    </param>
-    <param>
-      <key>samplerate</key>
-      <value>sample_rate</value>
-    </param>
-    <param>
-      <key>bandwidth</key>
-      <value>200000</value>
-    </param>
-    <param>
-      <key>ch1_en</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>ch2_en</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>ch3_en</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ch4_en</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(38, 132)</value>
+      <value>(310, 227)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -283,66 +413,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(471, 111)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>options</key>
-    <param>
-      <key>id</key>
-      <value>top_block</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value></value>
-    </param>
-    <param>
-      <key>author</key>
-      <value></value>
-    </param>
-    <param>
-      <key>description</key>
-      <value></value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>1280, 1024</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>no_gui</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>Custom</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>run</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>max_nouts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
+      <value>(516, 197)</value>
     </param>
     <param>
       <key>_rotation</key>
