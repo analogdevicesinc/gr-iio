@@ -42,6 +42,11 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2);
+
+      virtual void set_params(unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      const char *rf_port_select,
+		      double attenuation1, double attenuation2) = 0;
     };
 
   } // namespace iio

@@ -56,6 +56,13 @@ namespace gr {
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
 		    const char *rf_port_select);
+
+      virtual void set_params(unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      bool quadrature, bool rfdc, bool bbdc,
+		      const char *gain1, double gain1_value,
+		      const char *gain2, double gain2_value,
+		      const char *rf_port_select) = 0;
     };
 
   } // namespace iio

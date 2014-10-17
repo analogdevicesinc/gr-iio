@@ -5,6 +5,7 @@
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
+	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
 		<name>Hostname</name>

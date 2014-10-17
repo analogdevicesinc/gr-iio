@@ -51,6 +51,11 @@ namespace gr {
       int work(int noutput_items,
 		    gr_vector_const_void_star &input_items,
 		    gr_vector_void_star &output_items);
+
+      void set_params(unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      const char *rf_port_select,
+		      double attenuation1, double attenuation2);
     };
 
   } // namespace iio

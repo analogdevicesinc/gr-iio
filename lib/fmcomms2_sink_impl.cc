@@ -75,6 +75,16 @@ namespace gr {
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 			    buffer_size, _cyclic)
     {
+	    cyclic = _cyclic;
+	    set_params(frequency, samplerate, bandwidth, rf_port_select,
+			    attenuation1, attenuation2);
+    }
+
+    void fmcomms2_sink_impl::set_params(unsigned long long frequency,
+		    unsigned long samplerate, unsigned long bandwidth,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2)
+    {
 	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
@@ -92,8 +102,6 @@ namespace gr {
 	    iio_channel_attr_write(ch, "rf_port_select", rf_port_select);
 	    iio_channel_attr_write_double(ch, "hardwaregain", attenuation1);
 	    iio_channel_attr_write_double(ch2, "hardwaregain", attenuation2);
-
-	    cyclic = _cyclic;
     }
 
     int fmcomms2_sink_impl::work(int noutput_items,

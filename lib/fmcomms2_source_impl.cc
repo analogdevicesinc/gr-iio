@@ -77,6 +77,18 @@ namespace gr {
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 		      buffer_size)
     {
+	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
+			    gain1, gain1_value, gain2, gain2_value,
+			    port_select);
+    }
+
+    void fmcomms2_source_impl::set_params(unsigned long long frequency,
+		    unsigned long samplerate, unsigned long bandwidth,
+		    bool quadrature, bool rfdc, bool bbdc,
+		    const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *port_select)
+    {
 	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
@@ -103,5 +115,6 @@ namespace gr {
 	    iio_channel_attr_write(ch2, "gain_control_mode", gain2);
 	    iio_channel_attr_write(ch, "rf_port_select", port_select);
     }
+
   } /* namespace iio */
 } /* namespace gr */
