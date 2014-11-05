@@ -85,23 +85,42 @@ namespace gr {
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
     {
+	    int ret;
 	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
 		    throw std::runtime_error("Device not found");
 
 	    ch = iio_device_find_channel(dev, "altvoltage1", true);
-	    iio_channel_attr_write_longlong(ch, "frequency", frequency);
+	    ret = iio_channel_attr_write_longlong(ch, "frequency", frequency);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set LO frequency (%i)\n", ret);
 
 	    ch = iio_device_find_channel(dev, "voltage0", true);
 	    ch2 = iio_device_find_channel(dev, "voltage1", true);
-	    iio_channel_attr_write_longlong(ch,
+	    ret = iio_channel_attr_write_longlong(ch,
 			    "sampling_frequency", (long long) samplerate);
-	    iio_channel_attr_write_longlong(ch,
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set samplerate (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
-	    iio_channel_attr_write(ch, "rf_port_select", rf_port_select);
-	    iio_channel_attr_write_double(ch, "hardwaregain", attenuation1);
-	    iio_channel_attr_write_double(ch2, "hardwaregain", attenuation2);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set baudwidth (%i)\n", ret);
+
+	    ret = iio_channel_attr_write(ch, "rf_port_select", rf_port_select);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set RF port select (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_double(ch,
+			    "hardwaregain", attenuation1);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_double(ch2,
+			    "hardwaregain", attenuation2);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
     }
 
     int fmcomms2_sink_impl::work(int noutput_items,

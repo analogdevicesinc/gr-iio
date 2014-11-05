@@ -89,31 +89,65 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *port_select)
     {
+	    int ret;
 	    struct iio_channel *ch, *ch2;
 	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
 	    if (!dev)
 		    throw std::runtime_error("Device not found");
 
 	    ch = iio_device_find_channel(dev, "altvoltage0", true);
-	    iio_channel_attr_write_longlong(ch, "frequency", frequency);
+	    ret = iio_channel_attr_write_longlong(ch, "frequency", frequency);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set LO frequency (%i)\n", ret);
 
 	    ch = iio_device_find_channel(dev, "voltage0", false);
 	    ch2 = iio_device_find_channel(dev, "voltage1", false);
-	    iio_channel_attr_write_longlong(ch,
+	    ret = iio_channel_attr_write_longlong(ch,
 			    "sampling_frequency", (long long) samplerate);
-	    iio_channel_attr_write_longlong(ch,
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set samplerate (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_longlong(ch,
 			    "rf_bandwidth", (long long) bandwidth);
-	    iio_channel_attr_write_bool(ch,
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set baudwidth (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_bool(ch,
 			    "quadrature_tracking_en", quadrature);
-	    iio_channel_attr_write_bool(ch,
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to enable quadrature (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_bool(ch,
 			    "rf_dc_offset_tracking_en", rfdc);
-	    iio_channel_attr_write_bool(ch,
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to enable RF DC (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_bool(ch,
 			    "bb_dc_offset_tracking_en", bbdc);
-	    iio_channel_attr_write_double(ch, "hardwaregain", gain1_value);
-	    iio_channel_attr_write_double(ch2, "hardwaregain", gain2_value);
-	    iio_channel_attr_write(ch, "gain_control_mode", gain1);
-	    iio_channel_attr_write(ch2, "gain_control_mode", gain2);
-	    iio_channel_attr_write(ch, "rf_port_select", port_select);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to enable BB DC (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_double(ch,
+			    "hardwaregain", gain1_value);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set gain (%i)\n", ret);
+
+	    ret = iio_channel_attr_write_double(ch2,
+			    "hardwaregain", gain2_value);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set gain (%i)\n", ret);
+
+	    ret = iio_channel_attr_write(ch, "gain_control_mode", gain1);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
+
+	    ret = iio_channel_attr_write(ch2, "gain_control_mode", gain2);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
+
+	    ret = iio_channel_attr_write(ch, "rf_port_select", port_select);
+	    if (ret < 0)
+		    fprintf(stderr, "Unable to set RF port select (%i)\n", ret);
     }
 
   } /* namespace iio */
