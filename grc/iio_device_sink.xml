@@ -42,7 +42,7 @@
 
 	<sink>
 		<name>in</name>
-		<type>float</type>
+		<type>short</type>
 		<nports>len($channels)</nports>
 	</sink>
 </block>

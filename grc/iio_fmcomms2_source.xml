@@ -224,7 +224,7 @@
 
 	<source>
 		<name>out</name>
-		<type>float</type>
+		<type>short</type>
 		<nports>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en])</nports>
 	</source>
 </block>

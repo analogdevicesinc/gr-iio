@@ -72,7 +72,7 @@ namespace gr {
 		    const char *port_select)
       : gr::sync_block("fmcomms2_source",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, -1, sizeof(float)))
+              gr::io_signature::make(1, -1, sizeof(short)))
       , device_source_impl(host, "cf-ad9361-lpc",
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 		      buffer_size)

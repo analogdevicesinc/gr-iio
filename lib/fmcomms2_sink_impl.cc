@@ -69,7 +69,7 @@ namespace gr {
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
 	    : gr::sync_block("fmcomms2_sink",
-			    gr::io_signature::make(1, -1, sizeof(float)),
+			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0))
 	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),

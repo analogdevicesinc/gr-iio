@@ -42,7 +42,7 @@
 
 	<source>
 		<name>out</name>
-		<type>float</type>
+		<type>short</type>
 		<nports>len($channels)</nports>
 	</source>
 </block>

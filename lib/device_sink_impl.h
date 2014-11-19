@@ -57,7 +57,4 @@ namespace gr {
   } // namespace iio
 } // namespace gr
 
-extern "C" ssize_t demux_sample(const struct iio_channel *chn,
-		void *sample, size_t size, void *d);
-
 #endif /* INCLUDED_IIO_DEVICE_SINK_IMPL_H */

@@ -26,34 +26,6 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
-ssize_t demux_sample(const struct iio_channel *chn,
-		void *sample, size_t size, void *d)
-{
-	float **out = (float **) iio_channel_get_data(chn);
-	int *noutput_items = (int *) d;
-
-	if (!*noutput_items)
-		return 0;
-
-	if (size == 1) {
-		int8_t val;
-		iio_channel_convert(chn, &val, sample);
-		**out = (float) val;
-	} else if (size == 2) {
-		int16_t val;
-		iio_channel_convert(chn, &val, sample);
-		**out = (float) val;
-	} else {
-		int32_t val;
-		iio_channel_convert(chn, &val, sample);
-		**out = (float) val;
-	}
-
-	(*noutput_items)--;
-	(*out)++;
-	return 1;
-}
-
 namespace gr {
   namespace iio {
 
@@ -75,7 +47,7 @@ namespace gr {
 		    unsigned int _buffer_size)
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, -1, sizeof(float)))
+              gr::io_signature::make(1, -1, sizeof(short)))
     {
 	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
@@ -135,22 +107,14 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-	float *out[output_items.size()];
-
-	for (unsigned int i = 0; i < output_items.size(); i++) {
-		struct iio_channel *chn = channel_list[i];
-		out[i] = (float *) output_items[i];
-		iio_channel_set_data(chn, &out[i]);
-	}
-
-	iio_buffer_refill(buf);
-
-	noutput_items = buffer_size * output_items.size();
-	int ret = iio_buffer_foreach_sample(buf, demux_sample, &noutput_items);
+	int ret = iio_buffer_refill(buf);
 	if (ret < 0)
 		return ret;
-	else
-		return ret / output_items.size();
+
+	for (unsigned int i = 0; i < output_items.size(); i++)
+		iio_channel_read(channel_list[i], buf, output_items[i],
+				noutput_items * sizeof(short));
+	return noutput_items;
     }
 
   } /* namespace iio */
