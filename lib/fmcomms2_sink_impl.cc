@@ -33,15 +33,16 @@ namespace gr {
 
     fmcomms2_sink::sptr
     fmcomms2_sink::make(const std::string &host, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long bandwidth,
+		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
     {
       return gnuradio::get_initial_sptr(
-	    new fmcomms2_sink_impl(host, frequency,
-		    samplerate, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
+	    new fmcomms2_sink_impl(host, frequency, samplerate,
+		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    buffer_size, cyclic, rf_port_select,
 		    attenuation1, attenuation2));
     }
@@ -63,7 +64,7 @@ namespace gr {
 
     fmcomms2_sink_impl::fmcomms2_sink_impl(const std::string &host,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long bandwidth,
+		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool _cyclic,
 		    const char *rf_port_select,
@@ -73,7 +74,7 @@ namespace gr {
 			    gr::io_signature::make(0, 0, 0))
 	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
-			    buffer_size, _cyclic)
+			    buffer_size, interpolation, _cyclic)
     {
 	    cyclic = _cyclic;
 	    set_params(frequency, samplerate, bandwidth, rf_port_select,

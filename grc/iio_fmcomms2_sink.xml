@@ -4,7 +4,7 @@
 	<key>iio_fmcomms2_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
+	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
@@ -39,6 +39,13 @@
 		<name>Buffer size</name>
 		<key>buffer_size</key>
 		<value>0x8000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Interpolation</name>
+		<key>interpolation</key>
+		<value>1</value>
 		<type>int</type>
 	</param>
 
@@ -117,6 +124,9 @@
 
 	<!-- Refuse empty strings -->
 	<check>$host</check>
+
+	<!-- Avoid divisions by zero -->
+	<check>$interpolation > 0</check>
 
 	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
 

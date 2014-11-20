@@ -42,7 +42,8 @@ namespace gr {
 
      public:
       fmcomms2_sink_impl(const std::string &host, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long bandwidth,
+		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
