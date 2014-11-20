@@ -41,8 +41,8 @@ namespace gr {
 
      public:
       fmcomms2_source_impl(const std::string &host,
-		    unsigned long long frequency,
-		    unsigned long samplerate, unsigned long bandwidth,
+		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long decimation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
