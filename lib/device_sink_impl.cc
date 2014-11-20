@@ -32,10 +32,11 @@ namespace gr {
     device_sink::sptr
     device_sink::make(const std::string &host, const std::string &device,
 		    const std::vector<std::string> &channels,
-		    unsigned int buffer_size)
+		    unsigned int buffer_size, unsigned int interpolation)
     {
       return gnuradio::get_initial_sptr
-        (new device_sink_impl(host, device, channels, buffer_size));
+        (new device_sink_impl(host, device, channels,
+			      buffer_size, interpolation));
     }
 
     /*
@@ -44,7 +45,8 @@ namespace gr {
     device_sink_impl::device_sink_impl(const std::string &host,
 		    const std::string &device,
 		    const std::vector<std::string> &channels,
-		    unsigned int _buffer_size, bool cyclic)
+		    unsigned int _buffer_size, unsigned int _interpolation,
+		    bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(short)),
               gr::io_signature::make(0, 0, 0))
@@ -52,10 +54,11 @@ namespace gr {
 	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
 
+	    interpolation = _interpolation;
 	    buffer_size = _buffer_size;
 
 	    /* Set minimum input size */
-	    set_output_multiple(buffer_size);
+	    set_output_multiple(buffer_size / (interpolation + 1));
 
 	    if (!host.compare("localhost"))
 		    ctx = iio_create_local_context();
@@ -105,6 +108,22 @@ namespace gr {
 	    std::cout << "Buffer destroyed\n";
     }
 
+    void
+    device_sink_impl::channel_write(const struct iio_channel *chn,
+		    const void *src, size_t len)
+    {
+	uintptr_t dst_ptr, src_ptr = (uintptr_t) src, end = src_ptr + len;
+	unsigned int length = iio_channel_get_data_format(chn)->length / 8;
+	uintptr_t buf_end = (uintptr_t) iio_buffer_end(buf);
+	ptrdiff_t buf_step = iio_buffer_step(buf) * (interpolation + 1);
+
+	for (dst_ptr = (uintptr_t) iio_buffer_first(buf, chn);
+			dst_ptr < buf_end && src_ptr + length <= end;
+			dst_ptr += buf_step, src_ptr += length)
+		iio_channel_convert_inverse(chn,
+				(void *) dst_ptr, (const void *) src_ptr);
+    }
+
     int
     device_sink_impl::work(int noutput_items,
 			  gr_vector_const_void_star &input_items,
@@ -112,15 +131,21 @@ namespace gr {
     {
 	int ret;
 
+	if (interpolation >= 1) {
+		ptrdiff_t len = (intptr_t) iio_buffer_end(buf)
+			- (intptr_t) iio_buffer_start(buf);
+		memset(iio_buffer_start(buf), 0, len);
+	}
+
 	for (unsigned int i = 0; i < input_items.size(); i++)
-		iio_channel_write(channel_list[i], buf, input_items[i],
+		channel_write(channel_list[i], input_items[i],
 				noutput_items * sizeof(short));
 
 	ret = iio_buffer_push(buf);
 	if (ret < 0)
 		return ret;
 
-	consume_each(buffer_size);
+	consume_each(buffer_size / (interpolation + 1));
 	return 0;
     }
 

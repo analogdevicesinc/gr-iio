@@ -51,7 +51,8 @@ namespace gr {
        */
       static sptr make(const std::string &host, const std::string &device,
 		      const std::vector<std::string> &channels,
-		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE);
+		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
+		      unsigned int interpolation = 0);
     };
 
   } // namespace iio
