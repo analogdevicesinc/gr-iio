@@ -4,7 +4,7 @@
 	<key>iio_device_source</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.device_source($host, $device, $channels, $buffer_size)</make>
+	<make>iio.device_source($host, $device, $channels, $buffer_size, $decimation - 1)</make>
 
 	<param>
 		<name>Hostname</name>
@@ -33,9 +33,19 @@
 		<type>int</type>
 	</param>
 
+	<param>
+		<name>Decimation</name>
+		<key>decimation</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+
 	<!-- Refuse empty strings -->
 	<check>$host</check>
 	<check>$device</check>
+
+	<!-- Avoid divisions by zero -->
+	<check>$decimation > 0</check>
 
 	<!-- We need at least one channel -->
 	<check>len($channels) &gt; 0</check>

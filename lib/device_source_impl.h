@@ -33,16 +33,22 @@ namespace gr {
 
     class device_source_impl : public device_source
     {
+     private:
+	     void channel_read(const struct iio_channel *chn,
+			     void *dst, size_t len);
+
      protected:
 	     struct iio_context *ctx;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
 	     unsigned int buffer_size;
+	     unsigned int decimation;
 
      public:
       device_source_impl(const std::string &host, const std::string &device,
 		      const std::vector<std::string> &channels,
-		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE);
+		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
+		      unsigned int decimation = 0);
       ~device_source_impl();
 
       // Where all the action really happens
