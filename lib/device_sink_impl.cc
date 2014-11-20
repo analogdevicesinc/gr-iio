@@ -112,7 +112,7 @@ namespace gr {
     {
 	int ret;
 
-	for (unsigned int i = 0; i < output_items.size(); i++)
+	for (unsigned int i = 0; i < input_items.size(); i++)
 		iio_channel_write(channel_list[i], buf, input_items[i],
 				noutput_items * sizeof(short));
 
