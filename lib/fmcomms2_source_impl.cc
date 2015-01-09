@@ -134,18 +134,23 @@ namespace gr {
 	    if (ret < 0)
 		    fprintf(stderr, "Unable to set gain (%i)\n", ret);
 
-	    ret = iio_channel_attr_write_double(ch2,
-			    "hardwaregain", gain2_value);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set gain (%i)\n", ret);
+	    if (ch2) {
+		    ret = iio_channel_attr_write_double(ch2,
+				    "hardwaregain", gain2_value);
+		    if (ret < 0)
+			    fprintf(stderr, "Unable to set gain (%i)\n", ret);
+	    }
 
 	    ret = iio_channel_attr_write(ch, "gain_control_mode", gain1);
 	    if (ret < 0)
 		    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
 
-	    ret = iio_channel_attr_write(ch2, "gain_control_mode", gain2);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
+	    if (ch2) {
+		    ret = iio_channel_attr_write(ch2,
+				    "gain_control_mode", gain2);
+		    if (ret < 0)
+			    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
+	    }
 
 	    ret = iio_channel_attr_write(ch, "rf_port_select", port_select);
 	    if (ret < 0)

@@ -118,10 +118,12 @@ namespace gr {
 	    if (ret < 0)
 		    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
 
-	    ret = iio_channel_attr_write_double(ch2,
-			    "hardwaregain", attenuation2);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
+	    if (ch2) {
+		    ret = iio_channel_attr_write_double(ch2,
+				    "hardwaregain", attenuation2);
+		    if (ret < 0)
+			    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
+	    }
     }
 
     int fmcomms2_sink_impl::work(int noutput_items,
