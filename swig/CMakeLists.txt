@@ -18,38 +18,44 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
+# Check if there is C++ code at all
+########################################################################
+if(NOT iio_sources)
+	MESSAGE(STATUS "No C++ sources... skipping swig/")
+	return()
+endif(NOT iio_sources)
+
+########################################################################
+# Include swig generation macros
+########################################################################
+find_package(SWIG)
+find_package(PythonLibs 2)
+if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
+    return()
+endif()
+include(GrSwig)
+include(GrPython)
+
+########################################################################
 # Setup swig generation
 ########################################################################
-include(GrPython)
-include(GrSwig)
-
-set(GR_SWIG_INCLUDE_DIRS
-	${GR_IIO_INCLUDE_DIRS}
-    ${GNURADIO_RUNTIME_SWIG_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-)
-
-if(ENABLE_GR_CTRLPORT)
-  list(APPEND GR_SWIG_FLAGS "-DGR_CTRLPORT")
-  list(APPEND GR_SWIG_INCLUDE_DIRS ${ICE_INCLUDE_DIR})
-endif(ENABLE_GR_CTRLPORT)
-
-# Setup swig docs to depend on includes and pull in from build directory
-set(GR_SWIG_TARGET_DEPS iio_generated_includes)
+foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
+    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
+endforeach(incdir)
 
 set(GR_SWIG_LIBRARIES gnuradio-iio)
-
 GR_SWIG_MAKE(iio_swig iio_swig.i)
 
-GR_SWIG_INSTALL(
-    TARGETS iio_swig
-    DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio
-    COMPONENT "iio_python"
-)
+########################################################################
+# Install the build swig module
+########################################################################
+GR_SWIG_INSTALL(TARGETS iio_swig DESTINATION ${GR_PYTHON_DIR}/iio)
 
+########################################################################
+# Install swig .i files for development
+########################################################################
 install(
     FILES
     iio_swig.i
-    DESTINATION ${GR_INCLUDE_DIR}/gnuradio/swig
-    COMPONENT "iio_swig"
+    DESTINATION ${GR_INCLUDE_DIR}/swig
 )

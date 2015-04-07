@@ -18,28 +18,13 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
-# Setup the include and linker paths
-########################################################################
-include_directories(
-	${GR_IIO_INCLUDE_DIRS}
-    ${GNURADIO_RUNTIME_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-	${IIO_INCLUDE_DIRS}
-)
-
-link_directories(
-	${Boost_LIBRARY_DIRS}
-	${IIO_LIBRARY_DIRS}
-)
-
-if(ENABLE_GR_CTRLPORT)
-  ADD_DEFINITIONS(-DGR_CTRLPORT)
-  include_directories(${ICE_INCLUDE_DIR})
-endif(ENABLE_GR_CTRLPORT)
-
-########################################################################
 # Setup library
 ########################################################################
+include(GrPlatform) #define LIB_SUFFIX
+
+include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
 list(APPEND iio_sources
     device_source_impl.cc
     device_sink_impl.cc
@@ -47,12 +32,40 @@ list(APPEND iio_sources
 	fmcomms2_sink_impl.cc
 )
 
-list(APPEND iio_libs
-    gnuradio-runtime
-    ${Boost_LIBRARIES}
-	${IIO_LIBRARIES}
-)
+set(iio_sources "${iio_sources}" PARENT_SCOPE)
+if(NOT iio_sources)
+	MESSAGE(STATUS "No C++ sources... skipping lib/")
+	return()
+endif(NOT iio_sources)
 
 add_library(gnuradio-iio SHARED ${iio_sources})
-target_link_libraries(gnuradio-iio ${iio_libs})
-GR_LIBRARY_FOO(gnuradio-iio RUNTIME_COMPONENT "iio_runtime" DEVEL_COMPONENT "iio_devel")
+target_link_libraries(gnuradio-iio ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+set_target_properties(gnuradio-iio PROPERTIES
+	VERSION ${GR_IIO_VERSION}
+	SOVERSION ${GR_IIO_VERSION_MAJOR}
+	DEFINE_SYMBOL "gnuradio_iio_EXPORTS"
+)
+
+if(APPLE)
+    set_target_properties(gnuradio-iio PROPERTIES
+        INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
+    )
+endif(APPLE)
+
+########################################################################
+# Install built library files
+########################################################################
+install(TARGETS gnuradio-iio
+    LIBRARY DESTINATION lib${LIB_SUFFIX} # .so/.dylib file
+    ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
+    RUNTIME DESTINATION bin              # .dll file
+)
+
+
+########################################################################
+# Setup the include and linker paths
+########################################################################
+#include_directories(
+#	${GR_IIO_INCLUDE_DIRS}
+#   ${GNURADIO_RUNTIME_INCLUDE_DIRS}
+#   ${Boost_INCLUDE_DIRS}
