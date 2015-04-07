@@ -100,6 +100,12 @@ if(NOT CPPUNIT_FOUND)
     message(FATAL_ERROR "CppUnit required to compile iio")
 endif()
 
+pkg_check_modules(IIO libiio)
+
+if (NOT IIO_FOUND)
+	message(FATAL_ERROR "libiio is required to compile the IIO blocks")
+endif()
+
 ########################################################################
 # Setup doxygen option
 ########################################################################

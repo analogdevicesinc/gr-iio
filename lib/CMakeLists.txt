@@ -39,7 +39,10 @@ if(NOT iio_sources)
 endif(NOT iio_sources)
 
 add_library(gnuradio-iio SHARED ${iio_sources})
-target_link_libraries(gnuradio-iio ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-iio
+	${Boost_LIBRARIES}
+	${IIO_LIBRARIES}
+	${GNURADIO_ALL_LIBRARIES})
 set_target_properties(gnuradio-iio PROPERTIES
 	VERSION ${GR_IIO_VERSION}
 	SOVERSION ${GR_IIO_VERSION_MAJOR}
