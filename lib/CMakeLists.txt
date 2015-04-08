@@ -23,7 +23,7 @@
 include(GrPlatform) #define LIB_SUFFIX
 
 include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
+link_directories(${Boost_LIBRARY_DIRS} ${IIO_LIBRARY_DIRS})
 
 list(APPEND iio_sources
     device_source_impl.cc
