@@ -71,7 +71,9 @@ endif()
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 set(GR_RUNTIME_DIR      bin)
-set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
+if (NOT DEFINED GR_LIBRARY_DIR)
+	set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
+endif()
 set(GR_INCLUDE_DIR      include/gnuradio)
 set(GR_DATA_DIR         share)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})

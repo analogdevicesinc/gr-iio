@@ -59,9 +59,9 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 install(TARGETS gnuradio-iio
-    LIBRARY DESTINATION lib${LIB_SUFFIX} # .so/.dylib file
-    ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
-    RUNTIME DESTINATION bin              # .dll file
+	LIBRARY DESTINATION ${GR_LIBRARY_DIR} # .so/.dylib file
+	ARCHIVE DESTINATION ${GR_LIBRARY_DIR} # .lib file
+	RUNTIME DESTINATION ${GR_RUNTIME_DIR} # .dll file
 )
 
 
