@@ -134,6 +134,7 @@ link_directories(
     ${Boost_LIBRARY_DIRS}
     ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
+    ${IIO_LIBRARY_DIRS}
 )
 
 # Set component parameters
