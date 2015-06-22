@@ -485,7 +485,7 @@
     </param>
     <param>
       <key>ifn</key>
-      <value>tap0</value>
+      <value>tap_interface</value>
     </param>
     <param>
       <key>mtu</key>
@@ -1087,6 +1087,49 @@
     <param>
       <key>value</key>
       <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(8, 653)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tap_interface</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>TAP Interface</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>tap0</value>
     </param>
   </block>
   <block>
