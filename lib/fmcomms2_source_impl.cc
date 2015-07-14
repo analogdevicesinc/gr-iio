@@ -77,6 +77,7 @@ namespace gr {
               gr::io_signature::make(1, -1, sizeof(short)))
       , device_source_impl(host, "cf-ad9361-lpc",
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
+		      "ad9361-phy", std::vector<std::string>(),
 		      buffer_size, decimation)
     {
 	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
@@ -91,70 +92,37 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *port_select)
     {
-	    int ret;
-	    struct iio_channel *ch, *ch2;
-	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
-	    if (!dev)
-		    throw std::runtime_error("Device not found");
+	    bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
+	    std::vector<std::string> params;
 
-	    ch = iio_device_find_channel(dev, "altvoltage0", true);
-	    ret = iio_channel_attr_write_longlong(ch, "frequency", frequency);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set LO frequency (%i)\n", ret);
+	    params.push_back("out_altvoltage0_RX_LO_frequency=" +
+			    boost::to_string(frequency));
+	    params.push_back("in_voltage_sampling_frequency=" +
+			    boost::to_string(samplerate));
+	    params.push_back("in_voltage_rf_bandwidth=" +
+			    boost::to_string(bandwidth));
+	    params.push_back("in_voltage_quadrature_tracking_en=" +
+			    boost::to_string(quadrature));
+	    params.push_back("in_voltage_rf_dc_offset_tracking_en=" +
+			    boost::to_string(rfdc));
+	    params.push_back("in_voltage_bb_dc_offset_tracking_en=" +
+			    boost::to_string(bbdc));
+	    params.push_back("in_voltage0_gain_control_mode=" +
+			    boost::to_string(gain1));
+	    params.push_back("in_voltage0_hardwaregain=" +
+			    boost::to_string(gain1_value));
 
-	    ch = iio_device_find_channel(dev, "voltage0", false);
-	    ch2 = iio_device_find_channel(dev, "voltage1", false);
-	    ret = iio_channel_attr_write_longlong(ch,
-			    "sampling_frequency", (long long) samplerate);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set samplerate (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_longlong(ch,
-			    "rf_bandwidth", (long long) bandwidth);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set baudwidth (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_bool(ch,
-			    "quadrature_tracking_en", quadrature);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to enable quadrature (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_bool(ch,
-			    "rf_dc_offset_tracking_en", rfdc);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to enable RF DC (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_bool(ch,
-			    "bb_dc_offset_tracking_en", bbdc);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to enable BB DC (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_double(ch,
-			    "hardwaregain", gain1_value);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set gain (%i)\n", ret);
-
-	    if (ch2) {
-		    ret = iio_channel_attr_write_double(ch2,
-				    "hardwaregain", gain2_value);
-		    if (ret < 0)
-			    fprintf(stderr, "Unable to set gain (%i)\n", ret);
+	    if (!is_fmcomms4) {
+		    params.push_back("in_voltage1_gain_control_mode=" +
+				    boost::to_string(gain2));
+		    params.push_back("in_voltage1_hardwaregain=" +
+				    boost::to_string(gain2_value));
 	    }
 
-	    ret = iio_channel_attr_write(ch, "gain_control_mode", gain1);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
+	    params.push_back("in_voltage0_rf_port_select=" +
+			    boost::to_string(port_select));
 
-	    if (ch2) {
-		    ret = iio_channel_attr_write(ch2,
-				    "gain_control_mode", gain2);
-		    if (ret < 0)
-			    fprintf(stderr, "Unable to set gain mode (%i)\n", ret);
-	    }
-
-	    ret = iio_channel_attr_write(ch, "rf_port_select", port_select);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set RF port select (%i)\n", ret);
+	    device_source_impl::set_params(params);
     }
 
   } /* namespace iio */
