@@ -39,6 +39,7 @@ namespace gr {
 
      protected:
 	     struct iio_context *ctx;
+	     struct iio_device *dev, *phy;
 	     struct iio_buffer *buf;
 	     std::vector <struct iio_channel *> channel_list;
 	     unsigned int buffer_size;
@@ -47,9 +48,16 @@ namespace gr {
      public:
       device_source_impl(const std::string &host, const std::string &device,
 		      const std::vector<std::string> &channels,
+		      const std::string &device_phy,
+		      const std::vector<std::string> &params,
 		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
 		      unsigned int decimation = 0);
       ~device_source_impl();
+
+      static void set_params(struct iio_device *phy,
+		      const std::vector<std::string> &params);
+
+      void set_params(const std::vector<std::string> &params);
 
       // Where all the action really happens
       int work(int noutput_items,

@@ -26,17 +26,69 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
+#include <iostream>
+#include <string>
+
 namespace gr {
   namespace iio {
 
     device_source::sptr
     device_source::make(const std::string &host, const std::string &device,
 		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
 		    unsigned int buffer_size, unsigned int decimation)
     {
       return gnuradio::get_initial_sptr
-        (new device_source_impl(host, device, channels,
+        (new device_source_impl(host, device, channels, device_phy, params,
 				buffer_size, decimation));
+    }
+
+    void device_source_impl::set_params(struct iio_device *phy,
+		    const std::vector<std::string> &params)
+    {
+	    for (std::vector<std::string>::const_iterator it = params.begin();
+			    it != params.end(); ++it) {
+		    struct iio_channel *chn = NULL;
+		    const char *attr = NULL;
+		    size_t pos;
+		    int ret;
+
+		    pos = it->find('=');
+		    if (pos == std::string::npos) {
+			    std::cerr << "Misformed line: " << *it << std::endl;
+			    continue;
+		    }
+
+		    std::string key = it->substr(0, pos);
+		    std::string val = it->substr(pos + 1, std::string::npos);
+
+		    ret = iio_device_identify_filename(phy,
+				    key.c_str(), &chn, &attr);
+		    if (ret) {
+			    std::cerr << "Parameter not recognized: "
+				    << key << std::endl;
+			    continue;
+		    }
+
+		    if (chn)
+			    ret = iio_channel_attr_write(chn,
+					    attr, val.c_str());
+		    else if (iio_device_find_attr(phy, attr))
+			    ret = iio_device_attr_write(phy, attr, val.c_str());
+		    else
+			    ret = iio_device_debug_attr_write(phy,
+					    attr, val.c_str());
+		    if (ret < 0) {
+			    std::cerr << "Unable to write attribute " << key
+				    <<  ": " << ret << std::endl;
+		    }
+	    }
+    }
+
+    void device_source_impl::set_params(const std::vector<std::string> &params)
+    {
+	    set_params(this->phy, params);
     }
 
     /*
@@ -45,12 +97,13 @@ namespace gr {
     device_source_impl::device_source_impl(const std::string &host,
 		    const std::string &device,
 		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
 		    unsigned int _buffer_size, unsigned int _decimation)
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short)))
     {
-	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
 
 	    buffer_size = _buffer_size;
@@ -63,9 +116,11 @@ namespace gr {
 		    ctx = iio_create_local_context();
 	    else
 		    ctx = iio_create_network_context(host.c_str());
-	    if (ctx)
+	    if (ctx) {
 		    dev = iio_context_find_device(ctx, device.c_str());
-	    if (ctx && !dev) {
+		    phy = iio_context_find_device(ctx, device_phy.c_str());
+	    }
+	    if (ctx && (!dev || !phy)) {
 		    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
 	    }
@@ -89,6 +144,8 @@ namespace gr {
 		    iio_channel_enable(chn);
 		    channel_list.push_back(chn);
 	    }
+
+	    set_params(params);
 
 	    buf = iio_device_create_buffer(dev, buffer_size, false);
 	    if (!buf)
