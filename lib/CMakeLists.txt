@@ -30,6 +30,7 @@ list(APPEND iio_sources
     device_sink_impl.cc
 	fmcomms2_source_impl.cc
 	fmcomms2_sink_impl.cc
+	fmcomms5_source_impl.cc
 )
 
 set(iio_sources "${iio_sources}" PARENT_SCOPE)
@@ -42,6 +43,7 @@ add_library(gnuradio-iio SHARED ${iio_sources})
 target_link_libraries(gnuradio-iio
 	${Boost_LIBRARIES}
 	${IIO_LIBRARIES}
+	${AD9361_LIBRARIES}
 	${GNURADIO_ALL_LIBRARIES})
 set_target_properties(gnuradio-iio PROPERTIES
 	VERSION ${GR_IIO_VERSION}

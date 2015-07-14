@@ -103,10 +103,7 @@ if(NOT CPPUNIT_FOUND)
 endif()
 
 pkg_check_modules(IIO REQUIRED libiio)
-
-if (NOT IIO_FOUND)
-	message(FATAL_ERROR "libiio is required to compile the IIO blocks")
-endif()
+pkg_check_modules(AD9361 REQUIRED libad9361)
 
 ########################################################################
 # Setup doxygen option
