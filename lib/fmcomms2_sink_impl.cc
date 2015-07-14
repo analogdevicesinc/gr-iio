@@ -27,6 +27,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "fmcomms2_sink_impl.h"
+#include "device_source_impl.h"
 
 namespace gr {
   namespace iio {
@@ -74,6 +75,7 @@ namespace gr {
 			    gr::io_signature::make(0, 0, 0))
 	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
+			    "ad9361-phy", std::vector<std::string>(),
 			    buffer_size, interpolation, _cyclic)
     {
 	    cyclic = _cyclic;
@@ -86,44 +88,26 @@ namespace gr {
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
     {
-	    int ret;
-	    struct iio_channel *ch, *ch2;
-	    struct iio_device *dev = iio_context_find_device(ctx, "ad9361-phy");
-	    if (!dev)
-		    throw std::runtime_error("Device not found");
+	    bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
+	    std::vector<std::string> params;
 
-	    ch = iio_device_find_channel(dev, "altvoltage1", true);
-	    ret = iio_channel_attr_write_longlong(ch, "frequency", frequency);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set LO frequency (%i)\n", ret);
+	    params.push_back("out_altvoltage1_TX_LO_frequency=" +
+			    boost::to_string(frequency));
+	    params.push_back("out_voltage_sampling_frequency=" +
+			    boost::to_string(samplerate));
+	    params.push_back("out_voltage_rf_bandwidth=" +
+			    boost::to_string(bandwidth));
+	    params.push_back("out_voltage0_rf_port_select=" +
+			    boost::to_string(rf_port_select));
+	    params.push_back("out_voltage0_hardwaregain=" +
+			    boost::to_string(attenuation1));
 
-	    ch = iio_device_find_channel(dev, "voltage0", true);
-	    ch2 = iio_device_find_channel(dev, "voltage1", true);
-	    ret = iio_channel_attr_write_longlong(ch,
-			    "sampling_frequency", (long long) samplerate);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set samplerate (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_longlong(ch,
-			    "rf_bandwidth", (long long) bandwidth);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set baudwidth (%i)\n", ret);
-
-	    ret = iio_channel_attr_write(ch, "rf_port_select", rf_port_select);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set RF port select (%i)\n", ret);
-
-	    ret = iio_channel_attr_write_double(ch,
-			    "hardwaregain", attenuation1);
-	    if (ret < 0)
-		    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
-
-	    if (ch2) {
-		    ret = iio_channel_attr_write_double(ch2,
-				    "hardwaregain", attenuation2);
-		    if (ret < 0)
-			    fprintf(stderr, "Unable to set attenuation (%i)\n", ret);
+	    if (!is_fmcomms4) {
+		    params.push_back("out_voltage1_hardwaregain=" +
+				    boost::to_string(attenuation2));
 	    }
+
+	    device_source_impl::set_params(this->phy, params);
     }
 
     int fmcomms2_sink_impl::work(int noutput_items,
