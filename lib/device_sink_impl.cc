@@ -25,6 +25,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "device_sink_impl.h"
+#include "device_source_impl.h"
 
 namespace gr {
   namespace iio {
@@ -32,11 +33,19 @@ namespace gr {
     device_sink::sptr
     device_sink::make(const std::string &host, const std::string &device,
 		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
 		    unsigned int buffer_size, unsigned int interpolation)
     {
       return gnuradio::get_initial_sptr
         (new device_sink_impl(host, device, channels,
+			      device_phy, params,
 			      buffer_size, interpolation));
+    }
+
+    void device_sink_impl::set_params(const std::vector<std::string> &params)
+    {
+	    device_source_impl::set_params(this->phy, params);
     }
 
     /*
@@ -45,13 +54,14 @@ namespace gr {
     device_sink_impl::device_sink_impl(const std::string &host,
 		    const std::string &device,
 		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
 		    unsigned int _buffer_size, unsigned int _interpolation,
 		    bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(short)),
               gr::io_signature::make(0, 0, 0))
     {
-	    struct iio_device *dev = NULL;
 	    unsigned int nb_channels, i;
 
 	    interpolation = _interpolation;
@@ -64,9 +74,11 @@ namespace gr {
 		    ctx = iio_create_local_context();
 	    else
 		    ctx = iio_create_network_context(host.c_str());
-	    if (ctx)
+	    if (ctx) {
 		    dev = iio_context_find_device(ctx, device.c_str());
-	    if (ctx && !dev) {
+		    phy = iio_context_find_device(ctx, device_phy.c_str());
+	    }
+	    if (ctx && (!dev || !phy)) {
 		    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
 	    }
@@ -92,6 +104,8 @@ namespace gr {
 			    throw std::runtime_error("Channel not enabled");
 		    channel_list.push_back(chn);
 	    }
+
+	    set_params(params);
 
 	    buf = iio_device_create_buffer(dev, buffer_size, cyclic);
 	    if (!buf)
