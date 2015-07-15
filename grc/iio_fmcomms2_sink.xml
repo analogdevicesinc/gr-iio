@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-	<name>FMComms2 Sink</name>
+	<name>FMComms2/3/4 Sink</name>
 	<key>iio_fmcomms2_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-	<name>FMComms2 Source</name>
+	<name>FMComms2/3/4 Source</name>
 	<key>iio_fmcomms2_source</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
