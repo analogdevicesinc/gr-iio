@@ -37,29 +37,37 @@ namespace gr {
      private:
       bool cyclic;
       unsigned long samplerate;
+      struct iio_device *phy2;
+
+      static void set_params(struct iio_device *phy_device,
+		      unsigned long long frequency, unsigned long samplerate,
+		      unsigned long bandwidth, const char *rf_port_select,
+		      double attenuation1, double attenuation2);
 
       std::vector<std::string> get_channels_vector(
 		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		      bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en);
 
      public:
-      fmcomms5_sink_impl(const std::string &host, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long interpolation,
-		    unsigned long bandwidth,
+      fmcomms5_sink_impl(const std::string &host, unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
+		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
-		    double attenuation1, double attenuation2);
+		    double attenuation1, double attenuation2,
+		    double attenuation3, double attenuation4);
 
       int work(int noutput_items,
 		    gr_vector_const_void_star &input_items,
 		    gr_vector_void_star &output_items);
 
-      void set_params(unsigned long long frequency,
-		      unsigned long samplerate, unsigned long bandwidth,
-		      const char *rf_port_select,
-		      double attenuation1, double attenuation2);
+      void set_params(unsigned long long frequency1,
+		      unsigned long long frequency2, unsigned long samplerate,
+		      unsigned long bandwidth, const char *rf_port_select,
+		      double attenuation1, double attenuation2,
+		      double attenuation3, double attenuation4);
     };
 
   } // namespace iio

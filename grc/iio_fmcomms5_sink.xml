@@ -4,7 +4,7 @@
 	<key>iio_fmcomms5_sink</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms5_sink($host, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
+	<make>iio.fmcomms5_sink($host, $frequency1, $frequency2, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $attenuation3, $attenuation4)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
@@ -15,8 +15,15 @@
 	</param>
 
 	<param>
-		<name>LO Frequency</name>
-		<key>frequency</key>
+		<name>LO Frequency (TX1/TX2)</name>
+		<key>frequency1</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>LO Frequency (TX3/TX4)</name>
+		<key>frequency2</key>
 		<value>2400000000</value>
 		<type>int</type>
 	</param>
@@ -154,6 +161,20 @@
 	<param>
 		<name>Attenuation TX2 (dB)</name>
 		<key>attenuation2</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Attenuation TX3 (dB)</name>
+		<key>attenuation3</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Attenuation TX4 (dB)</name>
+		<key>attenuation4</key>
 		<value>10.0</value>
 		<type>real</type>
 	</param>

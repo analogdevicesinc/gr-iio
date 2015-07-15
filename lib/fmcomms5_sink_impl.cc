@@ -35,21 +35,23 @@ namespace gr {
   namespace iio {
 
     fmcomms5_sink::sptr
-    fmcomms5_sink::make(const std::string &host, unsigned long long frequency,
+    fmcomms5_sink::make(const std::string &host, unsigned long long frequency1,
+		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long interpolation,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    double attenuation1, double attenuation2,
+		    double attenuation3, double attenuation4)
     {
       return gnuradio::get_initial_sptr(
-	    new fmcomms5_sink_impl(host, frequency, samplerate,
+	    new fmcomms5_sink_impl(host, frequency1, frequency2, samplerate,
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    ch5_en, ch6_en, ch7_en, ch8_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2));
+		    attenuation1, attenuation2, attenuation3, attenuation4));
     }
 
     std::vector<std::string> fmcomms5_sink_impl::get_channels_vector(
@@ -77,13 +79,15 @@ namespace gr {
     }
 
     fmcomms5_sink_impl::fmcomms5_sink_impl(const std::string &host,
-		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    double attenuation1, double attenuation2,
+		    double attenuation3, double attenuation4)
 	    : gr::sync_block("fmcomms5_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0))
@@ -93,18 +97,23 @@ namespace gr {
 			    "ad9361-phy", std::vector<std::string>(),
 			    buffer_size, interpolation, cyclic)
     {
+	    phy2 = iio_context_find_device(ctx, "ad9361-phy-B");
+	    if (!phy2)
+		    throw std::runtime_error("Device not found");
+
 	    this->cyclic = cyclic;
 	    this->samplerate = 0;
-	    set_params(frequency, samplerate, bandwidth, rf_port_select,
-			    attenuation1, attenuation2);
+	    set_params(frequency1, frequency2, samplerate, bandwidth,
+			    rf_port_select, attenuation1, attenuation2,
+			    attenuation3, attenuation4);
     }
 
-    void fmcomms5_sink_impl::set_params(unsigned long long frequency,
+    void fmcomms5_sink_impl::set_params(struct iio_device *phy_device,
+		    unsigned long long frequency,
 		    unsigned long samplerate, unsigned long bandwidth,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2)
     {
-	    bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
 	    std::vector<std::string> params;
 
 	    params.push_back("out_altvoltage1_TX_LO_frequency=" +
@@ -120,7 +129,19 @@ namespace gr {
 	    params.push_back("out_voltage1_hardwaregain=" +
 			    boost::to_string(attenuation2));
 
-	    device_source_impl::set_params(this->phy, params);
+	    device_source_impl::set_params(phy_device, params);
+    }
+
+    void fmcomms5_sink_impl::set_params(unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
+		    unsigned long bandwidth, const char *rf_port_select,
+		    double attenuation1, double attenuation2,
+		    double attenuation3, double attenuation4)
+    {
+	    set_params(this->phy, frequency1, samplerate, bandwidth,
+			    rf_port_select, attenuation1, attenuation2);
+	    set_params(this->phy2, frequency2, samplerate, bandwidth,
+			    rf_port_select, attenuation3, attenuation4);
 
 	    if (this->samplerate != samplerate) {
 		    ad9361_fmcomms5_multichip_sync(ctx, FIXUP_INTERFACE_TIMING |
