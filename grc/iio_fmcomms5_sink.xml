@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<block>
+	<name>FMComms5 Sink</name>
+	<key>iio_fmcomms5_sink</key>
+	<category>Industrial IO</category>
+	<import>from gnuradio import iio</import>
+	<make>iio.fmcomms5_sink($host, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
+	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
+
+	<param>
+		<name>Hostname</name>
+		<key>host</key>
+		<value>localhost</value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>LO Frequency</name>
+		<key>frequency</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Sample rate</name>
+		<key>samplerate</key>
+		<value>1536000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>RF bandwidth</name>
+		<key>bandwidth</key>
+		<value>20000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Buffer size</name>
+		<key>buffer_size</key>
+		<value>0x8000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Interpolation</name>
+		<key>interpolation</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Channel 1 Enabled</name>
+		<key>ch1_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 2 Enabled</name>
+		<key>ch2_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 3 Enabled</name>
+		<key>ch3_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 4 Enabled</name>
+		<key>ch4_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 5 Enabled</name>
+		<key>ch5_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 6 Enabled</name>
+		<key>ch6_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 7 Enabled</name>
+		<key>ch7_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Channel 8 Enabled</name>
+		<key>ch8_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Cyclic</name>
+		<key>cyclic</key>
+		<value>False</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>RF Port Select</name>
+		<key>rf_port_select</key>
+		<type>enum</type>
+		<option>
+			<name>A</name>
+			<key>"A"</key>
+		</option>
+		<option>
+			<name>B</name>
+			<key>"B"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Attenuation TX1 (dB)</name>
+		<key>attenuation1</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Attenuation TX2 (dB)</name>
+		<key>attenuation2</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<!-- Refuse empty strings -->
+	<check>$host</check>
+
+	<!-- Avoid divisions by zero -->
+	<check>$interpolation > 0</check>
+
+	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en]) &gt; 0</check>
+
+	<sink>
+		<name>in</name>
+		<type>short</type>
+		<nports>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en])</nports>
+	</sink>
+</block>
