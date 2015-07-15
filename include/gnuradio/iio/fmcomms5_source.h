@@ -49,7 +49,8 @@ namespace gr {
        * class. iio::device::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string &host, unsigned long long frequency,
+      static sptr make(const std::string &host, unsigned long long frequency1,
+		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long decimation,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
@@ -57,13 +58,18 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
+		    const char *gain3, double gain3_value,
+		    const char *gain4, double gain4_value,
 		    const char *rf_port_select);
 
-      virtual void set_params(unsigned long long frequency,
+      virtual void set_params(unsigned long long frequency1,
+		      unsigned long long frequency2,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      bool quadrature, bool rfdc, bool bbdc,
 		      const char *gain1, double gain1_value,
 		      const char *gain2, double gain2_value,
+		      const char *gain3, double gain3_value,
+		      const char *gain4, double gain4_value,
 		      const char *rf_port_select) = 0;
     };
 

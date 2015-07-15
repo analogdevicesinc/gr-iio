@@ -4,8 +4,8 @@
 	<key>iio_fmcomms5_source</key>
 	<category>Industrial IO</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms5_source($host, $frequency, $samplerate, $decimation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select)</make>
-	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select)</callback>
+	<make>iio.fmcomms5_source($host, $frequency1, $frequency2, $samplerate, $decimation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select)</make>
+	<callback>set_params($frequency1, $frequency2, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select)</callback>
 
 	<param>
 		<name>Hostname</name>
@@ -15,8 +15,15 @@
 	</param>
 
 	<param>
-		<name>LO Frequency</name>
-		<key>frequency</key>
+		<name>LO Frequency (RX1/RX2)</name>
+		<key>frequency1</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>LO Frequency (RX3/RX4)</name>
+		<key>frequency2</key>
 		<value>2400000000</value>
 		<type>int</type>
 	</param>
@@ -202,6 +209,64 @@
 	<param>
 		<name>Manual Gain (RX2)(dB)</name>
 		<key>manual_gain2</key>
+		<value>64.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Gain Mode (RX3)</name>
+		<key>gain3</key>
+		<type>enum</type>
+		<option>
+			<name>Manual</name>
+			<key>"manual"</key>
+		</option>
+		<option>
+			<name>Slow</name>
+			<key>"slow_attack"</key>
+		</option>
+		<option>
+			<name>Fast</name>
+			<key>"fast_attack"</key>
+		</option>
+		<option>
+			<name>Hybrid</name>
+			<key>"hybrid"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Manual Gain (RX3)(dB)</name>
+		<key>manual_gain3</key>
+		<value>64.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Gain Mode (RX4)</name>
+		<key>gain4</key>
+		<type>enum</type>
+		<option>
+			<name>Manual</name>
+			<key>"manual"</key>
+		</option>
+		<option>
+			<name>Slow</name>
+			<key>"slow_attack"</key>
+		</option>
+		<option>
+			<name>Fast</name>
+			<key>"fast_attack"</key>
+		</option>
+		<option>
+			<name>Hybrid</name>
+			<key>"hybrid"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Manual Gain (RX4)(dB)</name>
+		<key>manual_gain4</key>
 		<value>64.0</value>
 		<type>real</type>
 	</param>

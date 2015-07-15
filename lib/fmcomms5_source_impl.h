@@ -37,6 +37,15 @@ namespace gr {
     {
      private:
       unsigned long samplerate;
+      struct iio_device *phy2;
+
+      static void set_params(struct iio_device *phy_device,
+		      unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      bool quadrature, bool rfdc, bool bbdc,
+		      const char *gain1, double gain1_value,
+		      const char *gain2, double gain2_value,
+		      const char *port_select);
 
       std::vector<std::string> get_channels_vector(
 		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
@@ -44,20 +53,26 @@ namespace gr {
 
      public:
       fmcomms5_source_impl(const std::string &host,
-		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long decimation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
+		    const char *gain3, double gain3_value,
+		    const char *gain4, double gain4_value,
 		    const char *rf_port_select);
 
-      void set_params(unsigned long long frequency,
+      void set_params(unsigned long long frequency1,
+		      unsigned long long frequency2,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      bool quadrature, bool rfdc, bool bbdc,
 		      const char *gain1, double gain1_value,
 		      const char *gain2, double gain2_value,
+		      const char *gain3, double gain3_value,
+		      const char *gain4, double gain4_value,
 		      const char *rf_port_select);
     };
 
