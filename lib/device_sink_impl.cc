@@ -35,12 +35,13 @@ namespace gr {
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
-		    unsigned int buffer_size, unsigned int interpolation)
+		    unsigned int buffer_size, unsigned int interpolation,
+		    bool cyclic)
     {
       return gnuradio::get_initial_sptr
         (new device_sink_impl(host, device, channels,
 			      device_phy, params,
-			      buffer_size, interpolation));
+			      buffer_size, interpolation, cyclic));
     }
 
     void device_sink_impl::set_params(const std::vector<std::string> &params)
