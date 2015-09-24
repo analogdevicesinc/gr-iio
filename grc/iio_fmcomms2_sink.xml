@@ -10,7 +10,7 @@
 	<param>
 		<name>Hostname</name>
 		<key>host</key>
-		<value>localhost</value>
+		<value></value>
 		<type>string</type>
 	</param>
 
@@ -121,9 +121,6 @@
 		<value>10.0</value>
 		<type>real</type>
 	</param>
-
-	<!-- Refuse empty strings -->
-	<check>$host</check>
 
 	<!-- Avoid divisions by zero -->
 	<check>$interpolation > 0</check>

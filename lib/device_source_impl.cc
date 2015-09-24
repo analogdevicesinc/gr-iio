@@ -112,10 +112,13 @@ namespace gr {
 	    /* Set minimum output size */
 	    set_output_multiple(buffer_size / (decimation + 1));
 
-	    if (!host.compare("localhost"))
-		    ctx = iio_create_local_context();
-	    else
+	    if (host.empty()) {
+		    ctx = iio_create_default_context();
+		    if (!ctx)
+			    ctx = iio_create_network_context(NULL);
+	    } else {
 		    ctx = iio_create_network_context(host.c_str());
+	    }
 	    if (ctx) {
 		    dev = iio_context_find_device(ctx, device.c_str());
 		    phy = iio_context_find_device(ctx, device_phy.c_str());

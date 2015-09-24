@@ -9,7 +9,7 @@
 	<param>
 		<name>Hostname</name>
 		<key>host</key>
-		<value>localhost</value>
+		<value></value>
 		<type>string</type>
 	</param>
 
@@ -54,7 +54,6 @@
 	</param>
 
 	<!-- Refuse empty strings -->
-	<check>$host</check>
 	<check>$device</check>
 	<check>$device_phy</check>
 

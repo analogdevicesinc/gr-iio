@@ -10,7 +10,7 @@
 	<param>
 		<name>Hostname</name>
 		<key>host</key>
-		<value>localhost</value>
+		<value></value>
 		<type>string</type>
 	</param>
 
@@ -324,9 +324,6 @@
 			<key>"TX_MONITOR1_2"</key>
 		</option>
 	</param>
-
-	<!-- Refuse empty strings -->
-	<check>$host</check>
 
 	<!-- Avoid divisions by zero -->
 	<check>$decimation > 0</check>
