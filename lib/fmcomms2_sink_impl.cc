@@ -100,11 +100,11 @@ namespace gr {
 	    params.push_back("out_voltage0_rf_port_select=" +
 			    boost::to_string(rf_port_select));
 	    params.push_back("out_voltage0_hardwaregain=" +
-			    boost::to_string(attenuation1));
+			    boost::to_string(-attenuation1));
 
 	    if (!is_fmcomms4) {
 		    params.push_back("out_voltage1_hardwaregain=" +
-				    boost::to_string(attenuation2));
+				    boost::to_string(-attenuation2));
 	    }
 
 	    device_source_impl::set_params(this->phy, params);
