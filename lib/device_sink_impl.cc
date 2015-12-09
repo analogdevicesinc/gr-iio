@@ -64,6 +64,7 @@ namespace gr {
               gr::io_signature::make(0, 0, 0))
     {
 	    unsigned int nb_channels, i;
+	    unsigned short vid, pid;
 
 	    interpolation = _interpolation;
 	    buffer_size = _buffer_size;
@@ -75,9 +76,12 @@ namespace gr {
 		    ctx = iio_create_default_context();
 		    if (!ctx)
 			    ctx = iio_create_network_context(NULL);
+	    } else if (sscanf(host.c_str(), "%04hx:%04hx", &vid, &pid) == 2) {
+		    ctx = iio_create_usb_context(vid, pid);
 	    } else {
 		    ctx = iio_create_network_context(host.c_str());
 	    }
+
 	    if (ctx) {
 		    dev = iio_context_find_device(ctx, device.c_str());
 		    phy = iio_context_find_device(ctx, device_phy.c_str());
