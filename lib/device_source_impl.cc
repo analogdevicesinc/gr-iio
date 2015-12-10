@@ -40,8 +40,21 @@ namespace gr {
 		    unsigned int buffer_size, unsigned int decimation)
     {
       return gnuradio::get_initial_sptr
-        (new device_source_impl(host, device, channels, device_phy, params,
-				buffer_size, decimation));
+        (new device_source_impl(device_source_impl::get_context(host), true,
+				device, channels, device_phy,
+				params, buffer_size, decimation));
+    }
+
+    device_source::sptr
+    device_source::make_from(struct iio_context *ctx, const std::string &device,
+		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
+		    unsigned int buffer_size, unsigned int decimation)
+    {
+      return gnuradio::get_initial_sptr
+        (new device_source_impl(ctx, false, device, channels, device_phy,
+				params, buffer_size, decimation));
     }
 
     void device_source_impl::set_params(struct iio_device *phy,
@@ -91,11 +104,30 @@ namespace gr {
 	    set_params(this->phy, params);
     }
 
+    struct iio_context * device_source_impl::get_context(
+		    const std::string &host)
+    {
+	    struct iio_context *ctx;
+	    unsigned short vid, pid;
+
+	    if (host.empty()) {
+		    ctx = iio_create_default_context();
+		    if (!ctx)
+			    ctx = iio_create_network_context(NULL);
+	    } else if (sscanf(host.c_str(), "%04hx:%04hx", &vid, &pid) == 2) {
+		    ctx = iio_create_usb_context(vid, pid);
+	    } else {
+		    ctx = iio_create_network_context(host.c_str());
+	    }
+
+	    return ctx;
+    }
+
     /*
      * The private constructor
      */
-    device_source_impl::device_source_impl(const std::string &host,
-		    const std::string &device,
+    device_source_impl::device_source_impl(struct iio_context *ctx,
+		    bool _destroy_ctx, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
@@ -109,26 +141,19 @@ namespace gr {
 
 	    buffer_size = _buffer_size;
 	    decimation = _decimation;
+	    destroy_ctx = _destroy_ctx;
 
 	    /* Set minimum output size */
 	    set_output_multiple(buffer_size / (decimation + 1));
 
-	    if (host.empty()) {
-		    ctx = iio_create_default_context();
-		    if (!ctx)
-			    ctx = iio_create_network_context(NULL);
-	    } else if (sscanf(host.c_str(), "%04hx:%04hx", &vid, &pid) == 2) {
-		    ctx = iio_create_usb_context(vid, pid);
-	    } else {
-		    ctx = iio_create_network_context(host.c_str());
-	    }
+	    if (!ctx)
+		    throw std::runtime_error("Unable to create context");
 
-	    if (ctx) {
-		    dev = iio_context_find_device(ctx, device.c_str());
-		    phy = iio_context_find_device(ctx, device_phy.c_str());
-	    }
-	    if (ctx && (!dev || !phy)) {
-		    iio_context_destroy(ctx);
+	    dev = iio_context_find_device(ctx, device.c_str());
+	    phy = iio_context_find_device(ctx, device_phy.c_str());
+	    if (!dev || !phy) {
+		    if (destroy_ctx)
+			    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
 	    }
 
@@ -144,7 +169,8 @@ namespace gr {
 			    iio_device_find_channel(dev,
 					    it->c_str(), false);
 		    if (!chn) {
-			    iio_context_destroy(ctx);
+			    if (destroy_ctx)
+				    iio_context_destroy(ctx);
 			    throw std::runtime_error("Channel not found");
 		    }
 
@@ -165,7 +191,8 @@ namespace gr {
     device_source_impl::~device_source_impl()
     {
 	    iio_buffer_destroy(buf);
-	    iio_context_destroy(ctx);
+	    if (destroy_ctx)
+		    iio_context_destroy(ctx);
     }
 
     void

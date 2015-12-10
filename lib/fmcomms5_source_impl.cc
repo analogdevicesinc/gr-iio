@@ -48,8 +48,34 @@ namespace gr {
 		    const char *port_select)
     {
       return gnuradio::get_initial_sptr
-        (new fmcomms5_source_impl(host, frequency1, frequency2, samplerate,
-				  decimation, bandwidth,
+        (new fmcomms5_source_impl(device_source_impl::get_context(host),
+				  true, frequency1, frequency2,
+				  samplerate, decimation, bandwidth,
+				  ch1_en, ch2_en, ch3_en, ch4_en,
+				  ch5_en, ch6_en, ch7_en, ch8_en,
+				  buffer_size,
+				  quadrature, rfdc, bbdc, gain1, gain1_value,
+				  gain2, gain2_value, gain3, gain3_value,
+				  gain4, gain4_value, port_select));
+    }
+
+    fmcomms5_source::sptr
+    fmcomms5_source::make_from(struct iio_context *ctx,
+		    unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
+		    unsigned long decimation, unsigned long bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
+		    unsigned long buffer_size, bool quadrature, bool rfdc,
+		    bool bbdc, const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *gain3, double gain3_value,
+		    const char *gain4, double gain4_value,
+		    const char *port_select)
+    {
+      return gnuradio::get_initial_sptr
+        (new fmcomms5_source_impl(ctx, false, frequency1, frequency2,
+				  samplerate, decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en,
 				  ch5_en, ch6_en, ch7_en, ch8_en,
 				  buffer_size,
@@ -82,8 +108,8 @@ namespace gr {
 	    return channels;
     }
 
-    fmcomms5_source_impl::fmcomms5_source_impl(const std::string &host,
-		    unsigned long long frequency1,
+    fmcomms5_source_impl::fmcomms5_source_impl(struct iio_context *ctx,
+		    bool destroy_ctx, unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long decimation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
@@ -97,7 +123,7 @@ namespace gr {
       : gr::sync_block("fmcomms5_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short)))
-      , device_source_impl(host, "cf-ad9361-A",
+      , device_source_impl(ctx, destroy_ctx, "cf-ad9361-A",
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en,
 			      ch5_en, ch6_en, ch7_en, ch8_en),
 		      "ad9361-phy", std::vector<std::string>(),

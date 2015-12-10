@@ -44,9 +44,11 @@ namespace gr {
 	     std::vector <struct iio_channel *> channel_list;
 	     unsigned int buffer_size;
 	     unsigned int decimation;
+	     bool destroy_ctx;
 
      public:
-      device_source_impl(const std::string &host, const std::string &device,
+      device_source_impl(struct iio_context *ctx, bool destroy_ctx,
+		      const std::string &device,
 		      const std::vector<std::string> &channels,
 		      const std::string &device_phy,
 		      const std::vector<std::string> &params,
@@ -63,6 +65,8 @@ namespace gr {
       int work(int noutput_items,
 	       gr_vector_const_void_star &input_items,
 	       gr_vector_void_star &output_items);
+
+      static struct iio_context * get_context(const std::string &host);
     };
 
   } // namespace iio

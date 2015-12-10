@@ -58,6 +58,15 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *rf_port_select);
 
+      static sptr make_from(struct iio_context *ctx,
+		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long decimation, unsigned long bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    unsigned long buffer_size, bool quadrature, bool rfdc,
+		    bool bbdc, const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *rf_port_select);
+
       virtual void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      bool quadrature, bool rfdc, bool bbdc,
