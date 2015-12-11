@@ -27,6 +27,8 @@
 #include "device_sink_impl.h"
 #include "device_source_impl.h"
 
+#include <cstdio>
+
 namespace gr {
   namespace iio {
 

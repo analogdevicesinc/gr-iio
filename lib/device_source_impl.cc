@@ -26,6 +26,7 @@
 #include <gnuradio/io_signature.h>
 #include "device_source_impl.h"
 
+#include <cstdio>
 #include <iostream>
 #include <string>
 
