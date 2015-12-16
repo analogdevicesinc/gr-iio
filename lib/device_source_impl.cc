@@ -163,20 +163,31 @@ namespace gr {
 	    for (i = 0; i < nb_channels; i++)
 		    iio_channel_disable(iio_device_get_channel(dev, i));
 
-	    for (std::vector<std::string>::const_iterator it =
-			    channels.begin();
-			    it != channels.end(); ++it) {
-		    struct iio_channel *chn =
-			    iio_device_find_channel(dev,
-					    it->c_str(), false);
-		    if (!chn) {
-			    if (destroy_ctx)
-				    iio_context_destroy(ctx);
-			    throw std::runtime_error("Channel not found");
-		    }
+	    if (channels.empty()) {
+		    for (i = 0; i < nb_channels; i++) {
+			    struct iio_channel *chn =
+				    iio_device_get_channel(dev, i);
 
-		    iio_channel_enable(chn);
-		    channel_list.push_back(chn);
+			    iio_channel_enable(chn);
+			    channel_list.push_back(chn);
+		    }
+	    } else {
+		    for (std::vector<std::string>::const_iterator it =
+				    channels.begin();
+				    it != channels.end(); ++it) {
+			    struct iio_channel *chn =
+				    iio_device_find_channel(dev,
+						    it->c_str(), false);
+			    if (!chn) {
+				    if (destroy_ctx)
+					    iio_context_destroy(ctx);
+				    throw std::runtime_error(
+						    "Channel not found");
+			    }
+
+			    iio_channel_enable(chn);
+			    channel_list.push_back(chn);
+		    }
 	    }
 
 	    set_params(params);
