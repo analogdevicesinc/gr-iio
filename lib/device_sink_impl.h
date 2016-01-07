@@ -44,9 +44,11 @@ namespace gr {
 	     std::vector <struct iio_channel *> channel_list;
 	     unsigned int buffer_size;
 	     unsigned int interpolation;
+	     bool destroy_ctx;
 
      public:
-      device_sink_impl(const std::string &host, const std::string &device,
+      device_sink_impl(struct iio_context *ctx, bool destroy_ctx,
+		      const std::string &device,
 		      const std::vector<std::string> &channels,
 		      const std::string &device_phy,
 		      const std::vector<std::string> &params,

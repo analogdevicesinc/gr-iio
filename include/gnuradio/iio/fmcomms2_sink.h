@@ -44,6 +44,14 @@ namespace gr {
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2);
 
+      static sptr make_from(struct iio_context *ctx,
+		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long interpolation, unsigned long bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    unsigned long buffer_size, bool cyclic,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2);
+
       virtual void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      const char *rf_port_select,

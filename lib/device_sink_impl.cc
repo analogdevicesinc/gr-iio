@@ -41,7 +41,21 @@ namespace gr {
 		    bool cyclic)
     {
       return gnuradio::get_initial_sptr
-        (new device_sink_impl(host, device, channels,
+        (new device_sink_impl(device_source_impl::get_context(host), true,
+			      device, channels, device_phy, params,
+			      buffer_size, interpolation, cyclic));
+    }
+
+    device_sink::sptr
+    device_sink::make_from(struct iio_context *ctx, const std::string &device,
+		    const std::vector<std::string> &channels,
+		    const std::string &device_phy,
+		    const std::vector<std::string> &params,
+		    unsigned int buffer_size, unsigned int interpolation,
+		    bool cyclic)
+    {
+      return gnuradio::get_initial_sptr
+        (new device_sink_impl(ctx, false, device, channels,
 			      device_phy, params,
 			      buffer_size, interpolation, cyclic));
     }
@@ -54,8 +68,8 @@ namespace gr {
     /*
      * The private constructor
      */
-    device_sink_impl::device_sink_impl(const std::string &host,
-		    const std::string &device,
+    device_sink_impl::device_sink_impl(struct iio_context *ctx,
+		    bool _destroy_ctx, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
@@ -70,26 +84,19 @@ namespace gr {
 
 	    interpolation = _interpolation;
 	    buffer_size = _buffer_size;
+	    destroy_ctx = _destroy_ctx;
 
 	    /* Set minimum input size */
 	    set_output_multiple(buffer_size / (interpolation + 1));
 
-	    if (host.empty()) {
-		    ctx = iio_create_default_context();
-		    if (!ctx)
-			    ctx = iio_create_network_context(NULL);
-	    } else if (sscanf(host.c_str(), "%04hx:%04hx", &vid, &pid) == 2) {
-		    ctx = iio_create_usb_context(vid, pid);
-	    } else {
-		    ctx = iio_create_network_context(host.c_str());
-	    }
+	    if (!ctx)
+		    throw std::runtime_error("Unable to create context");
 
-	    if (ctx) {
-		    dev = iio_context_find_device(ctx, device.c_str());
-		    phy = iio_context_find_device(ctx, device_phy.c_str());
-	    }
-	    if (ctx && (!dev || !phy)) {
-		    iio_context_destroy(ctx);
+	    dev = iio_context_find_device(ctx, device.c_str());
+	    phy = iio_context_find_device(ctx, device_phy.c_str());
+	    if (!dev || !phy) {
+		    if (destroy_ctx)
+			    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
 	    }
 
@@ -114,7 +121,8 @@ namespace gr {
 				    iio_device_find_channel(dev,
 						    it->c_str(), true);
 			    if (!chn) {
-				    iio_context_destroy(ctx);
+				    if (destroy_ctx)
+					    iio_context_destroy(ctx);
 				    throw std::runtime_error(
 						    "Channel not found");
 			    }
@@ -140,8 +148,8 @@ namespace gr {
     device_sink_impl::~device_sink_impl()
     {
 	    iio_buffer_destroy(buf);
-	    iio_context_destroy(ctx);
-	    std::cout << "Buffer destroyed\n";
+	    if (destroy_ctx)
+		    iio_context_destroy(ctx);
     }
 
     void

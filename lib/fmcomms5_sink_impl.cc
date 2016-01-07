@@ -47,9 +47,30 @@ namespace gr {
 		    double attenuation3, double attenuation4)
     {
       return gnuradio::get_initial_sptr(
-	    new fmcomms5_sink_impl(host, frequency1, frequency2, samplerate,
+	    new fmcomms5_sink_impl(device_source_impl::get_context(host), true,
+		    frequency1, frequency2, samplerate,
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    ch5_en, ch6_en, ch7_en, ch8_en,
+		    buffer_size, cyclic, rf_port_select,
+		    attenuation1, attenuation2, attenuation3, attenuation4));
+    }
+
+    fmcomms5_sink::sptr
+    fmcomms5_sink::make_from(struct iio_context *ctx,
+		    unsigned long long frequency1,
+		    unsigned long long frequency2, unsigned long samplerate,
+		    unsigned long interpolation, unsigned long bandwidth,
+		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
+		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
+		    unsigned long buffer_size, bool cyclic,
+		    const char *rf_port_select,
+		    double attenuation1, double attenuation2,
+		    double attenuation3, double attenuation4)
+    {
+      return gnuradio::get_initial_sptr(
+	    new fmcomms5_sink_impl(ctx, false, frequency1, frequency2,
+		    samplerate, interpolation, bandwidth, ch1_en, ch2_en,
+		    ch3_en, ch4_en, ch5_en, ch6_en, ch7_en, ch8_en,
 		    buffer_size, cyclic, rf_port_select,
 		    attenuation1, attenuation2, attenuation3, attenuation4));
     }
@@ -78,8 +99,8 @@ namespace gr {
 	    return channels;
     }
 
-    fmcomms5_sink_impl::fmcomms5_sink_impl(const std::string &host,
-		    unsigned long long frequency1,
+    fmcomms5_sink_impl::fmcomms5_sink_impl(struct iio_context *ctx,
+		    bool destroy_ctx, unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
@@ -91,7 +112,7 @@ namespace gr {
 	    : gr::sync_block("fmcomms5_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0))
-	    , device_sink_impl(host, "cf-ad9361-dds-core-lpc",
+	    , device_sink_impl(ctx, destroy_ctx, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en,
 				    ch5_en, ch6_en, ch7_en, ch8_en),
 			    "ad9361-phy", std::vector<std::string>(),

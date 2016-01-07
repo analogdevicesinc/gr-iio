@@ -28,6 +28,10 @@
 
 #define DEFAULT_BUFFER_SIZE 0x8000
 
+extern "C" {
+	struct iio_context;
+};
+
 namespace gr {
   namespace iio {
 
@@ -50,6 +54,13 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(const std::string &host, const std::string &device,
+		      const std::vector<std::string> &channels,
+		      const std::string &device_phy,
+		      const std::vector<std::string> &params,
+		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
+		      unsigned int interpolation = 0, bool cyclic = false);
+
+      static sptr make_from(struct iio_context *ctx, const std::string &device,
 		      const std::vector<std::string> &channels,
 		      const std::string &device_phy,
 		      const std::vector<std::string> &params,

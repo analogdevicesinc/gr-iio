@@ -49,7 +49,8 @@ namespace gr {
 		      bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en);
 
      public:
-      fmcomms5_sink_impl(const std::string &host, unsigned long long frequency1,
+      fmcomms5_sink_impl(struct iio_context *ctx, bool destroy_ctx,
+		    unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
