@@ -11,6 +11,7 @@
 #include "gnuradio/iio/fmcomms2_sink.h"
 #include "gnuradio/iio/fmcomms5_source.h"
 #include "gnuradio/iio/fmcomms5_sink.h"
+#include "gnuradio/iio/math.h"
 %}
 
 %include "gnuradio/iio/device_source.h"
@@ -19,6 +20,7 @@
 %include "gnuradio/iio/fmcomms2_sink.h"
 %include "gnuradio/iio/fmcomms5_source.h"
 %include "gnuradio/iio/fmcomms5_sink.h"
+%include "gnuradio/iio/math.h"
 
 GR_SWIG_BLOCK_MAGIC2(iio, device_source);
 GR_SWIG_BLOCK_MAGIC2(iio, device_sink);
@@ -26,3 +28,4 @@ GR_SWIG_BLOCK_MAGIC2(iio, fmcomms2_source);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms2_sink);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_source);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_sink);
+GR_SWIG_BLOCK_MAGIC2(iio, iio_math);

@@ -25,6 +25,14 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS} ${IIO_LIBRARY_DIRS})
 
+include(FindFLEX REQUIRED)
+include(FindBISON REQUIRED)
+
+flex_target(lexer
+	${CMAKE_CURRENT_SOURCE_DIR}/iio_math_lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.c)
+bison_target(parser
+	${CMAKE_CURRENT_SOURCE_DIR}/iio_math_parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
+
 list(APPEND iio_sources
     device_source_impl.cc
     device_sink_impl.cc
@@ -33,6 +41,9 @@ list(APPEND iio_sources
 	fmcomms5_source_impl.cc
 	fmcomms5_sink_impl.cc
 	converter_ss_impl.cc
+	iio_math_impl.cc
+	${FLEX_lexer_OUTPUTS}
+	${BISON_parser_OUTPUTS}
 )
 
 set(iio_sources "${iio_sources}" PARENT_SCOPE)
