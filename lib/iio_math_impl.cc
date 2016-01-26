@@ -69,6 +69,7 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 
 iio_math_impl::~iio_math_impl()
 {
+	disconnect_all();
 }
 
 /* C functions */
@@ -187,4 +188,10 @@ void connect_to_output(void *pdata, void *_block)
 	} else {
 		m->connect(block->sptr, 0, hier, 0);
 	}
+}
+
+void delete_block(void *pdata, void *_block)
+{
+	struct iio_math_impl::block *block = (struct iio_math_impl::block *) _block;
+	delete block;
 }

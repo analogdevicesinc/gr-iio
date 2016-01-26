@@ -49,6 +49,7 @@ void * func_block(void *pdata, void *input, const char *name);
 void * neg_block(void *pdata, void *input);
 
 void connect_to_output(void *pdata, void *input);
+void delete_block(void *pdata, void *block);
 }
 
 /* Bison declarations.  */
@@ -76,6 +77,7 @@ void connect_to_output(void *pdata, void *input);
 %type<block> Term;
 
 %destructor { free($$); } <fname>
+%destructor { delete_block(yyget_extra(scanner), $$); } <block>
 
 %%
 
