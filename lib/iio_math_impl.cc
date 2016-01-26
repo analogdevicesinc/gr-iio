@@ -52,15 +52,19 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 {
 	yyscan_t scanner;
 	void *ptr;
+	int ret;
 
 	yylex_init_extra(this, &scanner);
 
 	std::cout << "Function: " << function << std::endl;
 	ptr = yy_scan_string(function.c_str(), scanner);
 
-	yyparse(scanner);
+	ret = yyparse(scanner);
 
 	yy_delete_buffer(ptr, scanner);
+
+	if (ret)
+		throw std::runtime_error("Invalid function");
 }
 
 iio_math_impl::~iio_math_impl()
