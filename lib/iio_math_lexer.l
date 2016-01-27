@@ -21,6 +21,7 @@
 
 #include "parser.h"
 
+#include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 %}
@@ -31,6 +32,16 @@
 
 x {
 	return INPUT;
+}
+
+e {
+	yylval->val = M_E;
+	return VALUE;
+}
+
+pi {
+	yylval->val = M_PI;
+	return VALUE;
 }
 
 [0-9]+([,.][0-9]+)? {
