@@ -1,11 +1,11 @@
 prefix=@CMAKE_INSTALL_PREFIX@
-exec_prefix=@CMAKE_INSTALL_PREFIX@
-libdir=@CMAKE_INSTALL_PREFIX@/@GR_LIBRARY_DIR@
-includedir=@CMAKE_INSTALL_PREFIX@/@GR_INCLUDE_DIR@/iio
+exec_prefix=${prefix}
+libdir=${exec_prefix}/@GR_LIBRARY_DIR@
+includedir=${prefix}/@GR_INCLUDE_DIR@
 
 Name: gnuradio-iio
 Description: GNU Radio blocks for the IIO devices
-Requires: gnuradio-runtime
+Requires: gnuradio-runtime gnuradio-analog gnuradio-blocks
 Version: @GR_IIO_VERSION@
-Libs: -L${libdir} -lgnuradio-iio
+Libs: -L${libdir} -lgnuradio-iio -lgnuradio-analog -lgnuradio-blocks
 Cflags: -I${includedir}
