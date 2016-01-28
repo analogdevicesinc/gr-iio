@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <block>
-	<name>Math</name>
+	<name>Function</name>
 	<key>math</key>
-	<category>Industrial IO</category>
+	<category>Math Operators</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.iio_math($function)</make>
 
 	<param>
-		<name>Function</name>
+		<name>y =</name>
 		<key>function</key>
 		<value></value>
 		<type>string</type>
