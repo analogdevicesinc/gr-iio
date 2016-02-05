@@ -1,3 +1,0 @@
-usr/lib/python*
-usr/share/gnuradio/grc/blocks/*
-usr/lib/*/libgnuradio-iio.so.0*

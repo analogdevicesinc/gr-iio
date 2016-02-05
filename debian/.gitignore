@@ -1,7 +1,0 @@
-files
-*.debhelper
-*.debhelper.log
-*.substvars
-gr-iio
-gr-iio-dev
-tmp
