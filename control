@@ -5,8 +5,8 @@ Maintainer: Paul Cercueil <paul.cercueil@analog.com>
 Uploaders: Paul Cercueil <paul.cercueil@analog.com>
 Build-Depends: cmake (>= 2.6), debhelper (>= 9), libiio-dev (>= 0.5), gnuradio-dev, swig2.0
 Standards-Version: 3.9.4
-Homepage: http://github.com/analogdevicesinc/gnuradio
-Vcs-Git: git://github.com/analogdevicesinc/gnuradio
+Homepage: http://github.com/analogdevicesinc/gr-iio
+Vcs-Git: https://github.com/analogdevicesinc/gr-iio
 
 Package: gr-iio
 Architecture: any
