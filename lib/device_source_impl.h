@@ -37,6 +37,8 @@ namespace gr {
 	     void channel_read(const struct iio_channel *chn,
 			     void *dst, size_t len);
 
+	     unsigned long refills;
+
      protected:
 	     struct iio_context *ctx;
 	     struct iio_device *dev, *phy;

@@ -143,6 +143,7 @@ namespace gr {
 	    buffer_size = _buffer_size;
 	    decimation = _decimation;
 	    destroy_ctx = _destroy_ctx;
+	    refills = 0;
 
 	    /* Set minimum output size */
 	    set_output_multiple(buffer_size / (decimation + 1));
@@ -232,9 +233,18 @@ namespace gr {
 	if (ret < 0)
 		return ret;
 
-	for (unsigned int i = 0; i < output_items.size(); i++)
+	tag_t tag;
+	tag.value = pmt::from_long(refills * buffer_size);
+	tag.offset = refills++ * buffer_size;
+	tag.key = pmt::intern("buffer_start");
+	tag.srcid = alias_pmt();
+
+	for (unsigned int i = 0; i < output_items.size(); i++) {
 		channel_read(channel_list[i], output_items[i],
 				noutput_items * sizeof(short));
+		add_item_tag(i, tag);
+	}
+
 	return noutput_items;
     }
 
