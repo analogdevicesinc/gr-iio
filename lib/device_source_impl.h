@@ -68,6 +68,8 @@ namespace gr {
 	       gr_vector_const_void_star &input_items,
 	       gr_vector_void_star &output_items);
 
+      bool start();
+
       static struct iio_context * get_context(const std::string &host);
     };
 

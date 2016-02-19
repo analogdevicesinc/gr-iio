@@ -248,5 +248,10 @@ namespace gr {
 	return noutput_items;
     }
 
+    bool device_source_impl::start()
+    {
+	refills = 0;
+    }
+
   } /* namespace iio */
 } /* namespace gr */
