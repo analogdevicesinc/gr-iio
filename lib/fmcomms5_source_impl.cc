@@ -122,18 +122,18 @@ namespace gr {
 		    const char *port_select)
       : gr::sync_block("fmcomms5_source",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, -1, sizeof(short)))
-      , device_source_impl(ctx, destroy_ctx, "cf-ad9361-A",
+              gr::io_signature::make(1, -1, sizeof(short))),
+        device_source_impl(ctx, destroy_ctx, "cf-ad9361-A",
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en,
 			      ch5_en, ch6_en, ch7_en, ch8_en),
 		      "ad9361-phy", std::vector<std::string>(),
-		      buffer_size, decimation)
+		      buffer_size, decimation),
+        samplerate(0)
     {
 	    phy2 = iio_context_find_device(ctx, "ad9361-phy-B");
 	    if (!phy2)
 		    throw std::runtime_error("Device not found");
 
-	    this->samplerate = 0;
 	    set_params(frequency1, frequency2,
 			    samplerate, bandwidth, quadrature, rfdc, bbdc,
 			    gain1, gain1_value, gain2, gain2_value,

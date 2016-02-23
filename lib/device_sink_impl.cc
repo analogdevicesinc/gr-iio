@@ -69,23 +69,22 @@ namespace gr {
      * The private constructor
      */
     device_sink_impl::device_sink_impl(struct iio_context *ctx,
-		    bool _destroy_ctx, const std::string &device,
+		    bool destroy_ctx, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
-		    unsigned int _buffer_size, unsigned int _interpolation,
+		    unsigned int buffer_size, unsigned int interpolation,
 		    bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(short)),
               gr::io_signature::make(0, 0, 0)),
         ctx(ctx)
+        interpolation(interpolation),
+        buffer_size(buffer_size),
+        destroy_ctx(destroy_ctx)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;
-
-	    interpolation = _interpolation;
-	    buffer_size = _buffer_size;
-	    destroy_ctx = _destroy_ctx;
 
 	    /* Set minimum input size */
 	    set_output_multiple(buffer_size / (interpolation + 1));

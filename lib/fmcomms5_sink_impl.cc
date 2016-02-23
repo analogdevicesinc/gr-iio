@@ -116,14 +116,14 @@ namespace gr {
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en,
 				    ch5_en, ch6_en, ch7_en, ch8_en),
 			    "ad9361-phy", std::vector<std::string>(),
-			    buffer_size, interpolation, cyclic)
+			    buffer_size, interpolation, cyclic),
+          cyclic(cyclic),
+          samplerate(0)
     {
 	    phy2 = iio_context_find_device(ctx, "ad9361-phy-B");
 	    if (!phy2)
 		    throw std::runtime_error("Device not found");
 
-	    this->cyclic = cyclic;
-	    this->samplerate = 0;
 	    set_params(frequency1, frequency2, samplerate, bandwidth,
 			    rf_port_select, attenuation1, attenuation2,
 			    attenuation3, attenuation4);

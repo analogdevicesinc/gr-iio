@@ -128,23 +128,22 @@ namespace gr {
      * The private constructor
      */
     device_source_impl::device_source_impl(struct iio_context *ctx,
-		    bool _destroy_ctx, const std::string &device,
+		    bool destroy_ctx, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
-		    unsigned int _buffer_size, unsigned int _decimation)
+		    unsigned int buffer_size, unsigned int decimation)
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short))),
-        ctx(ctx)
+        ctx(ctx),
+        buffer_size(buffer_size),
+        decimation(decimation),
+        destroy_ctx(destroy_ctx),
+        refills(0)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;
-
-	    buffer_size = _buffer_size;
-	    decimation = _decimation;
-	    destroy_ctx = _destroy_ctx;
-	    refills = 0;
 
 	    /* Set minimum output size */
 	    set_output_multiple(buffer_size / (decimation + 1));
