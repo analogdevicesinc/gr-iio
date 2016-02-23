@@ -26,6 +26,7 @@
 #include <vector>
 
 #include <iio.h>
+#include <boost/thread.hpp>
 #include <gnuradio/iio/device_source.h>
 
 namespace gr {
@@ -37,7 +38,8 @@ namespace gr {
 	     void channel_read(const struct iio_channel *chn,
 			     void *dst, size_t len);
 
-	     unsigned long refills;
+	     boost::mutex iio_mutex;
+	     unsigned long sample_counter;
 
      protected:
 	     struct iio_context *ctx;
@@ -62,6 +64,7 @@ namespace gr {
 		      const std::vector<std::string> &params);
 
       void set_params(const std::vector<std::string> &params);
+      void set_buffer_size(unsigned int buffer_size);
 
       // Where all the action really happens
       int work(int noutput_items,

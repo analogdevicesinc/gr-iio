@@ -66,6 +66,8 @@ namespace gr {
 		      const std::vector<std::string> &params,
 		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
 		      unsigned int decimation = 0);
+
+      virtual void set_buffer_size(unsigned int buffer_size) = 0;
     };
 
   } // namespace iio

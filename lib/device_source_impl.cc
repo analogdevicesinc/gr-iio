@@ -105,6 +105,23 @@ namespace gr {
 	    set_params(this->phy, params);
     }
 
+    void device_source_impl::set_buffer_size(unsigned int _buffer_size)
+    {
+	    iio_mutex.lock();
+
+	    iio_buffer_destroy(buf);
+
+	    buf = iio_device_create_buffer(dev, _buffer_size, false);
+	    if (!buf) {
+		    iio_mutex.unlock();
+		    throw std::runtime_error("Unable to create buffer");
+	    }
+
+	    this->buffer_size = _buffer_size;
+
+	    iio_mutex.unlock();
+    }
+
     struct iio_context * device_source_impl::get_context(
 		    const std::string &host)
     {
@@ -144,10 +161,6 @@ namespace gr {
 	    buffer_size = _buffer_size;
 	    decimation = _decimation;
 	    destroy_ctx = _destroy_ctx;
-	    refills = 0;
-
-	    /* Set minimum output size */
-	    set_output_multiple(buffer_size / (decimation + 1));
 
 	    if (!ctx)
 		    throw std::runtime_error("Unable to create context");
@@ -193,6 +206,7 @@ namespace gr {
 	    }
 
 	    set_params(params);
+	    set_output_multiple(0x400);
 
 	    buf = iio_device_create_buffer(dev, buffer_size, false);
 	    if (!buf)
@@ -230,13 +244,17 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
+	iio_mutex.lock();
+
 	int ret = iio_buffer_refill(buf);
-	if (ret < 0)
+	if (ret < 0) {
+		iio_mutex.unlock();
 		return ret;
+	}
 
 	tag_t tag;
-	tag.value = pmt::from_long(refills * buffer_size);
-	tag.offset = refills++ * buffer_size;
+	tag.value = pmt::from_long(sample_counter);
+	tag.offset = sample_counter;
 	tag.key = pmt::intern("buffer_start");
 	tag.srcid = alias_pmt();
 
@@ -246,12 +264,14 @@ namespace gr {
 		add_item_tag(i, tag);
 	}
 
+	sample_counter += noutput_items;
+	iio_mutex.unlock();
 	return noutput_items;
     }
 
     bool device_source_impl::start()
     {
-	refills = 0;
+	sample_counter = 0;
     }
 
   } /* namespace iio */
