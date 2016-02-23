@@ -193,9 +193,6 @@ namespace gr {
 
 	    set_params(params);
 
-	    buf = iio_device_create_buffer(dev, buffer_size, false);
-	    if (!buf)
-		    throw std::runtime_error("Unable to create buffer");
     }
 
     /*
@@ -203,7 +200,6 @@ namespace gr {
      */
     device_source_impl::~device_source_impl()
     {
-	    iio_buffer_destroy(buf);
 	    if (destroy_ctx)
 		    iio_context_destroy(ctx);
     }
@@ -248,9 +244,27 @@ namespace gr {
 	return noutput_items;
     }
 
-    bool device_source_impl::start()
+    bool
+	device_source_impl::start()
     {
-	refills = 0;
+		buf = iio_device_create_buffer(dev, buffer_size, false);
+	    if (!buf)
+		    throw std::runtime_error("Unable to create buffer");
+		refills = 0;
+		return true;
+    }
+
+    bool
+	device_source_impl::stop()
+    {
+		printf("%s:%s[%d]\n", __FILE__, __func__, __LINE__);
+
+		if (buf) {
+			iio_buffer_destroy(buf);
+			buf = NULL;
+		}
+
+		return true;
     }
 
   } /* namespace iio */

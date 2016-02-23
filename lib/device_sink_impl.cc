@@ -77,7 +77,8 @@ namespace gr {
 		    bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(short)),
-              gr::io_signature::make(0, 0, 0))
+              gr::io_signature::make(0, 0, 0)),
+        cyclic(cyclic)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;
@@ -136,10 +137,6 @@ namespace gr {
 	    }
 
 	    set_params(params);
-
-	    buf = iio_device_create_buffer(dev, buffer_size, cyclic);
-	    if (!buf)
-		    throw std::runtime_error("Unable to create buffer");
     }
 
     /*
@@ -147,7 +144,6 @@ namespace gr {
      */
     device_sink_impl::~device_sink_impl()
     {
-	    iio_buffer_destroy(buf);
 	    if (destroy_ctx)
 		    iio_context_destroy(ctx);
     }
@@ -200,6 +196,27 @@ namespace gr {
 	    for (unsigned int i = 0; i < ninput_items_required.size(); i++)
 		    ninput_items_required[i] = noutput_items;
     }
+
+	bool
+	device_sink_impl::start()
+	{
+	    buf = iio_device_create_buffer(dev, buffer_size, cyclic);
+	    if (!buf)
+		    throw std::runtime_error("Unable to create buffer");
+
+		return true;
+	}
+
+	bool
+	device_sink_impl::stop()
+	{
+		if (buf) {
+			iio_buffer_destroy(buf);
+			buf = NULL;
+		}
+
+		return true;
+	}
 
   } /* namespace iio */
 } /* namespace gr */
