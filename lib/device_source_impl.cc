@@ -135,7 +135,8 @@ namespace gr {
 		    unsigned int _buffer_size, unsigned int _decimation)
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, -1, sizeof(short)))
+              gr::io_signature::make(1, -1, sizeof(short))),
+        ctx(ctx)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;

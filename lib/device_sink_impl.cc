@@ -77,7 +77,8 @@ namespace gr {
 		    bool cyclic)
       : gr::sync_block("device_sink",
               gr::io_signature::make(1, -1, sizeof(short)),
-              gr::io_signature::make(0, 0, 0))
+              gr::io_signature::make(0, 0, 0)),
+        ctx(ctx)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;
