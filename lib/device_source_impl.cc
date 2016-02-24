@@ -231,7 +231,7 @@ namespace gr {
 	uintptr_t buf_end = (uintptr_t) iio_buffer_end(buf);
 	ptrdiff_t buf_step = iio_buffer_step(buf) * (decimation + 1);
 
-	for (src_ptr = (uintptr_t) iio_buffer_first(buf, chn);
+	for (src_ptr = (uintptr_t) iio_buffer_first(buf, chn) + byte_offset;
 			src_ptr < buf_end && dst_ptr + length <= end;
 			src_ptr += buf_step, dst_ptr += length)
 		iio_channel_convert(chn,
@@ -245,32 +245,47 @@ namespace gr {
     {
 	iio_mutex.lock();
 
-	int ret = iio_buffer_refill(buf);
-	if (ret < 0) {
-		iio_mutex.unlock();
-		return ret;
+	if (!items_in_buffer) {
+		int ret = iio_buffer_refill(buf);
+		if (ret < 0) {
+			iio_mutex.unlock();
+			return ret;
+		}
+
+		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
+		byte_offset = 0;
 	}
 
-	tag_t tag;
-	tag.value = pmt::from_long(sample_counter);
-	tag.offset = sample_counter;
-	tag.key = pmt::intern("buffer_start");
-	tag.srcid = alias_pmt();
+	unsigned long items = std::min(items_in_buffer,
+			(unsigned long) noutput_items);
 
 	for (unsigned int i = 0; i < output_items.size(); i++) {
 		channel_read(channel_list[i], output_items[i],
-				noutput_items * sizeof(short));
-		add_item_tag(i, tag);
+				items * sizeof(short));
+
+		if (!byte_offset) {
+			tag_t tag;
+			tag.value = pmt::from_long(sample_counter);
+			tag.offset = sample_counter;
+			tag.key = pmt::intern("buffer_start");
+			tag.srcid = alias_pmt();
+
+			add_item_tag(i, tag);
+		}
 	}
 
-	sample_counter += noutput_items;
+	sample_counter += items;
+	items_in_buffer -= items;
+	byte_offset += items * iio_buffer_step(buf);
+
 	iio_mutex.unlock();
-	return noutput_items;
+	return (int) items;
     }
 
     bool device_source_impl::start()
     {
 	sample_counter = 0;
+	items_in_buffer = 0;
 	return true;
     }
 

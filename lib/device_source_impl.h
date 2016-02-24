@@ -39,6 +39,8 @@ namespace gr {
 			     void *dst, size_t len);
 
 	     boost::mutex iio_mutex;
+	     unsigned long items_in_buffer;
+	     off_t byte_offset;
 	     unsigned long sample_counter;
 
      protected:
