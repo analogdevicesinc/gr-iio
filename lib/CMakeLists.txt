@@ -22,8 +22,8 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS} ${IIO_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS} ${AD9361_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 include(FindFLEX REQUIRED)
 include(FindBISON REQUIRED)

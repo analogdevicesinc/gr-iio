@@ -102,8 +102,10 @@ if(NOT CPPUNIT_FOUND)
     message(FATAL_ERROR "CppUnit required to compile iio")
 endif()
 
-pkg_check_modules(IIO REQUIRED libiio)
-pkg_check_modules(AD9361 REQUIRED libad9361)
+find_library(IIO_LIBRARIES iio)
+find_path(IIO_INCLUDE_DIRS iio.h)
+find_library(AD9361_LIBRARIES ad9361)
+find_path(AD9361_INCLUDE_DIRS ad9361.h)
 
 ########################################################################
 # Setup doxygen option
@@ -131,7 +133,6 @@ link_directories(
     ${Boost_LIBRARY_DIRS}
     ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
-    ${IIO_LIBRARY_DIRS}
 )
 
 # Set component parameters
