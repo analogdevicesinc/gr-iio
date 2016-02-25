@@ -31,7 +31,7 @@
 %%
 
 x {
-	return INPUT;
+	return IN_PORT;
 }
 
 e {

@@ -71,7 +71,7 @@ void delete_block(void *pdata, void *block);
 
 %token<val> VALUE;
 %token<fname> FNAME;
-%token INPUT;
+%token IN_PORT;
 %type<block> Element;
 %type<block> Factor;
 %type<block> Term;
@@ -82,7 +82,7 @@ void delete_block(void *pdata, void *block);
 %%
 
 Element:
-	INPUT {
+	IN_PORT {
 		$$ = src_block(yyget_extra(scanner));
 	}
 	| VALUE[t] {
