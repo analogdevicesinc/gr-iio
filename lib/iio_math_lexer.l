@@ -24,10 +24,9 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
-#include <unistd.h>
 %}
 
-%option noyywrap reentrant bison-bridge nounistd
+%option noyywrap reentrant bison-bridge nounistd always-interactive
 
 %%
 
