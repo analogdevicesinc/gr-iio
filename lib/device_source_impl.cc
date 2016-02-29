@@ -251,6 +251,7 @@ namespace gr {
     bool device_source_impl::start()
     {
 	refills = 0;
+	return true;
     }
 
   } /* namespace iio */
