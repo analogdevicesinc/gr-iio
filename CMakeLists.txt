@@ -88,7 +88,6 @@ set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 ########################################################################
 # Find gnuradio build dependencies
 ########################################################################
-find_package(CppUnit)
 find_package(Doxygen)
 
 # Search for GNU Radio and its components and versions. Add any
@@ -97,10 +96,6 @@ find_package(Doxygen)
 # API compatible version required.
 set(GR_REQUIRED_COMPONENTS RUNTIME ANALOG BLOCKS PMT)
 find_package(Gnuradio REQUIRED)
-
-if(NOT CPPUNIT_FOUND)
-    message(FATAL_ERROR "CppUnit required to compile iio")
-endif()
 
 find_library(IIO_LIBRARIES iio)
 find_path(IIO_INCLUDE_DIRS iio.h)
@@ -125,13 +120,11 @@ include_directories(
     ${CMAKE_BINARY_DIR}/lib
     ${CMAKE_BINARY_DIR}/include
     ${Boost_INCLUDE_DIRS}
-    ${CPPUNIT_INCLUDE_DIRS}
     ${GNURADIO_ALL_INCLUDE_DIRS}
 )
 
 link_directories(
     ${Boost_LIBRARY_DIRS}
-    ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
 )
 
