@@ -45,6 +45,7 @@ void * add_block(void *pdata, void *left, void *right);
 void * sub_block(void *pdata, void *left, void *right);
 void * mult_block(void *pdata, void *left, void *right);
 void * div_block(void *pdata, void *left, void *right);
+void * pow_block(void *pdata, void *left, void *right);
 void * func_block(void *pdata, void *input, const char *name);
 void * neg_block(void *pdata, void *input);
 
@@ -56,10 +57,6 @@ void delete_block(void *pdata, void *block);
 %define api.pure
 %lex-param { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
-
-%left '-' '+' '*' '/' '%'
-%precedence PREFIX
-%right '^'
 
 %start Line
 
@@ -75,6 +72,11 @@ void delete_block(void *pdata, void *block);
 %type<block> Element;
 %type<block> Factor;
 %type<block> Term;
+%token POWER;
+
+%left '-' '+' '*' '/' '%'
+%precedence PREFIX
+%right POWER
 
 %destructor { free($$); } <fname>
 %destructor { delete_block(yyget_extra(scanner), $$); } <block>
@@ -110,8 +112,8 @@ Factor:
 	| Factor[f1] '/' Factor[f2] {
 		$$ = div_block(yyget_extra(scanner), $f1, $f2);
 	}
-	| Factor '^' Factor {
-		/* TODO(pcercuei): Implement power */
+	| Factor[f1] POWER Factor[f2] {
+		$$ = pow_block(yyget_extra(scanner), $f1, $f2);
 	}
 	| Factor '%' Factor {
 		/* TODO(pcercuei): Implement modulo */

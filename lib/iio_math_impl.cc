@@ -36,6 +36,7 @@
 #include <gnuradio/blocks/multiply_ff.h>
 #include <gnuradio/blocks/sub_ff.h>
 #include <gnuradio/blocks/transcendental.h>
+#include <gnuradio/iio/power_ff.h>
 #include <gnuradio/io_signature.h>
 
 using namespace gr;
@@ -153,6 +154,20 @@ void * div_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = blocks::divide_ff::make();
+
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
+	return block;
+}
+
+void * pow_block(void *pdata, void *_left, void *_right)
+{
+	struct iio_math_impl::block *block = new iio_math_impl::block;
+	iio_math_impl *m = (iio_math_impl *) pdata;
+	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
+	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
+
+	block->sptr = iio::power_ff::make();
 
 	m->connect(left->sptr, 0, block->sptr, 0);
 	m->connect(right->sptr, 0, block->sptr, 1);

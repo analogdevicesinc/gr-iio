@@ -44,6 +44,10 @@ pi {
 	return VALUE;
 }
 
+(\*\*)|^ {
+	return POWER;
+}
+
 [0-9]+([,.][0-9]+)? {
 	yylval->val = atof(yytext);
 	return VALUE;
