@@ -42,6 +42,7 @@ list(APPEND iio_sources
 	fmcomms5_sink_impl.cc
 	converter_ss_impl.cc
 	iio_math_impl.cc
+	iio_power_ff_impl.cc
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
 )

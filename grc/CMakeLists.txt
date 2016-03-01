@@ -21,6 +21,6 @@ install(FILES
     iio_device_source.xml iio_device_sink.xml
 	iio_fmcomms2_source.xml iio_fmcomms2_sink.xml
 	iio_fmcomms5_source.xml iio_fmcomms5_sink.xml
-	iio_math.xml
+	iio_math.xml iio_power_ff.xml
 	DESTINATION share/gnuradio/grc/blocks
 )
