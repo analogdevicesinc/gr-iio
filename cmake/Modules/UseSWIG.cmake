@@ -221,14 +221,10 @@ print(re.sub('\\W', '_', '${name} ${reldir} ' + unique))"
 
   set(${outfiles} "${swig_generated_file_fullname}" ${swig_extra_generated_files})
 
-  if (MSVC)
-	set(swig_gen_command "rundll32")
-  endif(MSVC)
-  
   foreach(swig_gen_file ${${outfiles}})
     add_custom_command(
       OUTPUT ${swig_gen_file}
-      COMMAND "${swig_gen_command}"
+      COMMAND ""
       DEPENDS ${_target}
       COMMENT ""
     )
