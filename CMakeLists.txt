@@ -28,6 +28,11 @@ set(GR_IIO_VERSION_MAJOR 0)
 set(GR_IIO_VERSION_MINOR 1)
 set(GR_IIO_VERSION ${GR_IIO_VERSION_MAJOR}.${GR_IIO_VERSION_MINOR})
 
+if (MSVC)
+	# http://www.suodenjoki.dk/us/archive/2010/min-max.htm
+	add_definitions(-DNOMINMAX)
+endif (MSVC)
+
 #select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
