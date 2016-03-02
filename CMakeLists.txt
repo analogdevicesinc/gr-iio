@@ -94,7 +94,7 @@ find_package(Doxygen)
 # components required to the list of GR_REQUIRED_COMPONENTS (in all
 # caps such as FILTER or FFT) and change the version to the minimum
 # API compatible version required.
-set(GR_REQUIRED_COMPONENTS RUNTIME ANALOG BLOCKS PMT)
+set(GR_REQUIRED_COMPONENTS RUNTIME ANALOG BLOCKS PMT VOLK)
 find_package(Gnuradio REQUIRED)
 
 find_library(IIO_LIBRARIES iio)
