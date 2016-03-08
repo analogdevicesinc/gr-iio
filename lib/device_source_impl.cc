@@ -265,7 +265,7 @@ namespace gr {
 
 		if (!byte_offset) {
 			tag_t tag;
-			tag.value = pmt::from_long(sample_counter);
+			tag.value = pmt::from_long(items_in_buffer);
 			tag.offset = sample_counter;
 			tag.key = pmt::intern("buffer_start");
 			tag.srcid = alias_pmt();
