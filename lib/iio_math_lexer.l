@@ -28,7 +28,42 @@
 
 %option noyywrap reentrant bison-bridge nounistd always-interactive
 
+%s WANT_IN_PORT
+%s WANT_MULT
+%s WANT_TWO_PI
+%s WANT_END
+
 %%
+
+<INITIAL>w {
+	yyless(0);
+	BEGIN(WANT_IN_PORT);
+	return '(';
+}
+
+<WANT_IN_PORT>w {
+	yyless(0);
+	BEGIN(WANT_MULT);
+	return IN_PORT;
+}
+
+<WANT_MULT>w {
+	yyless(0);
+	BEGIN(WANT_TWO_PI);
+	return '*';
+}
+
+<WANT_TWO_PI>w {
+	yyless(0);
+	yylval->val = 2.0 * M_PI;
+	BEGIN(WANT_END);
+	return VALUE;
+}
+
+<WANT_END>w {
+	BEGIN(0);
+	return ')';
+}
 
 x {
 	return IN_PORT;
