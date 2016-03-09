@@ -62,7 +62,6 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 
 	yylex_init_extra(this, &scanner);
 
-	std::cout << "Function: " << function << std::endl;
 	ptr = yy_scan_string(function.c_str(), scanner);
 
 	ret = yyparse(scanner);
