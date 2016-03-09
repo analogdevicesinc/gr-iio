@@ -26,7 +26,6 @@
 #include "iio_math_impl.h"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/weak_ptr.hpp>
 
 #include <gnuradio/analog/sig_source_f.h>
 #include <gnuradio/analog/sig_source_waveform.h>
@@ -45,7 +44,7 @@ using namespace gr;
 using namespace gr::iio;
 
 struct iio_math_impl::block {
-	boost::weak_ptr<gr::basic_block> sptr;
+	gr::basic_block_sptr sptr;
 };
 
 iio_math::sptr iio_math::make(const std::string &function)
@@ -72,15 +71,18 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 
 	if (ret)
 		throw std::runtime_error("Invalid function");
+
+	/* All blocks have been registered; we can delete the block list now */
+	for (std::vector<struct block *>::iterator it = blocks.begin();
+			it != blocks.end(); ++it)
+		delete *it;
+
+	blocks.clear();
 }
 
 iio_math_impl::~iio_math_impl()
 {
 	disconnect_all();
-
-	for (std::vector<struct block *>::iterator it = blocks.begin();
-			it != blocks.end(); ++it)
-		delete *it;
 }
 
 void iio_math_impl::register_block(struct block *block)
@@ -116,12 +118,10 @@ void * neg_block(void *pdata, void *_input)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *input = (struct iio_math_impl::block *) _input;
 	struct iio_math_impl::block *block = new iio_math_impl::block;
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::multiply_const_ff::make(-1.0f);
-	m->connect(input->sptr.lock(), 0, sptr, 0);
+	block->sptr = blocks::multiply_const_ff::make(-1.0f);
+	m->connect(input->sptr, 0, block->sptr, 0);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -132,13 +132,11 @@ void * add_block(void *pdata, void *_left, void *_right)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::add_ff::make();
-	m->connect(left->sptr.lock(), 0, sptr, 0);
-	m->connect(right->sptr.lock(), 0, sptr, 1);
+	block->sptr = blocks::add_ff::make();
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -149,13 +147,11 @@ void * sub_block(void *pdata, void *_left, void *_right)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::sub_ff::make();
-	m->connect(left->sptr.lock(), 0, sptr, 0);
-	m->connect(right->sptr.lock(), 0, sptr, 1);
+	block->sptr = blocks::sub_ff::make();
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -166,13 +162,11 @@ void * mult_block(void *pdata, void *_left, void *_right)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::multiply_ff::make();
-	m->connect(left->sptr.lock(), 0, sptr, 0);
-	m->connect(right->sptr.lock(), 0, sptr, 1);
+	block->sptr = blocks::multiply_ff::make();
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -183,13 +177,11 @@ void * div_block(void *pdata, void *_left, void *_right)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::divide_ff::make();
-	m->connect(left->sptr.lock(), 0, sptr, 0);
-	m->connect(right->sptr.lock(), 0, sptr, 1);
+	block->sptr = blocks::divide_ff::make();
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -200,13 +192,11 @@ void * pow_block(void *pdata, void *_left, void *_right)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
-	gr::basic_block_sptr sptr;
 
-	sptr = iio::power_ff::make();
-	m->connect(left->sptr.lock(), 0, sptr, 0);
-	m->connect(right->sptr.lock(), 0, sptr, 1);
+	block->sptr = iio::power_ff::make();
+	m->connect(left->sptr, 0, block->sptr, 0);
+	m->connect(right->sptr, 0, block->sptr, 1);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -217,12 +207,10 @@ void * func_block(void *pdata, void *_input, const char *name)
 	struct iio_math_impl::block *input = (struct iio_math_impl::block *) _input;
 	struct iio_math_impl::block *block = new iio_math_impl::block;
 	std::string fname(name);
-	gr::basic_block_sptr sptr;
 
-	sptr = blocks::transcendental::make(fname);
-	m->connect(input->sptr.lock(), 0, sptr, 0);
+	block->sptr = blocks::transcendental::make(fname);
+	m->connect(input->sptr, 0, block->sptr, 0);
 
-	block->sptr = sptr;
 	m->register_block(block);
 	return block;
 }
@@ -234,14 +222,14 @@ void connect_to_output(void *pdata, void *_block)
 
 	basic_block_sptr hier = m->shared_from_this();
 
-	if (hier == block->sptr.lock()) {
+	if (hier == block->sptr) {
 		blocks::copy::sptr copy = blocks::copy::make(sizeof(float));
 
 		/* Handle 'y = x' expression */
 		m->connect(hier, 0, copy, 0);
 		m->connect(copy, 0, hier, 0);
 	} else {
-		m->connect(block->sptr.lock(), 0, hier, 0);
+		m->connect(block->sptr, 0, hier, 0);
 	}
 }
 
