@@ -22,7 +22,8 @@
 #ifndef INCLUDED_GR_IIO_MATH_IMPL_H
 #define INCLUDED_GR_IIO_MATH_IMPL_H
 
-#include <gnuradio/basic_block.h>
+#include <vector>
+
 #include <gnuradio/iio/math.h>
 
 extern "C" {
@@ -41,9 +42,12 @@ namespace gr {
 			iio_math_impl(const std::string &function);
 			~iio_math_impl();
 
-			struct block {
-				gr::basic_block_sptr sptr;
-			};
+			struct block;
+
+			void register_block(struct block *block);
+
+		private:
+			std::vector<struct block *> blocks;
 		};
 	}
 }
