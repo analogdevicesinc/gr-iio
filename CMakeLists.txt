@@ -100,7 +100,7 @@ find_package(Doxygen)
 # caps such as FILTER or FFT) and change the version to the minimum
 # API compatible version required.
 set(GR_REQUIRED_COMPONENTS RUNTIME ANALOG BLOCKS PMT VOLK)
-find_package(Gnuradio REQUIRED)
+find_package(Gnuradio PATHS "c:/Program Files/gnuradio/lib/cmake/gnuradio" REQUIRED)
 
 find_library(IIO_LIBRARIES iio)
 find_path(IIO_INCLUDE_DIRS iio.h)
