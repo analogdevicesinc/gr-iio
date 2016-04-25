@@ -132,8 +132,6 @@ namespace gr {
 		    ctx = iio_create_default_context();
 		    if (!ctx)
 			    ctx = iio_create_network_context(NULL);
-	    } else if (sscanf(host.c_str(), "%04hx:%04hx", &vid, &pid) == 2) {
-		    ctx = iio_create_usb_context(vid, pid);
 	    } else {
 		    ctx = iio_create_network_context(host.c_str());
 	    }
