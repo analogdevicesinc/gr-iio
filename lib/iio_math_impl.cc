@@ -67,6 +67,7 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 	ret = yyparse(scanner);
 
 	yy_delete_buffer(ptr, scanner);
+	yylex_destroy(scanner);
 
 	if (ret)
 		throw std::runtime_error("Invalid function");
