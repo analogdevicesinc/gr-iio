@@ -187,7 +187,7 @@ namespace gr {
 
 	ret = iio_buffer_push(buf);
 	if (ret < 0)
-		return ret;
+		throw std::runtime_error("Unable to push buffer");
 
 	consume_each(buffer_size / (interpolation + 1));
 	return 0;

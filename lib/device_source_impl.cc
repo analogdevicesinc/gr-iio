@@ -247,7 +247,7 @@ namespace gr {
 		int ret = iio_buffer_refill(buf);
 		if (ret < 0) {
 			iio_mutex.unlock();
-			return ret;
+			throw std::runtime_error("Unable to refill buffer");
 		}
 
 		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
