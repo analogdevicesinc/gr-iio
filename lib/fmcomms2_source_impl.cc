@@ -32,7 +32,7 @@ namespace gr {
   namespace iio {
 
     fmcomms2_source::sptr
-    fmcomms2_source::make(const std::string &host, unsigned long long frequency,
+    fmcomms2_source::make(const std::string &uri, unsigned long long frequency,
 		    unsigned long samplerate, unsigned long decimation,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
@@ -42,7 +42,7 @@ namespace gr {
 		    const char *port_select)
     {
       return gnuradio::get_initial_sptr
-        (new fmcomms2_source_impl(device_source_impl::get_context(host), true,
+        (new fmcomms2_source_impl(device_source_impl::get_context(uri), true,
 				  frequency, samplerate, decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,

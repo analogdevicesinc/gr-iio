@@ -36,7 +36,7 @@ namespace gr {
      public:
       typedef boost::shared_ptr<fmcomms5_sink> sptr;
 
-      static sptr make(const std::string &host, unsigned long long frequency1,
+      static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long interpolation,
 		    unsigned long bandwidth,

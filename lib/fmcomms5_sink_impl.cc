@@ -35,7 +35,7 @@ namespace gr {
   namespace iio {
 
     fmcomms5_sink::sptr
-    fmcomms5_sink::make(const std::string &host, unsigned long long frequency1,
+    fmcomms5_sink::make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long interpolation,
 		    unsigned long bandwidth,
@@ -47,7 +47,7 @@ namespace gr {
 		    double attenuation3, double attenuation4)
     {
       return gnuradio::get_initial_sptr(
-	    new fmcomms5_sink_impl(device_source_impl::get_context(host), true,
+	    new fmcomms5_sink_impl(device_source_impl::get_context(uri), true,
 		    frequency1, frequency2, samplerate,
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    ch5_en, ch6_en, ch7_en, ch8_en,

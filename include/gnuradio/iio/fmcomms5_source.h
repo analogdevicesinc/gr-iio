@@ -49,7 +49,7 @@ namespace gr {
        * class. iio::device::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string &host, unsigned long long frequency1,
+      static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long decimation,
 		    unsigned long bandwidth,

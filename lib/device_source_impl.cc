@@ -34,14 +34,14 @@ namespace gr {
   namespace iio {
 
     device_source::sptr
-    device_source::make(const std::string &host, const std::string &device,
+    device_source::make(const std::string &uri, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
 		    unsigned int buffer_size, unsigned int decimation)
     {
       return gnuradio::get_initial_sptr
-        (new device_source_impl(device_source_impl::get_context(host), true,
+        (new device_source_impl(device_source_impl::get_context(uri), true,
 				device, channels, device_phy,
 				params, buffer_size, decimation));
     }
@@ -123,17 +123,22 @@ namespace gr {
     }
 
     struct iio_context * device_source_impl::get_context(
-		    const std::string &host)
+		    const std::string &uri)
     {
 	    struct iio_context *ctx;
 	    unsigned short vid, pid;
 
-	    if (host.empty()) {
+	    if (uri.empty()) {
 		    ctx = iio_create_default_context();
 		    if (!ctx)
 			    ctx = iio_create_network_context(NULL);
 	    } else {
-		    ctx = iio_create_network_context(host.c_str());
+		    ctx = iio_create_context_from_uri(uri.c_str());
+
+		    /* Stay compatible with old graphs, by accepting an
+		     * IP/hostname instead of an URI */
+		    if (!ctx)
+			    ctx = iio_create_network_context(uri.c_str());
 	    }
 
 	    return ctx;

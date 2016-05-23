@@ -33,7 +33,7 @@ namespace gr {
   namespace iio {
 
     device_sink::sptr
-    device_sink::make(const std::string &host, const std::string &device,
+    device_sink::make(const std::string &uri, const std::string &device,
 		    const std::vector<std::string> &channels,
 		    const std::string &device_phy,
 		    const std::vector<std::string> &params,
@@ -41,7 +41,7 @@ namespace gr {
 		    bool cyclic)
     {
       return gnuradio::get_initial_sptr
-        (new device_sink_impl(device_source_impl::get_context(host), true,
+        (new device_sink_impl(device_source_impl::get_context(uri), true,
 			      device, channels, device_phy, params,
 			      buffer_size, interpolation, cyclic));
     }
@@ -139,7 +139,7 @@ namespace gr {
 
 	    buf = iio_device_create_buffer(dev, buffer_size, cyclic);
 	    if (!buf)
-		    throw std::runtime_error("Unable to create buffer");
+		    throw std::runtime_error("Unable to create buffer: " + boost::to_string(-errno));
     }
 
     /*

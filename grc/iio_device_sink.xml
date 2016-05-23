@@ -5,12 +5,12 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.device_sink($host, $device, $channels, $device_phy, $params, $buffer_size, $interpolation - 1, $cyclic)</make>
+	<make>iio.device_sink($uri, $device, $channels, $device_phy, $params, $buffer_size, $interpolation - 1, $cyclic)</make>
 
 	<param>
-		<name>Hostname</name>
-		<key>host</key>
-		<value></value>
+		<name>IIO context URI</name>
+		<key>uri</key>
+		<value>local:</value>
 		<type>string</type>
 	</param>
 

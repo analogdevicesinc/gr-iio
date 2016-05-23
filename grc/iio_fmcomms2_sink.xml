@@ -5,13 +5,13 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($host, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
+	<make>iio.fmcomms2_sink($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
-		<name>Hostname</name>
-		<key>host</key>
-		<value></value>
+		<name>IIO context URI</name>
+		<key>uri</key>
+		<value>local:</value>
 		<type>string</type>
 	</param>
 

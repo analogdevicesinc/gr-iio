@@ -75,7 +75,7 @@ namespace gr {
 
       bool start();
 
-      static struct iio_context * get_context(const std::string &host);
+      static struct iio_context * get_context(const std::string &uri);
     };
 
   } // namespace iio

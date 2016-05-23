@@ -34,7 +34,7 @@ namespace gr {
   namespace iio {
 
     fmcomms5_source::sptr
-    fmcomms5_source::make(const std::string &host,
+    fmcomms5_source::make(const std::string &uri,
 		    unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
 		    unsigned long decimation, unsigned long bandwidth,
@@ -48,7 +48,7 @@ namespace gr {
 		    const char *port_select)
     {
       return gnuradio::get_initial_sptr
-        (new fmcomms5_source_impl(device_source_impl::get_context(host),
+        (new fmcomms5_source_impl(device_source_impl::get_context(uri),
 				  true, frequency1, frequency2,
 				  samplerate, decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en,
