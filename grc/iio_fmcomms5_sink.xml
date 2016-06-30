@@ -32,7 +32,7 @@
 	<param>
 		<name>Sample rate</name>
 		<key>samplerate</key>
-		<value>1536000</value>
+		<value>2084000</value>
 		<type>int</type>
 	</param>
 
@@ -184,6 +184,7 @@
 	<check>$interpolation > 0</check>
 
 	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en]) &gt; 0</check>
+	<check>$samplerate &gt;= 2084000</check>
 
 	<sink>
 		<name>in</name>
