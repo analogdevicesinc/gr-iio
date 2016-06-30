@@ -33,7 +33,7 @@ install:
     - 7z x libvolk-x64.zip > nul
 
     # Install GNU Radio
-    - appveyor DownloadFile https://ci.appveyor.com/api/projects/analogdevicesinc/gnuradio/artifacts/gnuradio-x64.zip
+    - appveyor DownloadFile https://ci.appveyor.com/api/projects/analogdevicesinc/gnuradio/artifacts/gnuradio-x64.zip?branch=maint-windows
     - 7z x gnuradio-x64.zip > nul
 
 build_script:
