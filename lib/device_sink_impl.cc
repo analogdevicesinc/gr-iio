@@ -186,8 +186,13 @@ namespace gr {
 				noutput_items * sizeof(short));
 
 	ret = iio_buffer_push(buf);
-	if (ret < 0)
-		throw std::runtime_error("Unable to push buffer");
+	if (ret < 0) {
+		char buf[256];
+		iio_strerror(-ret, buf, sizeof(buf));
+		std::string error(buf);
+
+		throw std::runtime_error("Unable to push buffer: " + error);
+	}
 
 	consume_each(buffer_size / (interpolation + 1));
 	return 0;
