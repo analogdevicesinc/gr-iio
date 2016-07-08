@@ -58,7 +58,8 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4);
+		    double attenuation3, double attenuation4,
+		    const char *filter);
 
       int work(int noutput_items,
 		    gr_vector_const_void_star &input_items,

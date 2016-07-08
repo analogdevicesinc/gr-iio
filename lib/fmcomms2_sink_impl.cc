@@ -38,14 +38,14 @@ namespace gr {
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
-		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(device_source_impl::get_context(uri), true,
 		    frequency, samplerate, interpolation, bandwidth, ch1_en,
 		    ch2_en, ch3_en, ch4_en, buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2));
+		    attenuation1, attenuation2, filter));
     }
 
     fmcomms2_sink::sptr
@@ -54,14 +54,14 @@ namespace gr {
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
-		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(ctx, false, frequency, samplerate,
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2));
+		    attenuation1, attenuation2, filter));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -85,8 +85,8 @@ namespace gr {
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
-		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0)),
@@ -98,6 +98,10 @@ namespace gr {
     {
 	    set_params(frequency, samplerate, bandwidth, rf_port_select,
 			    attenuation1, attenuation2);
+
+	    std::string f(filter);
+	    if (!f.empty() && !device_source_impl::load_fir_filter(f, phy))
+		    throw std::runtime_error("Unable to load filter file");
     }
 
     void fmcomms2_sink_impl::set_params(unsigned long long frequency,

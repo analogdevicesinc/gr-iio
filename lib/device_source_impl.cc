@@ -27,7 +27,7 @@
 #include "device_source_impl.h"
 
 #include <cstdio>
-#include <iostream>
+#include <fstream>
 #include <string>
 
 namespace gr {
@@ -290,6 +290,45 @@ namespace gr {
 	sample_counter = 0;
 	items_in_buffer = 0;
 	return true;
+    }
+
+    bool device_source_impl::load_fir_filter(
+		    std::string &filter, struct iio_device *phy)
+    {
+	if (filter.empty() || !iio_device_find_attr(phy, "filter_fir_config"))
+		return false;
+
+	std::ifstream ifs(filter.c_str(), std::ifstream::binary);
+	if (!ifs)
+		return false;
+
+	/* Here, we verify that the filter file contains data for both RX+TX. */
+	{
+		char buf[256];
+
+		do {
+			ifs.getline(buf, sizeof(buf));
+		} while (!(buf[0] == '-' || (buf[0] >= '0' && buf[0] <= '9')));
+
+		std::string line(buf);
+		if (line.find(',') == std::string::npos)
+			throw std::runtime_error("Incompatible filter file");
+	}
+
+	ifs.seekg(0, ifs.end);
+	int length = ifs.tellg();
+	ifs.seekg(0, ifs.beg);
+
+	char *buffer = new char [length];
+
+	ifs.read(buffer, length);
+	ifs.close();
+
+	int ret = iio_device_attr_write_raw(phy,
+			"filter_fir_config", buffer, length);
+
+	delete[] buffer;
+	return ret > 0;
     }
 
   } /* namespace iio */

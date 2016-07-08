@@ -5,7 +5,7 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms5_sink($uri, $frequency1, $frequency2, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $attenuation3, $attenuation4)</make>
+	<make>iio.fmcomms5_sink($uri, $frequency1, $frequency2, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $ch5_en, $ch6_en, $ch7_en, $ch8_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $attenuation3, $attenuation4, $filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
@@ -178,6 +178,13 @@
 		<key>attenuation4</key>
 		<value>10.0</value>
 		<type>real</type>
+	</param>
+
+	<param>
+		<name>Filter</name>
+		<key>filter</key>
+		<value></value>
+		<type>file_open</type>
 	</param>
 
 	<!-- Avoid divisions by zero -->

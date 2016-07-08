@@ -39,14 +39,14 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(device_source_impl::get_context(uri), true,
 				  frequency, samplerate, decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
-				  gain2, gain2_value, port_select));
+				  gain2, gain2_value, port_select, filter));
     }
 
     fmcomms2_source::sptr
@@ -57,14 +57,14 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(ctx, false, frequency, samplerate,
 				  decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
-				  gain2, gain2_value, port_select));
+				  gain2, gain2_value, port_select, filter));
     }
 
     std::vector<std::string> fmcomms2_source_impl::get_channels_vector(
@@ -90,7 +90,7 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
       : gr::sync_block("fmcomms2_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short)))
@@ -102,6 +102,10 @@ namespace gr {
 	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
 			    gain1, gain1_value, gain2, gain2_value,
 			    port_select);
+
+	    std::string filt(filter);
+	    if (!filt.empty() && !load_fir_filter(filt, phy))
+		    throw std::runtime_error("Unable to load filter file");
     }
 
     void fmcomms2_source_impl::set_params(unsigned long long frequency,

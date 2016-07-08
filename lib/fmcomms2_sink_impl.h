@@ -46,8 +46,8 @@ namespace gr {
 		    unsigned long interpolation, unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
-		    const char *rf_port_select,
-		    double attenuation1, double attenuation2);
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter);
 
       int work(int noutput_items,
 		    gr_vector_const_void_star &input_items,

@@ -45,7 +45,7 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *gain3, double gain3_value,
 		    const char *gain4, double gain4_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms5_source_impl(device_source_impl::get_context(uri),
@@ -56,7 +56,7 @@ namespace gr {
 				  buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
 				  gain2, gain2_value, gain3, gain3_value,
-				  gain4, gain4_value, port_select));
+				  gain4, gain4_value, port_select, filter));
     }
 
     fmcomms5_source::sptr
@@ -71,7 +71,7 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *gain3, double gain3_value,
 		    const char *gain4, double gain4_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms5_source_impl(ctx, false, frequency1, frequency2,
@@ -81,7 +81,7 @@ namespace gr {
 				  buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
 				  gain2, gain2_value, gain3, gain3_value,
-				  gain4, gain4_value, port_select));
+				  gain4, gain4_value, port_select, filter));
     }
 
     std::vector<std::string> fmcomms5_source_impl::get_channels_vector(
@@ -119,7 +119,7 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *gain3, double gain3_value,
 		    const char *gain4, double gain4_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter)
       : gr::sync_block("fmcomms5_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short))),
@@ -139,6 +139,11 @@ namespace gr {
 			    gain1, gain1_value, gain2, gain2_value,
 			    gain3, gain3_value, gain4, gain4_value,
 			    port_select);
+
+	    std::string filt(filter);
+	    if (!filt.empty() && !(load_fir_filter(filt, phy) &&
+				    load_fir_filter(filt, phy2)))
+		    throw std::runtime_error("Unable to load filter file");
     }
 
     void fmcomms5_source_impl::set_params(struct iio_device *phy_device,

@@ -44,7 +44,8 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4)
+		    double attenuation3, double attenuation4,
+		    const char *filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms5_sink_impl(device_source_impl::get_context(uri), true,
@@ -52,7 +53,8 @@ namespace gr {
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    ch5_en, ch6_en, ch7_en, ch8_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, attenuation3, attenuation4));
+		    attenuation1, attenuation2, attenuation3, attenuation4,
+		    filter));
     }
 
     fmcomms5_sink::sptr
@@ -65,14 +67,16 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4)
+		    double attenuation3, double attenuation4,
+		    const char *filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms5_sink_impl(ctx, false, frequency1, frequency2,
 		    samplerate, interpolation, bandwidth, ch1_en, ch2_en,
 		    ch3_en, ch4_en, ch5_en, ch6_en, ch7_en, ch8_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, attenuation3, attenuation4));
+		    attenuation1, attenuation2, attenuation3, attenuation4,
+		    filter));
     }
 
     std::vector<std::string> fmcomms5_sink_impl::get_channels_vector(
@@ -108,7 +112,8 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4)
+		    double attenuation3, double attenuation4,
+		    const char *filter)
 	    : gr::sync_block("fmcomms5_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0))
@@ -127,6 +132,11 @@ namespace gr {
 	    set_params(frequency1, frequency2, samplerate, bandwidth,
 			    rf_port_select, attenuation1, attenuation2,
 			    attenuation3, attenuation4);
+
+	    std::string filt(filter);
+	    if (!filt.empty() && !(device_source_impl::load_fir_filter(filt, phy) &&
+				    device_source_impl::load_fir_filter(filt, phy2)))
+		    throw std::runtime_error("Unable to load filter file");
     }
 
     void fmcomms5_sink_impl::set_params(struct iio_device *phy_device,

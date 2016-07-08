@@ -63,7 +63,7 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *gain3, double gain3_value,
 		    const char *gain4, double gain4_value,
-		    const char *rf_port_select);
+		    const char *rf_port_select, const char *filter);
 
       void set_params(unsigned long long frequency1,
 		      unsigned long long frequency2,

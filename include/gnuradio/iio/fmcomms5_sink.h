@@ -45,7 +45,8 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4);
+		    double attenuation3, double attenuation4,
+		    const char *filter = "");
 
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency1,
@@ -56,7 +57,8 @@ namespace gr {
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select,
 		    double attenuation1, double attenuation2,
-		    double attenuation3, double attenuation4);
+		    double attenuation3, double attenuation4,
+		    const char *filter = "");
 
       virtual void set_params(unsigned long long frequency1,
 		      unsigned long long frequency2,
