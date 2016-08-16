@@ -46,14 +46,31 @@ namespace gr {
 			struct block;
 
 			void register_block(struct block *block);
-			gr::basic_block_sptr get_src_block();
-			void connect_to_output(gr::basic_block_sptr block);
+			virtual gr::basic_block_sptr get_src_block();
+			virtual void connect_to_output(gr::basic_block_sptr block);
 
 		private:
 			std::vector<struct block *> blocks;
 
+		protected:
+			iio_math_impl() {}
+
 			int parse_function(const std::string &function);
 			void cleanup();
+		};
+
+		class iio_math_gen_impl : public iio_math_impl,
+					  public iio_math_gen
+		{
+		public:
+			iio_math_gen_impl(double sampling_freq, double wav_freq,
+					const std::string &function);
+
+			virtual gr::basic_block_sptr get_src_block();
+			virtual void connect_to_output(gr::basic_block_sptr block);
+
+		private:
+			gr::basic_block_sptr src_block;
 		};
 	}
 }
