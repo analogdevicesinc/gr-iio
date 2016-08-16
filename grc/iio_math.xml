@@ -7,7 +7,7 @@
 	<make>iio.iio_math($function)</make>
 
 	<param>
-		<name>y =</name>
+		<name>f(x) =</name>
 		<key>function</key>
 		<value></value>
 		<type>string</type>
