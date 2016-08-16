@@ -24,6 +24,7 @@
 
 #include <vector>
 
+#include <gnuradio/basic_block.h>
 #include <gnuradio/iio/math.h>
 
 extern "C" {
@@ -45,9 +46,14 @@ namespace gr {
 			struct block;
 
 			void register_block(struct block *block);
+			gr::basic_block_sptr get_src_block();
+			void connect_to_output(gr::basic_block_sptr block);
 
 		private:
 			std::vector<struct block *> blocks;
+
+			int parse_function(const std::string &function);
+			void cleanup();
 		};
 	}
 }

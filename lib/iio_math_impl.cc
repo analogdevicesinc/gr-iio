@@ -37,7 +37,6 @@
 #include <gnuradio/blocks/sub_ff.h>
 #include <gnuradio/blocks/transcendental.h>
 #include <gnuradio/iio/power_ff.h>
-#include <gnuradio/basic_block.h>
 #include <gnuradio/io_signature.h>
 
 using namespace gr;
@@ -56,6 +55,20 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 		io_signature::make(1, 1, sizeof(float)),
 		io_signature::make(1, 1, sizeof(float)))
 {
+	int ret = parse_function(function);
+	if (ret)
+		throw std::runtime_error("Invalid function");
+
+	cleanup();
+}
+
+iio_math_impl::~iio_math_impl()
+{
+	disconnect_all();
+}
+
+int iio_math_impl::parse_function(const std::string &function)
+{
 	yyscan_t scanner;
 	void *ptr;
 	int ret;
@@ -69,9 +82,11 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 	yy_delete_buffer(ptr, scanner);
 	yylex_destroy(scanner);
 
-	if (ret)
-		throw std::runtime_error("Invalid function");
+	return ret;
+}
 
+void iio_math_impl::cleanup()
+{
 	/* All blocks have been registered; we can delete the block list now */
 	for (std::vector<struct block *>::iterator it = blocks.begin();
 			it != blocks.end(); ++it)
@@ -80,14 +95,29 @@ iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
 	blocks.clear();
 }
 
-iio_math_impl::~iio_math_impl()
-{
-	disconnect_all();
-}
-
 void iio_math_impl::register_block(struct block *block)
 {
 	blocks.push_back(block);
+}
+
+gr::basic_block_sptr iio_math_impl::get_src_block()
+{
+	return shared_from_this();
+}
+
+void iio_math_impl::connect_to_output(gr::basic_block_sptr block)
+{
+	basic_block_sptr hier = shared_from_this();
+
+	if (hier == block) {
+		blocks::copy::sptr copy = blocks::copy::make(sizeof(float));
+
+		/* Handle 'y = x' expression */
+		connect(hier, 0, copy, 0);
+		connect(copy, 0, hier, 0);
+	} else {
+		connect(block, 0, hier, 0);
+	}
 }
 
 /* C functions */
@@ -97,7 +127,7 @@ void * src_block(void *pdata)
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *block = new iio_math_impl::block;
 
-	block->sptr = m->shared_from_this();
+	block->sptr = m->get_src_block();
 	m->register_block(block);
 	return block;
 }
@@ -220,17 +250,7 @@ void connect_to_output(void *pdata, void *_block)
 	struct iio_math_impl::block *block = (struct iio_math_impl::block *) _block;
 	iio_math_impl *m = (iio_math_impl *) pdata;
 
-	basic_block_sptr hier = m->shared_from_this();
-
-	if (hier == block->sptr) {
-		blocks::copy::sptr copy = blocks::copy::make(sizeof(float));
-
-		/* Handle 'y = x' expression */
-		m->connect(hier, 0, copy, 0);
-		m->connect(copy, 0, hier, 0);
-	} else {
-		m->connect(block->sptr, 0, hier, 0);
-	}
+	m->connect_to_output(block->sptr);
 }
 
 void delete_block(void *pdata, void *_block)
