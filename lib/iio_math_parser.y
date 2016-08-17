@@ -39,7 +39,7 @@ int yylex_destroy(yyscan_t yyscanner);
 
 void * yyget_extra(yyscan_t scanner);
 
-void * src_block(void *pdata);
+void * src_block(void *pdata, unsigned int input);
 void * const_block(void *pdata, double value);
 void * add_block(void *pdata, void *left, void *right);
 void * sub_block(void *pdata, void *left, void *right);
@@ -62,13 +62,14 @@ void delete_block(void *pdata, void *block);
 
 %union {
 	double val;
+	unsigned int ival;
 	char *fname;
 	void *block;
 }
 
-%token<val> VALUE;
 %token<fname> FNAME;
-%token IN_PORT;
+%token<val> VALUE;
+%token<ival> IN_PORT;
 %type<block> Element;
 %type<block> Factor;
 %type<block> Term;
@@ -84,8 +85,8 @@ void delete_block(void *pdata, void *block);
 %%
 
 Element:
-	IN_PORT {
-		$$ = src_block(yyget_extra(scanner));
+	IN_PORT[t] {
+		$$ = src_block(yyget_extra(scanner), $t);
 	}
 	| VALUE[t] {
 		$$ = const_block(yyget_extra(scanner), $t);

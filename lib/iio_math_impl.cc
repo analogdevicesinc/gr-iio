@@ -44,15 +44,19 @@ using namespace gr::iio;
 
 struct iio_math_impl::block {
 	gr::basic_block_sptr sptr;
+	unsigned int port;
+
+	block() : port(0) {}
 };
 
-iio_math::sptr iio_math::make(const std::string &function)
+iio_math::sptr iio_math::make(const std::string &function, int ninputs)
 {
-	return gnuradio::get_initial_sptr(new iio_math_impl(function));
+	return gnuradio::get_initial_sptr(new iio_math_impl(function, ninputs));
 }
 
-iio_math_impl::iio_math_impl(const std::string &function) : hier_block2("math",
-		io_signature::make(1, 1, sizeof(float)),
+iio_math_impl::iio_math_impl(const std::string &function, int ninputs) :
+	hier_block2("math",
+		io_signature::make(ninputs, ninputs, sizeof(float)),
 		io_signature::make(1, 1, sizeof(float)))
 {
 	int ret = parse_function(function);
@@ -122,12 +126,13 @@ void iio_math_impl::connect_to_output(gr::basic_block_sptr block)
 
 /* C functions */
 
-void * src_block(void *pdata)
+void * src_block(void *pdata, unsigned int port)
 {
 	iio_math_impl *m = (iio_math_impl *) pdata;
 	struct iio_math_impl::block *block = new iio_math_impl::block;
 
 	block->sptr = m->get_src_block();
+	block->port = port;
 	m->register_block(block);
 	return block;
 }
@@ -150,7 +155,7 @@ void * neg_block(void *pdata, void *_input)
 	struct iio_math_impl::block *block = new iio_math_impl::block;
 
 	block->sptr = blocks::multiply_const_ff::make(-1.0f);
-	m->connect(input->sptr, 0, block->sptr, 0);
+	m->connect(input->sptr, input->port, block->sptr, 0);
 
 	m->register_block(block);
 	return block;
@@ -164,8 +169,8 @@ void * add_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = blocks::add_ff::make();
-	m->connect(left->sptr, 0, block->sptr, 0);
-	m->connect(right->sptr, 0, block->sptr, 1);
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
 
 	m->register_block(block);
 	return block;
@@ -179,8 +184,8 @@ void * sub_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = blocks::sub_ff::make();
-	m->connect(left->sptr, 0, block->sptr, 0);
-	m->connect(right->sptr, 0, block->sptr, 1);
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
 
 	m->register_block(block);
 	return block;
@@ -194,8 +199,8 @@ void * mult_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = blocks::multiply_ff::make();
-	m->connect(left->sptr, 0, block->sptr, 0);
-	m->connect(right->sptr, 0, block->sptr, 1);
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
 
 	m->register_block(block);
 	return block;
@@ -209,8 +214,8 @@ void * div_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = blocks::divide_ff::make();
-	m->connect(left->sptr, 0, block->sptr, 0);
-	m->connect(right->sptr, 0, block->sptr, 1);
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
 
 	m->register_block(block);
 	return block;
@@ -224,8 +229,8 @@ void * pow_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = iio::power_ff::make();
-	m->connect(left->sptr, 0, block->sptr, 0);
-	m->connect(right->sptr, 0, block->sptr, 1);
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
 
 	m->register_block(block);
 	return block;
@@ -239,7 +244,7 @@ void * func_block(void *pdata, void *_input, const char *name)
 	std::string fname(name);
 
 	block->sptr = blocks::transcendental::make(fname);
-	m->connect(input->sptr, 0, block->sptr, 0);
+	m->connect(input->sptr, input->port, block->sptr, 0);
 
 	m->register_block(block);
 	return block;

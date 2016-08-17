@@ -33,7 +33,8 @@ namespace gr {
 		public:
 			typedef boost::shared_ptr<iio_math> sptr;
 
-			static sptr make(const std::string &function);
+			static sptr make(const std::string &function,
+					int ninputs = 1);
 		};
 
 		class IIO_API iio_math_gen : virtual public gr::hier_block2

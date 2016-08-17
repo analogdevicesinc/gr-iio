@@ -40,7 +40,7 @@ namespace gr {
 		class iio_math_impl : public iio_math
 		{
 		public:
-			iio_math_impl(const std::string &function);
+			iio_math_impl(const std::string &function, int ninputs);
 			~iio_math_impl();
 
 			struct block;

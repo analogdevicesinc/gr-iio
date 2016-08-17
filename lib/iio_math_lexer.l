@@ -65,7 +65,13 @@
 	return ')';
 }
 
+(x[0-9])|(t[0-9]) {
+	yylval->ival = yytext[1] - '0';
+	return IN_PORT;
+}
+
 x|t {
+	yylval->ival = 0;
 	return IN_PORT;
 }
 

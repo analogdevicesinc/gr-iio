@@ -4,7 +4,7 @@
 	<key>math</key>
 	<category>Math Operators</category>
 	<import>from gnuradio import iio</import>
-	<make>iio.iio_math($function)</make>
+	<make>iio.iio_math($function, $num_inputs)</make>
 
 	<param>
 		<name>f(x) =</name>
@@ -13,12 +13,22 @@
 		<type>string</type>
 	</param>
 
+	<param>
+		<name>Num Inputs</name>
+		<key>num_inputs</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+
 	<!-- Refuse empty strings -->
 	<check>$function</check>
+
+	<check>$num_inputs &gt; 0</check>
 
 	<sink>
 		<name>in</name>
 		<type>float</type>
+		<nports>$num_inputs</nports>
 	</sink>
 
 	<source>
