@@ -65,7 +65,7 @@
 	return ')';
 }
 
-x {
+x|t {
 	return IN_PORT;
 }
 
