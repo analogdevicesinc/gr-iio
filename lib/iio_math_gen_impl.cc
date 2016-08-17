@@ -45,7 +45,7 @@ iio_math_gen_impl::iio_math_gen_impl(double sampling_freq, double wav_freq,
 		io_signature::make(1, 1, sizeof(float)))
 {
 	src_block = analog::sig_source_f::make(sampling_freq / wav_freq,
-			analog::GR_SAW_WAVE, 1, 1, 0);
+			analog::GR_SAW_WAVE, 1, 2.0 * M_PI, -M_PI);
 
 	int ret = parse_function(function);
 	if (ret)
