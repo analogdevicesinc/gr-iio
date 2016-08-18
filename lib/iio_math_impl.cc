@@ -34,6 +34,7 @@
 #include <gnuradio/blocks/divide_ff.h>
 #include <gnuradio/blocks/multiply_const_ff.h>
 #include <gnuradio/blocks/multiply_ff.h>
+#include <gnuradio/blocks/null_sink.h>
 #include <gnuradio/blocks/sub_ff.h>
 #include <gnuradio/blocks/transcendental.h>
 #include <gnuradio/iio/power_ff.h>
@@ -59,9 +60,16 @@ iio_math_impl::iio_math_impl(const std::string &function, int ninputs) :
 		io_signature::make(ninputs, ninputs, sizeof(float)),
 		io_signature::make(1, 1, sizeof(float)))
 {
-	int ret = parse_function(function);
+	int ret;
+
+	connected_ports.resize(ninputs);
+
+	ret = parse_function(function);
 	if (ret)
 		throw std::runtime_error("Invalid function");
+
+	connect_null_sinks();
+	connected_ports.resize(0);
 
 	cleanup();
 }
@@ -87,6 +95,19 @@ int iio_math_impl::parse_function(const std::string &function)
 	yylex_destroy(scanner);
 
 	return ret;
+}
+
+void iio_math_impl::connect_null_sinks()
+{
+	basic_block_sptr hier = shared_from_this();
+
+	for (unsigned int i = 0; i < connected_ports.size(); i++) {
+		if (connected_ports[i] == false) {
+			blocks::null_sink::sptr null_sink =
+				blocks::null_sink::make(sizeof(float));
+			connect(hier, i, null_sink, 0);
+		}
+	}
 }
 
 void iio_math_impl::cleanup()
@@ -124,6 +145,12 @@ void iio_math_impl::connect_to_output(gr::basic_block_sptr block)
 	}
 }
 
+void iio_math_impl::set_port_used(unsigned int port)
+{
+	if (!connected_ports.empty())
+		connected_ports[port] = true;
+}
+
 /* C functions */
 
 void * src_block(void *pdata, unsigned int port)
@@ -133,6 +160,7 @@ void * src_block(void *pdata, unsigned int port)
 
 	block->sptr = m->get_src_block();
 	block->port = port;
+	m->set_port_used(port);
 	m->register_block(block);
 	return block;
 }

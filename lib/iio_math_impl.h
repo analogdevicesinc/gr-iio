@@ -46,11 +46,15 @@ namespace gr {
 			struct block;
 
 			void register_block(struct block *block);
+			void set_port_used(unsigned int port);
 			virtual gr::basic_block_sptr get_src_block();
 			virtual void connect_to_output(gr::basic_block_sptr block);
 
 		private:
 			std::vector<struct block *> blocks;
+			std::vector<bool> connected_ports;
+
+			void connect_null_sinks();
 
 		protected:
 			iio_math_impl() {}
