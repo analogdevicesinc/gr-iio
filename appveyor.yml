@@ -44,6 +44,7 @@ build_script:
     - set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin
 
     - cmake -G "Visual Studio 12 Win64" \
+        -DCMAKE_INSTALL_PREFIX:PATH="c:/Program Files/gnuradio" \
         -DCMAKE_BUILD_TYPE:STRING=Release \
         -DBoost_INCLUDE_DIR:PATH=c:/boost.1.61.0.0/lib/native/include \
         -DBoost_ATOMIC_LIBRARY_RELEASE:FILEPATH=c:/boost_atomic-vc120.1.61.0.0/lib/native/address-model-64/lib/boost_atomic-vc120-mt-1_61.lib \
