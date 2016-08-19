@@ -25,6 +25,9 @@
 
 #include "iio_math_impl.h"
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <gnuradio/analog/sig_source_f.h>
 #include <gnuradio/analog/sig_source_waveform.h>
 #include <gnuradio/io_signature.h>
