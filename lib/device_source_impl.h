@@ -74,6 +74,7 @@ namespace gr {
 	       gr_vector_void_star &output_items);
 
       bool start();
+      bool stop();
 
       static struct iio_context * get_context(const std::string &uri);
       static bool load_fir_filter(std::string &filter, struct iio_device *phy);

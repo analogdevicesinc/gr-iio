@@ -109,12 +109,16 @@ namespace gr {
     {
 	    iio_mutex.lock();
 
-	    iio_buffer_destroy(buf);
+	    bool started = !!buf;
 
-	    buf = iio_device_create_buffer(dev, _buffer_size, false);
-	    if (!buf) {
-		    iio_mutex.unlock();
-		    throw std::runtime_error("Unable to create buffer");
+	    if (started) {
+		    iio_buffer_destroy(buf);
+
+		    buf = iio_device_create_buffer(dev, _buffer_size, false);
+		    if (!buf) {
+			    iio_mutex.unlock();
+			    throw std::runtime_error("Unable to create buffer");
+		    }
 	    }
 
 	    this->buffer_size = _buffer_size;
@@ -156,7 +160,7 @@ namespace gr {
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short))),
-        ctx(ctx),
+        ctx(ctx), buf(NULL),
         buffer_size(buffer_size),
         decimation(decimation),
         destroy_ctx(destroy_ctx)
@@ -209,10 +213,6 @@ namespace gr {
 
 	    set_params(params);
 	    set_output_multiple(0x400);
-
-	    buf = iio_device_create_buffer(dev, buffer_size, false);
-	    if (!buf)
-		    throw std::runtime_error("Unable to create buffer");
     }
 
     /*
@@ -220,7 +220,6 @@ namespace gr {
      */
     device_source_impl::~device_source_impl()
     {
-	    iio_buffer_destroy(buf);
 	    if (destroy_ctx)
 		    iio_context_destroy(ctx);
     }
@@ -295,7 +294,19 @@ namespace gr {
     {
 	sample_counter = 0;
 	items_in_buffer = 0;
-	return true;
+
+	buf = iio_device_create_buffer(dev, buffer_size, false);
+	return !!buf;
+    }
+
+    bool device_source_impl::stop()
+    {
+	    if (buf) {
+		    iio_buffer_destroy(buf);
+		    buf = NULL;
+	    }
+
+	    return true;
     }
 
     bool device_source_impl::load_fir_filter(
