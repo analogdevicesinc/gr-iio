@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 2.6)
 project(gr-iio CXX C)
 
 set(GR_IIO_VERSION_MAJOR 0)
-set(GR_IIO_VERSION_MINOR 1)
+set(GR_IIO_VERSION_MINOR 2)
 set(GR_IIO_VERSION ${GR_IIO_VERSION_MAJOR}.${GR_IIO_VERSION_MINOR})
 
 if (MSVC)
