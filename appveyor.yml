@@ -24,8 +24,8 @@ install:
     - 7z x swigwin-3.0.8.zip > nul
 
     # Install Flex / Bison
-    - appveyor DownloadFile http://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.5.zip
-    - 7z x win_flex_bison-2.5.5.zip > nul
+    - appveyor DownloadFile http://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.6.zip
+    - 7z x win_flex_bison-2.5.6.zip > nul
 
     # Install libvolk
     - cd "c:\Program Files"
