@@ -75,6 +75,7 @@ namespace gr {
 
       bool start();
       bool stop();
+      void cancel_work();
 
       static struct iio_context * get_context(const std::string &uri);
       static bool load_fir_filter(std::string &filter, struct iio_device *phy);

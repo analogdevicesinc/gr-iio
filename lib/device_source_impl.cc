@@ -252,12 +252,16 @@ namespace gr {
 		if (ret < 0) {
 			iio_mutex.unlock();
 
-			char buf[256];
-			iio_strerror(-ret, buf, sizeof(buf));
-			std::string error(buf);
+			if (ret == -EBADF) {
+				throw boost::thread_interrupted();
+			} else {
+				char buf[256];
+				iio_strerror(-ret, buf, sizeof(buf));
+				std::string error(buf);
 
-			throw std::runtime_error("Unable to refill buffer: "
-					+ error);
+				throw std::runtime_error("Unable to refill buffer: "
+						+ error);
+			}
 		}
 
 		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
@@ -307,6 +311,12 @@ namespace gr {
 	    }
 
 	    return true;
+    }
+
+    void device_source_impl::cancel_work()
+    {
+	if (buf)
+		iio_buffer_cancel(buf);
     }
 
     bool device_source_impl::load_fir_filter(
