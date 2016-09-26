@@ -39,9 +39,15 @@ namespace gr {
 			     void *dst, size_t len);
 
 	     boost::mutex iio_mutex;
+	     boost::condition_variable iio_cond, iio_cond2;
 	     unsigned long items_in_buffer;
 	     off_t byte_offset;
 	     unsigned long sample_counter;
+	     volatile bool please_refill_buffer;
+
+	     boost::thread refill_thd;
+
+	     void refill_thread();
 
      protected:
 	     struct iio_context *ctx;

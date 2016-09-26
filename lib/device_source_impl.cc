@@ -240,28 +240,64 @@ namespace gr {
 				(void *) dst_ptr, (const void *) src_ptr);
     }
 
+    void
+    device_source_impl::refill_thread()
+    {
+	boost::unique_lock<boost::mutex> lock(iio_mutex);
+	ssize_t ret;
+
+	for (;;) {
+		while (!please_refill_buffer)
+			iio_cond.wait(lock);
+
+		lock.unlock();
+		ret = iio_buffer_refill(buf);
+		lock.lock();
+
+		if (ret < 0)
+			break;
+
+		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
+		byte_offset = 0;
+
+		please_refill_buffer = false;
+
+		iio_cond2.notify_all();
+	}
+
+	/* -EBADF happens when the buffer is cancelled */
+	if (ret != -EBADF) {
+
+		char buf[256];
+		iio_strerror(-ret, buf, sizeof(buf));
+		std::string error(buf);
+
+		throw std::runtime_error("Unable to refill buffer: "
+				+ error);
+	}
+    }
+
     int
     device_source_impl::work(int noutput_items,
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-	iio_mutex.lock();
+	boost::unique_lock<boost::mutex> lock(iio_mutex);
 
-	if (!items_in_buffer) {
-		int ret = iio_buffer_refill(buf);
-		if (ret < 0) {
-			iio_mutex.unlock();
+	/* No items in buffer -> ask for a refill */
+	if (!please_refill_buffer && !items_in_buffer) {
+		please_refill_buffer = true;
+		iio_cond.notify_all();
+	}
 
-			char buf[256];
-			iio_strerror(-ret, buf, sizeof(buf));
-			std::string error(buf);
+	while (please_refill_buffer) {
+		bool fast_enough = iio_cond2.timed_wait(lock,
+				boost::posix_time::milliseconds(100));
 
-			throw std::runtime_error("Unable to refill buffer: "
-					+ error);
+		if (!fast_enough) {
+			/* TODO: send a message to self */
+			return 0;
 		}
-
-		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
-		byte_offset = 0;
 	}
 
 	unsigned long items = std::min(items_in_buffer,
@@ -286,7 +322,6 @@ namespace gr {
 	items_in_buffer -= items;
 	byte_offset += items * iio_buffer_step(buf);
 
-	iio_mutex.unlock();
 	return (int) items;
     }
 
@@ -294,13 +329,29 @@ namespace gr {
     {
 	sample_counter = 0;
 	items_in_buffer = 0;
+	please_refill_buffer = false;
 
 	buf = iio_device_create_buffer(dev, buffer_size, false);
+
+	if (buf) {
+		refill_thd = boost::thread(
+				&device_source_impl::refill_thread, this);
+	} else {
+		throw std::runtime_error("Unable to create buffer!\n");
+	}
+
 	return !!buf;
     }
 
     bool device_source_impl::stop()
     {
+	    if (buf)
+		    iio_buffer_cancel(buf);
+
+	    please_refill_buffer = true;
+	    iio_cond.notify_all();
+	    refill_thd.join();
+
 	    if (buf) {
 		    iio_buffer_destroy(buf);
 		    buf = NULL;
