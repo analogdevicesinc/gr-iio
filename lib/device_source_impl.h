@@ -44,6 +44,7 @@ namespace gr {
 	     off_t byte_offset;
 	     unsigned long sample_counter;
 	     volatile bool please_refill_buffer;
+	     pmt::pmt_t port_id;
 
 	     boost::thread refill_thd;
 

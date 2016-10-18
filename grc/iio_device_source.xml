@@ -69,4 +69,9 @@
 		<type>short</type>
 		<nports>len($channels)</nports>
 	</source>
+	<source>
+		<name>msg</name>
+		<type>message</type>
+		<optional>1</optional>
+	</source>
 </block>

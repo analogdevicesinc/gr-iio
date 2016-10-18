@@ -160,6 +160,7 @@ namespace gr {
       : gr::sync_block("device_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short))),
+        port_id(pmt::mp("msg")),
         ctx(ctx), buf(NULL),
         buffer_size(buffer_size),
         decimation(decimation),
@@ -213,6 +214,8 @@ namespace gr {
 
 	    set_params(params);
 	    set_output_multiple(0x400);
+
+	    message_port_register_out(port_id);
     }
 
     /*
@@ -296,6 +299,7 @@ namespace gr {
 
 		if (!fast_enough) {
 			/* TODO: send a message to self */
+			message_port_pub(port_id, pmt::mp("timeout"));
 			return 0;
 		}
 	}
