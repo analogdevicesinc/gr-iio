@@ -298,8 +298,17 @@ namespace gr {
 				boost::posix_time::milliseconds(100));
 
 		if (!fast_enough) {
-			/* TODO: send a message to self */
 			message_port_pub(port_id, pmt::mp("timeout"));
+
+			/* GNU Radio won't call our block anytime soon if the
+			 * work() function returns 0; it can take up to 500ms
+			 * before it gets called again. To avoid that, we make
+			 * this block send itself a dummy message on its input
+			 * system message port, so that the scheduler calls us
+			 * again promptly. */
+			pmt::pmt_t msg = pmt::cons(pmt::mp("done"),
+					pmt::from_bool(false));
+			post(pmt::mp("system"), msg);
 			return 0;
 		}
 	}
