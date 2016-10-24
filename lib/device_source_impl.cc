@@ -294,10 +294,12 @@ namespace gr {
 	}
 
 	while (please_refill_buffer) {
+		std::cerr << "Timed wait" << std::endl;
 		bool fast_enough = iio_cond2.timed_wait(lock,
 				boost::posix_time::milliseconds(100));
 
 		if (!fast_enough) {
+			std::cerr << "Timeout!" << std::endl;
 			message_port_pub(port_id, pmt::mp("timeout"));
 
 			/* GNU Radio won't call our block anytime soon if the
