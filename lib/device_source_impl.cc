@@ -306,8 +306,12 @@ namespace gr {
 			 * this block send itself a dummy message on its input
 			 * system message port, so that the scheduler calls us
 			 * again promptly. */
-			pmt::pmt_t msg = pmt::cons(pmt::mp("done"),
-					pmt::from_bool(false));
+#ifdef GR_VERSION_3_7_OR_LESS
+			pmt::pmt_t payload = pmt::from_long(0);
+#else
+			pmt::pmt_t payload = pmt::from_bool(false);
+#endif
+			pmt::pmt_t msg = pmt::cons(pmt::mp("done"), payload);
 			post(pmt::mp("system"), msg);
 			return 0;
 		}

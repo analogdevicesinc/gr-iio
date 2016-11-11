@@ -54,6 +54,10 @@ if(NOT iio_sources)
 	return()
 endif(NOT iio_sources)
 
+if (${PC_GNURADIO_RUNTIME_VERSION} VERSION_LESS 3.8.0)
+	add_definitions(-DGR_VERSION_3_7_OR_LESS)
+endif()
+
 add_library(gnuradio-iio SHARED ${iio_sources})
 target_link_libraries(gnuradio-iio
 	${Boost_LIBRARIES}
