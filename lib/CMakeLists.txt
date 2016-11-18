@@ -54,7 +54,12 @@ if(NOT iio_sources)
 	return()
 endif(NOT iio_sources)
 
-if (${PC_GNURADIO_RUNTIME_VERSION} VERSION_LESS 3.8.0)
+if ("${PC_GNURADIO_RUNTIME_VERSION}" VERSION_LESS 3.8.0)
+	set(GR_IS_VERSION_3_7_OR_LESS ON)
+endif()
+
+option(COMPAT_GR_3_7_OR_LESS "Compile for GNU Radio version 3.7 or less" ${GR_IS_VERSION_3_7_OR_LESS})
+if (COMPAT_GR_3_7_OR_LESS)
 	add_definitions(-DGR_VERSION_3_7_OR_LESS)
 endif()
 
