@@ -253,6 +253,8 @@ namespace gr {
 		while (!please_refill_buffer)
 			iio_cond.wait(lock);
 
+		please_refill_buffer = false;
+
 		lock.unlock();
 		ret = iio_buffer_refill(buf);
 		lock.lock();
@@ -262,8 +264,6 @@ namespace gr {
 
 		items_in_buffer = (unsigned long) ret / iio_buffer_step(buf);
 		byte_offset = 0;
-
-		please_refill_buffer = false;
 
 		iio_cond2.notify_all();
 	}
