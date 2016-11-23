@@ -24,6 +24,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
+#include <gnuradio/thread/thread.h>
 #include "device_source_impl.h"
 
 #include <cstdio>
@@ -107,23 +108,16 @@ namespace gr {
 
     void device_source_impl::set_buffer_size(unsigned int _buffer_size)
     {
-	    iio_mutex.lock();
+	    gr::thread::scoped_lock l(d_setlock);
 
 	    bool started = !!buf;
-
-	    if (started) {
-		    iio_buffer_destroy(buf);
-
-		    buf = iio_device_create_buffer(dev, _buffer_size, false);
-		    if (!buf) {
-			    iio_mutex.unlock();
-			    throw std::runtime_error("Unable to create buffer");
-		    }
-	    }
+	    if (started)
+		    stop();
 
 	    this->buffer_size = _buffer_size;
 
-	    iio_mutex.unlock();
+	    if (started)
+		    start();
     }
 
     struct iio_context * device_source_impl::get_context(
@@ -285,6 +279,7 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
+	gr::thread::scoped_lock l(d_setlock);
 	boost::unique_lock<boost::mutex> lock(iio_mutex);
 
 	/* No items in buffer -> ask for a refill */
