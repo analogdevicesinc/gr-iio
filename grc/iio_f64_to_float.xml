@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+###################################################
+##Double to Float:
+###################################################
+ -->
+<block>
+	<name>Double To Float</name>
+	<key>iio_f64_to_float</key>
+	<category>Type Converters</category>
+	<import>from gnuradio import iio</import>
+	<make>iio.f64_to_float($vlen)</make>
+	<param>
+		<name>Vec Length</name>
+		<key>vlen</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+	<sink>
+		<name>in</name>
+		<type>f64</type>
+		<vlen>$vlen</vlen>
+	</sink>
+	<source>
+		<name>out</name>
+		<type>float</type>
+		<vlen>$vlen</vlen>
+	</source>
+</block>

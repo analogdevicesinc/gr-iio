@@ -11,6 +11,7 @@
 #include "gnuradio/iio/fmcomms2_sink.h"
 #include "gnuradio/iio/fmcomms5_source.h"
 #include "gnuradio/iio/fmcomms5_sink.h"
+#include "gnuradio/iio/f64_to_float.h"
 #include "gnuradio/iio/math.h"
 #include "gnuradio/iio/power_ff.h"
 %}
@@ -21,6 +22,7 @@
 %include "gnuradio/iio/fmcomms2_sink.h"
 %include "gnuradio/iio/fmcomms5_source.h"
 %include "gnuradio/iio/fmcomms5_sink.h"
+%include "gnuradio/iio/f64_to_float.h"
 %include "gnuradio/iio/math.h"
 %include "gnuradio/iio/power_ff.h"
 
@@ -30,6 +32,7 @@ GR_SWIG_BLOCK_MAGIC2(iio, fmcomms2_source);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms2_sink);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_source);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_sink);
+GR_SWIG_BLOCK_MAGIC2(iio, f64_to_float);
 GR_SWIG_BLOCK_MAGIC2(iio, iio_math);
 GR_SWIG_BLOCK_MAGIC2(iio, iio_math_gen);
 GR_SWIG_BLOCK_MAGIC2(iio, power_ff);

@@ -46,6 +46,7 @@ list(APPEND iio_sources
 	iio_power_ff_impl.cc
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
+	f64_to_float_impl.cc
 )
 
 set(iio_sources "${iio_sources}" PARENT_SCOPE)
