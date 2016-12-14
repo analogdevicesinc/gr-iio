@@ -22,6 +22,6 @@ install(FILES
 	iio_fmcomms2_source.xml iio_fmcomms2_sink.xml
 	iio_fmcomms5_source.xml iio_fmcomms5_sink.xml
 	iio_math.xml iio_math_gen.xml iio_power_ff.xml
-	iio_f64_to_float.xml
+	iio_matlab_source.xml iio_f64_to_float.xml
 	DESTINATION share/gnuradio/grc/blocks
 )

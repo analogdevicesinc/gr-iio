@@ -25,6 +25,9 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS} ${AD9361_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
+find_library(MATIO_LIBRARIES matio REQUIRED)
+find_path(MATIO_INCLUDE_DIRS matio.h REQUIRED)
+
 include(FindFLEX REQUIRED)
 include(FindBISON REQUIRED)
 
@@ -46,6 +49,7 @@ list(APPEND iio_sources
 	iio_power_ff_impl.cc
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
+	matlab_source_impl.cc
 	f64_to_float_impl.cc
 )
 
@@ -69,7 +73,9 @@ target_link_libraries(gnuradio-iio
 	${Boost_LIBRARIES}
 	${IIO_LIBRARIES}
 	${AD9361_LIBRARIES}
-	${GNURADIO_ALL_LIBRARIES})
+	${GNURADIO_ALL_LIBRARIES}
+	${MATIO_LIBRARIES}
+)
 set_target_properties(gnuradio-iio PROPERTIES
 	VERSION ${GR_IIO_VERSION}
 	SOVERSION ${GR_IIO_VERSION_MAJOR}
@@ -95,6 +101,7 @@ install(TARGETS gnuradio-iio
 ########################################################################
 # Setup the include and linker paths
 ########################################################################
+include_directories(${MATIO_INCLUDE_DIRS})
 #include_directories(
 #	${GR_IIO_INCLUDE_DIRS}
 #   ${GNURADIO_RUNTIME_INCLUDE_DIRS}
