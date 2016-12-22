@@ -68,6 +68,7 @@ namespace gr {
 		      unsigned int decimation = 0);
 
       virtual void set_buffer_size(unsigned int buffer_size) = 0;
+      virtual void set_timeout_ms(unsigned long timeout) = 0;
     };
 
   } // namespace iio

@@ -48,6 +48,8 @@ namespace gr {
 
 	     boost::thread refill_thd;
 
+	     unsigned long timeout;
+
 	     void refill_thread();
 
      protected:
@@ -74,6 +76,7 @@ namespace gr {
 
       void set_params(const std::vector<std::string> &params);
       void set_buffer_size(unsigned int buffer_size);
+      void set_timeout_ms(unsigned long timeout);
 
       // Where all the action really happens
       int work(int noutput_items,

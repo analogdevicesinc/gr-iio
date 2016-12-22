@@ -120,6 +120,11 @@ namespace gr {
 		    start();
     }
 
+    void device_source_impl::set_timeout_ms(unsigned long _timeout)
+    {
+	    this->timeout = _timeout;
+    }
+
     struct iio_context * device_source_impl::get_context(
 		    const std::string &uri)
     {
@@ -155,6 +160,7 @@ namespace gr {
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short))),
         port_id(pmt::mp("msg")),
+        timeout(100),
         ctx(ctx), buf(NULL),
         buffer_size(buffer_size),
         decimation(decimation),
@@ -290,7 +296,7 @@ namespace gr {
 
 	while (please_refill_buffer) {
 		bool fast_enough = iio_cond2.timed_wait(lock,
-				boost::posix_time::milliseconds(100));
+				boost::posix_time::milliseconds(timeout));
 
 		if (!fast_enough) {
 			message_port_pub(port_id, pmt::mp("timeout"));
