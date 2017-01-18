@@ -44,6 +44,8 @@ list(APPEND iio_sources
 	iio_math_impl.cc
 	iio_math_gen_impl.cc
 	iio_power_ff_impl.cc
+	iio_modulo_ff_impl.cc
+	iio_modulo_const_ff_impl.cc
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
 )
