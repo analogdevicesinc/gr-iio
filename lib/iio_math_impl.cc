@@ -37,6 +37,7 @@
 #include <gnuradio/blocks/null_sink.h>
 #include <gnuradio/blocks/sub_ff.h>
 #include <gnuradio/blocks/transcendental.h>
+#include <gnuradio/iio/modulo_ff.h>
 #include <gnuradio/iio/power_ff.h>
 #include <gnuradio/io_signature.h>
 
@@ -257,6 +258,21 @@ void * pow_block(void *pdata, void *_left, void *_right)
 	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
 
 	block->sptr = iio::power_ff::make();
+	m->connect(left->sptr, left->port, block->sptr, 0);
+	m->connect(right->sptr, right->port, block->sptr, 1);
+
+	m->register_block(block);
+	return block;
+}
+
+void * mod_block(void *pdata, void *_left, void *_right)
+{
+	struct iio_math_impl::block *block = new iio_math_impl::block;
+	iio_math_impl *m = (iio_math_impl *) pdata;
+	struct iio_math_impl::block *left = (struct iio_math_impl::block *) _left;
+	struct iio_math_impl::block *right = (struct iio_math_impl::block *) _right;
+
+	block->sptr = iio::modulo_ff::make();
 	m->connect(left->sptr, left->port, block->sptr, 0);
 	m->connect(right->sptr, right->port, block->sptr, 1);
 

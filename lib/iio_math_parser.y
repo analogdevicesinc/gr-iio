@@ -46,6 +46,7 @@ void * sub_block(void *pdata, void *left, void *right);
 void * mult_block(void *pdata, void *left, void *right);
 void * div_block(void *pdata, void *left, void *right);
 void * pow_block(void *pdata, void *left, void *right);
+void * mod_block(void *pdata, void *left, void *right);
 void * func_block(void *pdata, void *input, const char *name);
 void * neg_block(void *pdata, void *input);
 
@@ -116,7 +117,8 @@ Factor:
 	| Factor[f1] POWER Factor[f2] {
 		$$ = pow_block(yyget_extra(scanner), $f1, $f2);
 	}
-	| Factor '%' Factor {
+	| Factor[f1] '%' Factor[f2] {
+		$$ = mod_block(yyget_extra(scanner), $f1, $f2);
 		/* TODO(pcercuei): Implement modulo */
 	}
 	;
