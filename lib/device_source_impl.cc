@@ -366,8 +366,11 @@ namespace gr {
 	    if (buf)
 		    iio_buffer_cancel(buf);
 
+	    boost::unique_lock<boost::mutex> lock(iio_mutex);
 	    please_refill_buffer = true;
 	    iio_cond.notify_all();
+	    lock.unlock();
+
 	    refill_thd.join();
 
 	    if (buf) {
