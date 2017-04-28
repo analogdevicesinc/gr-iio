@@ -24,6 +24,7 @@
 #define INCLUDED_IIO_FMCOMMS2_SOURCE_H
 
 #include <gnuradio/iio/api.h>
+#include <gnuradio/hier_block2.h>
 #include <gnuradio/sync_block.h>
 
 #include "device_source.h"
@@ -73,6 +74,50 @@ namespace gr {
 		      const char *gain1, double gain1_value,
 		      const char *gain2, double gain2_value,
 		      const char *rf_port_select) = 0;
+    };
+
+    class IIO_API fmcomms2_source_f32c : virtual public gr::hier_block2
+    {
+    public:
+      typedef boost::shared_ptr<fmcomms2_source_f32c> sptr;
+
+      static sptr make(const std::string &uri,
+		    unsigned long long frequency, unsigned long samplerate,
+		    unsigned long decimation, unsigned long bandwidth,
+		    bool rx1_en, bool rx2_en,
+		    unsigned long buffer_size, bool quadrature, bool rfdc,
+		    bool bbdc, const char *gain1, double gain1_value,
+		    const char *gain2, double gain2_value,
+		    const char *rf_port_select, const char *filter = "")
+      {
+	      fmcomms2_source::sptr block = fmcomms2_source::make(uri,
+			      frequency, samplerate, decimation,
+			      bandwidth, rx1_en, rx1_en, rx2_en,
+			      rx2_en, buffer_size, quadrature,
+			      rfdc, bbdc, gain1, gain1_value,
+			      gain2, gain2_value,
+			      rf_port_select, filter);
+
+	      return gnuradio::get_initial_sptr(
+			      new fmcomms2_source_f32c(rx1_en, rx2_en, block));
+      }
+
+      void set_params(unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      bool quadrature, bool rfdc, bool bbdc,
+		      const char *gain1, double gain1_value,
+		      const char *gain2, double gain2_value,
+		      const char *rf_port_select)
+      {
+              fmcomms2_block->set_params(frequency, samplerate, bandwidth,
+                              quadrature, rfdc, bbdc, gain1, gain1_value,
+                              gain2, gain2_value, rf_port_select);
+      }
+    private:
+      fmcomms2_source::sptr fmcomms2_block;
+
+      explicit fmcomms2_source_f32c(bool rx1_en, bool rx2_en,
+		      fmcomms2_source::sptr block);
     };
 
   } // namespace iio
