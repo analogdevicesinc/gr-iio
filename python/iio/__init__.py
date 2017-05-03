@@ -27,7 +27,9 @@ import os
 
 try:
     from iio_swig import *
+    from iio_pluto_swig import *
 except ImportError:
     dirname, filename = os.path.split(os.path.abspath(__file__))
     __path__.append(os.path.join(dirname, "..", "..", "swig"))
     from iio_swig import *
+    from iio_pluto_swig import *

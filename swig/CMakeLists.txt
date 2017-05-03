@@ -45,11 +45,12 @@ endforeach(incdir)
 
 set(GR_SWIG_LIBRARIES gnuradio-iio)
 GR_SWIG_MAKE(iio_swig iio_swig.i)
+GR_SWIG_MAKE(iio_pluto_swig iio_pluto_swig.i)
 
 ########################################################################
 # Install the build swig module
 ########################################################################
-GR_SWIG_INSTALL(TARGETS iio_swig DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
+GR_SWIG_INSTALL(TARGETS iio_swig iio_pluto_swig DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
 
 ########################################################################
 # Install swig .i files for development
@@ -57,5 +58,6 @@ GR_SWIG_INSTALL(TARGETS iio_swig DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
 install(
     FILES
     iio_swig.i
+    iio_pluto_swig.i
     DESTINATION ${GR_INCLUDE_DIR}/swig
 )

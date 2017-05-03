@@ -116,6 +116,7 @@ namespace gr {
     private:
       fmcomms2_source::sptr fmcomms2_block;
 
+    protected:
       explicit fmcomms2_source_f32c(bool rx1_en, bool rx2_en,
 		      fmcomms2_source::sptr block);
     };
