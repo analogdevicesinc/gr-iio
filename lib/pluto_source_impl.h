@@ -1,18 +1,18 @@
 /* -*- c++ -*- */
-/* 
+/*
  * Copyright 2017 Analog Devices Inc.
  * Author: Paul Cercueil <paul.cercueil@analog.com>
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -30,7 +30,8 @@
 
 #include "device_source_impl.h"
 
-namespace gr::iio {
+namespace gr {
+  namespace iio {
 
 	class pluto_source_impl : public pluto_source
 				, public fmcomms2_source_f32c
@@ -41,6 +42,7 @@ namespace gr::iio {
 		static std::string get_uri();
 	};
 
-} // namespace gr::iio
+	} // namespace iio
+} // namespace gr
 
-#endif /* INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H */
+#endif /* INCLUDED_IIO_PLUTO_SOURCE_IMPL_H */
