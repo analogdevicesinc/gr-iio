@@ -24,6 +24,7 @@
 #define INCLUDED_IIO_FMCOMMS2_SINK_H
 
 #include <gnuradio/iio/api.h>
+#include <gnuradio/hier_block2.h>
 #include <gnuradio/sync_block.h>
 
 #include "device_sink.h"
@@ -56,6 +57,45 @@ namespace gr {
 		      unsigned long samplerate, unsigned long bandwidth,
 		      const char *rf_port_select,
 		      double attenuation1, double attenuation2) = 0;
+    };
+
+    class IIO_API fmcomms2_sink_f32c : virtual public gr::hier_block2
+    {
+    public:
+      typedef boost::shared_ptr<fmcomms2_sink_f32c> sptr;
+
+      static sptr make(const std::string &uri, unsigned long long frequency,
+		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long bandwidth, bool rx1_en, bool rx2_en,
+		    unsigned long buffer_size, bool cyclic,
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter = "")
+      {
+	      fmcomms2_sink::sptr block = fmcomms2_sink::make(uri, frequency,
+			      samplerate, interpolation, bandwidth, rx1_en,
+			      rx1_en, rx2_en, rx2_en, buffer_size, cyclic,
+			      rf_port_select, attenuation1, attenuation2,
+			      filter);
+
+	      return gnuradio::get_initial_sptr(
+			      new fmcomms2_sink_f32c(rx1_en, rx2_en, block));
+      }
+
+      void set_params(unsigned long long frequency,
+		      unsigned long samplerate, unsigned long bandwidth,
+		      const char *rf_port_select,
+		      double attenuation1, double attenuation2)
+      {
+	      fmcomms2_block->set_params(frequency, samplerate, bandwidth,
+			      rf_port_select, attenuation1, attenuation2);
+      }
+
+    private:
+      fmcomms2_sink::sptr fmcomms2_block;
+
+    protected:
+      explicit fmcomms2_sink_f32c(bool rx1_en, bool rx2_en,
+		      fmcomms2_sink::sptr block);
     };
 
   } // namespace iio
