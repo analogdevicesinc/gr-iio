@@ -41,6 +41,7 @@ list(APPEND iio_sources
 	fmcomms5_source_impl.cc
 	fmcomms5_sink_impl.cc
 	pluto_source_impl.cc
+	pluto_sink_impl.cc
 	converter_ss_impl.cc
 	iio_math_impl.cc
 	iio_math_gen_impl.cc

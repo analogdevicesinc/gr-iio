@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<block>
+	<name>PlutoSDR Sink</name>
+	<key>pluto_sink</key>
+	<category>Industrial IO</category>
+	<flags>throttle</flags>
+	<import>from gnuradio import iio</import>
+	<make>iio.pluto_sink($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $buffer_size, $cyclic, $attenuation, $filter)</make>
+	<callback>set_params($frequency, $samplerate, $bandwidth, "A", $attenuation, 0.0)</callback>
+
+	<param>
+		<name>IIO context URI</name>
+		<key>uri</key>
+		<value></value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>LO Frequency</name>
+		<key>frequency</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Sample rate</name>
+		<key>samplerate</key>
+		<value>2084000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>RF bandwidth</name>
+		<key>bandwidth</key>
+		<value>20000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Buffer size</name>
+		<key>buffer_size</key>
+		<value>0x8000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Interpolation</name>
+		<key>interpolation</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Cyclic</name>
+		<key>cyclic</key>
+		<value>False</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Attenuation (dB)</name>
+		<key>attenuation</key>
+		<value>10.0</value>
+		<type>real</type>
+	</param>
+
+	<param>
+		<name>Filter</name>
+		<key>filter</key>
+		<value></value>
+		<type>file_open</type>
+	</param>
+
+	<!-- Avoid divisions by zero -->
+	<check>$interpolation > 0</check>
+
+	<check>$samplerate &gt;= 2084000</check>
+
+	<sink>
+		<name>in</name>
+		<type>complex</type>
+		<nports>1</nports>
+	</sink>
+</block>
