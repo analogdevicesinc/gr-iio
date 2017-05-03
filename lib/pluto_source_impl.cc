@@ -30,15 +30,15 @@ pluto_source::sptr pluto_source::make(const std::string& uri,
 		unsigned long decimation, unsigned long bandwidth,
 		unsigned long buffer_size, bool quadrature, bool rfdc,
 		bool bbdc, const char *gain, double gain_value,
-		const char *rf_port_select, const char *filter)
+		const char *filter)
 {
 	fmcomms2_source::sptr block = fmcomms2_source::make(
 			uri.empty() ? pluto_source_impl::get_uri() : uri,
 			frequency, samplerate, decimation,
 			bandwidth, true, true, false, false,
 			buffer_size, quadrature, rfdc, bbdc,
-			gain, gain_value, NULL, 0.0,
-			rf_port_select, filter);
+			gain, gain_value, NULL, 0.0, "A_BALANCED",
+			filter);
 
 	return gnuradio::get_initial_sptr(
 			new pluto_source_impl(block));

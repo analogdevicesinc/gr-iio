@@ -5,8 +5,8 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.pluto_source($uri, $frequency, $samplerate, $decimation - 1, $bandwidth, $buffer_size, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $rf_port_select, $filter)</make>
-	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, "", 0.0, $rf_port_select)</callback>
+	<make>iio.pluto_source($uri, $frequency, $samplerate, $decimation - 1, $bandwidth, $buffer_size, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter)</make>
+	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, "", 0.0)</callback>
 
 	<param>
 		<name>Device URI</name>
@@ -104,60 +104,6 @@
 		<key>manual_gain</key>
 		<value>64.0</value>
 		<type>real</type>
-	</param>
-
-	<param>
-		<name>RF Port Select</name>
-		<key>rf_port_select</key>
-		<type>enum</type>
-		<option>
-			<name>A_BALANCED</name>
-			<key>"A_BALANCED"</key>
-		</option>
-		<option>
-			<name>B_BALANCED</name>
-			<key>"B_BALANCED"</key>
-		</option>
-		<option>
-			<name>C_BALANCED</name>
-			<key>"C_BALANCED"</key>
-		</option>
-		<option>
-			<name>A_N</name>
-			<key>"A_N"</key>
-		</option>
-		<option>
-			<name>A_P</name>
-			<key>"A_P"</key>
-		</option>
-		<option>
-			<name>B_N</name>
-			<key>"B_N"</key>
-		</option>
-		<option>
-			<name>B_P</name>
-			<key>"B_P"</key>
-		</option>
-		<option>
-			<name>C_N</name>
-			<key>"C_N"</key>
-		</option>
-		<option>
-			<name>C_P</name>
-			<key>"C_P"</key>
-		</option>
-		<option>
-			<name>TX_MONITOR1</name>
-			<key>"TX_MONITOR1"</key>
-		</option>
-		<option>
-			<name>TX_MONITOR2</name>
-			<key>"TX_MONITOR2"</key>
-		</option>
-		<option>
-			<name>TX_MONITOR1_2</name>
-			<key>"TX_MONITOR1_2"</key>
-		</option>
 	</param>
 
 	<param>

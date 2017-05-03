@@ -47,7 +47,6 @@ namespace gr::iio {
 				bool bbdc,
 				const char *gain,
 				double gain_value,
-				const char *rf_port_select,
 				const char *filter = "");
 	};
 }
