@@ -5,7 +5,7 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter)</make>
+	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
@@ -51,8 +51,8 @@
 	</param>
 
 	<param>
-		<name>Channel 1 Enabled</name>
-		<key>ch1_en</key>
+		<name>TX1 Enabled</name>
+		<key>tx1_en</key>
 		<value>True</value>
 		<type>enum</type>
 		<option><name>True</name><key>True</key></option>
@@ -60,26 +60,8 @@
 	</param>
 
 	<param>
-		<name>Channel 2 Enabled</name>
-		<key>ch2_en</key>
-		<value>True</value>
-		<type>enum</type>
-		<option><name>True</name><key>True</key></option>
-		<option><name>False</name><key>False</key></option>
-	</param>
-
-	<param>
-		<name>Channel 3 Enabled</name>
-		<key>ch3_en</key>
-		<value>True</value>
-		<type>enum</type>
-		<option><name>True</name><key>True</key></option>
-		<option><name>False</name><key>False</key></option>
-	</param>
-
-	<param>
-		<name>Channel 4 Enabled</name>
-		<key>ch4_en</key>
+		<name>TX2 Enabled</name>
+		<key>tx2_en</key>
 		<value>True</value>
 		<type>enum</type>
 		<option><name>True</name><key>True</key></option>
@@ -133,12 +115,12 @@
 	<!-- Avoid divisions by zero -->
 	<check>$interpolation > 0</check>
 
-	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
+	<check>sum([$tx1_en, $tx2_en]) &gt; 0</check>
 	<check>$samplerate &gt;= 2084000</check>
 
 	<sink>
 		<name>in</name>
-		<type>short</type>
-		<nports>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en])</nports>
+		<type>complex</type>
+		<nports>sum([$tx1_en, $tx2_en])</nports>
 	</sink>
 </block>
