@@ -22,6 +22,7 @@
 #include "pluto_source_impl.h"
 
 #include <iio.h>
+#include <stdio.h>
 
 using namespace gr::iio;
 
