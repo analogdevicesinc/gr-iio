@@ -30,7 +30,8 @@
 
 #include "device_source_impl.h"
 
-namespace gr::iio {
+namespace gr {
+  namespace iio {
 
 	class pluto_source_impl : public pluto_source
 				, public fmcomms2_source_f32c
@@ -41,6 +42,7 @@ namespace gr::iio {
 		static std::string get_uri();
 	};
 
-} // namespace gr::iio
+	} // namespace iio
+} // namespace gr
 
-#endif /* INCLUDED_IIO_FMCOMMS2_SOURCE_IMPL_H */
+#endif /* INCLUDED_IIO_PLUTO_SOURCE_IMPL_H */

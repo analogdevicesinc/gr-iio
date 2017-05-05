@@ -26,7 +26,8 @@
 #include <gnuradio/iio/api.h>
 #include <gnuradio/hier_block2.h>
 
-namespace gr::iio {
+namespace gr {
+  namespace iio {
 	/*!
 	 * \brief Source block for the PlutoSDR
 	 * \ingroup iio
@@ -50,6 +51,7 @@ namespace gr::iio {
 				const char *rf_port_select,
 				const char *filter = "");
 	};
-}
+	} // namespace iio
+} // namespace gr
 
 #endif /* INCLUDED_IIO_PLUTO_SOURCE_H */
