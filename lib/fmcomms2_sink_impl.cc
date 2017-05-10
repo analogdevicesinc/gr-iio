@@ -32,6 +32,8 @@
 #include <gnuradio/blocks/float_to_short.h>
 #include <gnuradio/blocks/complex_to_float.h>
 
+#include <ad9361.h>
+
 using namespace gr::blocks;
 
 namespace gr {
@@ -70,13 +72,13 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter)
+		    double attenuation2, const char *filter, bool auto_filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(device_source_impl::get_context(uri), true,
 		    frequency, samplerate, interpolation, bandwidth, ch1_en,
 		    ch2_en, ch3_en, ch4_en, buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, filter));
+		    attenuation1, attenuation2, filter, auto_filter));
     }
 
     fmcomms2_sink::sptr
@@ -86,13 +88,13 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter)
+		    double attenuation2, const char *filter, bool auto_filter)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(ctx, false, frequency, samplerate,
 		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, filter));
+		    attenuation1, attenuation2, filter, auto_filter));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -117,7 +119,7 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter)
+		    double attenuation2, const char *filter, bool auto_filter)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0)),
@@ -128,25 +130,26 @@ namespace gr {
 	      cyclic(cyclic)
     {
 	    set_params(frequency, samplerate, bandwidth, rf_port_select,
-			    attenuation1, attenuation2);
-
-	    std::string f(filter);
-	    if (!f.empty() && !device_source_impl::load_fir_filter(f, phy))
-		    throw std::runtime_error("Unable to load filter file");
+			    attenuation1, attenuation2, filter, auto_filter);
     }
 
     void fmcomms2_sink_impl::set_params(unsigned long long frequency,
 		    unsigned long samplerate, unsigned long bandwidth,
-		    const char *rf_port_select,
-		    double attenuation1, double attenuation2)
+		    const char *rf_port_select, double attenuation1,
+		    double attenuation2, const char *filter, bool auto_filter)
     {
 	    bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
 	    std::vector<std::string> params;
 
+	    if (filter && filter[0])
+		    auto_filter = false;
+
 	    params.push_back("out_altvoltage1_TX_LO_frequency=" +
 			    boost::to_string(frequency));
-	    params.push_back("out_voltage_sampling_frequency=" +
-			    boost::to_string(samplerate));
+	    if (!auto_filter) {
+		    params.push_back("out_voltage_sampling_frequency=" +
+				    boost::to_string(samplerate));
+	    }
 	    params.push_back("out_voltage_rf_bandwidth=" +
 			    boost::to_string(bandwidth));
 	    params.push_back("out_voltage0_rf_port_select=" +
@@ -160,6 +163,17 @@ namespace gr {
 	    }
 
 	    device_source_impl::set_params(this->phy, params);
+
+	    if (auto_filter) {
+		    int ret = ad9361_set_bb_rate(phy, samplerate);
+		    if (ret) {
+			    throw std::runtime_error("Unable to set BB rate");
+		    }
+	    } else if (filter && filter[0]) {
+		    std::string f(filter);
+		    if (!device_source_impl::load_fir_filter(f, phy))
+			    throw std::runtime_error("Unable to load filter file");
+	    }
     }
 
     int fmcomms2_sink_impl::work(int noutput_items,

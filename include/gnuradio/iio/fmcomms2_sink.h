@@ -43,7 +43,8 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter = "");
+		    double attenuation2, const char *filter = "",
+		    bool auto_filter = true);
 
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
@@ -51,12 +52,14 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter = "");
+		    double attenuation2, const char *filter = "",
+		    bool auto_filter = true);
 
       virtual void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
-		      const char *rf_port_select,
-		      double attenuation1, double attenuation2) = 0;
+		      const char *rf_port_select, double attenuation1,
+		      double attenuation2, const char *filter = "",
+		      bool auto_filter = true) = 0;
     };
 
     class IIO_API fmcomms2_sink_f32c : virtual public gr::hier_block2
@@ -69,13 +72,14 @@ namespace gr {
 		    unsigned long bandwidth, bool rx1_en, bool rx2_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter = "")
+		    double attenuation2, const char *filter = "",
+		    bool auto_filter = true)
       {
 	      fmcomms2_sink::sptr block = fmcomms2_sink::make(uri, frequency,
 			      samplerate, interpolation, bandwidth, rx1_en,
 			      rx1_en, rx2_en, rx2_en, buffer_size, cyclic,
 			      rf_port_select, attenuation1, attenuation2,
-			      filter);
+			      filter, auto_filter);
 
 	      return gnuradio::get_initial_sptr(
 			      new fmcomms2_sink_f32c(rx1_en, rx2_en, block));
@@ -83,11 +87,13 @@ namespace gr {
 
       void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
-		      const char *rf_port_select,
-		      double attenuation1, double attenuation2)
+		      const char *rf_port_select, double attenuation1,
+		      double attenuation2, const char *filter = "",
+		      bool auto_filter = true)
       {
 	      fmcomms2_block->set_params(frequency, samplerate, bandwidth,
-			      rf_port_select, attenuation1, attenuation2);
+			      rf_port_select, attenuation1, attenuation2,
+			      filter, auto_filter);
       }
 
     private:

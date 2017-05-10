@@ -5,8 +5,8 @@
 	<category>Industrial IO</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter)</make>
-	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
+	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</make>
+	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</callback>
 
 	<param>
 		<name>IIO context URI</name>
@@ -112,11 +112,25 @@
 		<type>file_open</type>
 	</param>
 
+	<param>
+		<name>Filter auto</name>
+		<key>auto_filter</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
 	<!-- Avoid divisions by zero -->
 	<check>$interpolation > 0</check>
 
 	<check>sum([$tx1_en, $tx2_en]) &gt; 0</check>
-	<check>$samplerate &gt;= 2084000</check>
+
+	<!-- if we're below 2.084 MSPS, we require either a user-supplied filter, or the auto filter. -->
+	<check>($samplerate &gt;= 2084000) or (len($filter) &gt; 0) or $auto_filter</check>
+
+	<!-- We can't enable user-supplied filter and auto-filter at the same time. -->
+	<check>not ($auto_filter and len($filter))</check>
 
 	<sink>
 		<name>in</name>

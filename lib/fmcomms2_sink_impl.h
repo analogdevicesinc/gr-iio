@@ -47,7 +47,8 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter);
+		    double attenuation2, const char *filter,
+		    bool auto_filter);
 
       int work(int noutput_items,
 		    gr_vector_const_void_star &input_items,
@@ -55,8 +56,9 @@ namespace gr {
 
       void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
-		      const char *rf_port_select,
-		      double attenuation1, double attenuation2);
+		      const char *rf_port_select, double attenuation1,
+		      double attenuation2, const char *filter,
+		      bool auto_filter);
     };
 
   } // namespace iio
