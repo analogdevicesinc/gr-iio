@@ -46,12 +46,15 @@ namespace gr {
 				unsigned long buffer_size,
 				bool cyclic,
 				double attenuation,
-				const char *filter = "");
+				const char *filter = "",
+				bool auto_filter = true);
 
 		virtual void set_params(unsigned long long frequency,
 				unsigned long samplerate,
 				unsigned long bandwidth,
-				double attenuation) = 0;
+				double attenuation,
+				const char *filter = "",
+				bool auto_filter = true) = 0;
 	};
 
         } // namespace iio

@@ -42,7 +42,9 @@ namespace gr {
 		void set_params(unsigned long long frequency,
 				unsigned long samplerate,
 				unsigned long bandwidth,
-				double attenuation);
+				double attenuation,
+				const char *filter,
+				bool auto_filter);
 	};
 
         } // namespace iio
