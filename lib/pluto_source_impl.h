@@ -45,7 +45,8 @@ namespace gr {
 				unsigned long samplerate,
 				unsigned long bandwidth,
 				bool quadrature, bool rfdc, bool bbdc,
-				const char *gain, double gain_value);
+				const char *gain, double gain_value,
+				const char *filter, bool auto_filter);
 	};
 
 	} // namespace iio
