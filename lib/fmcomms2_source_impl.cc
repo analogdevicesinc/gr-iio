@@ -31,6 +31,8 @@
 #include <gnuradio/blocks/short_to_float.h>
 #include <gnuradio/blocks/float_to_complex.h>
 
+#include <ad9361.h>
+
 using namespace gr::blocks;
 
 namespace gr {
@@ -70,14 +72,16 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select, const char *filter)
+		    const char *port_select, const char *filter,
+		    bool auto_filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(device_source_impl::get_context(uri), true,
 				  frequency, samplerate, decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
-				  gain2, gain2_value, port_select, filter));
+				  gain2, gain2_value, port_select, filter,
+				  auto_filter));
     }
 
     fmcomms2_source::sptr
@@ -88,14 +92,16 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select, const char *filter)
+		    const char *port_select, const char *filter,
+		    bool auto_filter)
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(ctx, false, frequency, samplerate,
 				  decimation, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
-				  gain2, gain2_value, port_select, filter));
+				  gain2, gain2_value, port_select, filter,
+				  auto_filter));
     }
 
     std::vector<std::string> fmcomms2_source_impl::get_channels_vector(
@@ -121,7 +127,8 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select, const char *filter)
+		    const char *port_select, const char *filter,
+		    bool auto_filter)
       : gr::sync_block("fmcomms2_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(short)))
@@ -132,11 +139,7 @@ namespace gr {
     {
 	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
 			    gain1, gain1_value, gain2, gain2_value,
-			    port_select);
-
-	    std::string filt(filter);
-	    if (!filt.empty() && !load_fir_filter(filt, phy))
-		    throw std::runtime_error("Unable to load filter file");
+			    port_select, filter, auto_filter);
     }
 
     void fmcomms2_source_impl::set_params(unsigned long long frequency,
@@ -144,15 +147,21 @@ namespace gr {
 		    bool quadrature, bool rfdc, bool bbdc,
 		    const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *port_select)
+		    const char *port_select, const char *filter,
+		    bool auto_filter)
     {
 	    bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
 	    std::vector<std::string> params;
 
+	    if (filter && filter[0])
+		    auto_filter = false;
+
 	    params.push_back("out_altvoltage0_RX_LO_frequency=" +
 			    boost::to_string(frequency));
-	    params.push_back("in_voltage_sampling_frequency=" +
-			    boost::to_string(samplerate));
+	    if (!auto_filter) {
+		    params.push_back("in_voltage_sampling_frequency=" +
+				    boost::to_string(samplerate));
+	    }
 	    params.push_back("in_voltage_rf_bandwidth=" +
 			    boost::to_string(bandwidth));
 	    params.push_back("in_voltage_quadrature_tracking_en=" +
@@ -177,6 +186,17 @@ namespace gr {
 			    boost::to_string(port_select));
 
 	    device_source_impl::set_params(params);
+
+	    if (auto_filter) {
+		    int ret = ad9361_set_bb_rate(phy, samplerate);
+		    if (ret) {
+			    throw std::runtime_error("Unable to set BB rate");
+		    }
+	    } else if (filter && filter[0]) {
+		    std::string filt(filter);
+		    if (!load_fir_filter(filt, phy))
+			    throw std::runtime_error("Unable to load filter file");
+	    }
     }
 
   } /* namespace iio */
