@@ -30,7 +30,8 @@
 
 #include "device_sink_impl.h"
 
-namespace gr::iio {
+namespace gr {
+  namespace iio {
 
 	class pluto_sink_impl : public pluto_sink
 				, public fmcomms2_sink_f32c
@@ -39,6 +40,7 @@ namespace gr::iio {
 		explicit pluto_sink_impl(fmcomms2_sink::sptr block);
 	};
 
-} // namespace gr::iio
+        } // namespace iio
+} // namespace gr
 
-#endif /* INCLUDED_IIO_FMCOMMS2_SINK_IMPL_H */
+#endif /* INCLUDED_PLUTO_SINK_IMPL_H */

@@ -24,7 +24,8 @@
 
 #include <iio.h>
 
-using namespace gr::iio;
+namespace gr {
+  namespace iio {
 
 pluto_sink::sptr pluto_sink::make(const std::string& uri,
 		unsigned long long frequency,
@@ -54,3 +55,6 @@ pluto_sink_impl::pluto_sink_impl(fmcomms2_sink::sptr block) :
 	fmcomms2_sink_f32c(true, false, block)
 {
 }
+
+        } // namespace iio
+} // namespace gr

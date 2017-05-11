@@ -26,7 +26,8 @@
 #include <gnuradio/iio/api.h>
 #include <gnuradio/hier_block2.h>
 
-namespace gr::iio {
+namespace gr {
+  namespace iio {
 	/*!
 	 * \brief Sink block for the PlutoSDR
 	 * \ingroup iio
@@ -47,6 +48,8 @@ namespace gr::iio {
 				double attenuation,
 				const char *filter = "");
 	};
-}
+
+        } // namespace iio
+} // namespace gr
 
 #endif /* INCLUDED_IIO_PLUTO_SINK_H */

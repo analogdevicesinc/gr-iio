@@ -24,7 +24,8 @@
 #include <iio.h>
 #include <stdio.h>
 
-using namespace gr::iio;
+namespace gr {
+  namespace iio {
 
 pluto_source::sptr pluto_source::make(const std::string& uri,
 		unsigned long long frequency, unsigned long samplerate,
@@ -90,3 +91,6 @@ pluto_source_impl::pluto_source_impl(fmcomms2_source::sptr block) :
 	fmcomms2_source_f32c(true, false, block)
 {
 }
+
+        } // namespace iio
+} // namespace gr
