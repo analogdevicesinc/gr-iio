@@ -47,6 +47,11 @@ namespace gr {
 				bool cyclic,
 				double attenuation,
 				const char *filter = "");
+
+		virtual void set_params(unsigned long long frequency,
+				unsigned long samplerate,
+				unsigned long bandwidth,
+				double attenuation) = 0;
 	};
 
         } // namespace iio

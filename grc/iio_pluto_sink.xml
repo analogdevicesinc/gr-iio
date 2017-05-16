@@ -6,7 +6,7 @@
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
 	<make>iio.pluto_sink($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $buffer_size, $cyclic, $attenuation, $filter)</make>
-	<callback>set_params($frequency, $samplerate, $bandwidth, "A", $attenuation, 0.0)</callback>
+	<callback>set_params($frequency, $samplerate, $bandwidth, $attenuation)</callback>
 
 	<param>
 		<name>IIO context URI</name>

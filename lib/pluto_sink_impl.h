@@ -38,6 +38,11 @@ namespace gr {
 	{
 	public:
 		explicit pluto_sink_impl(fmcomms2_sink::sptr block);
+
+		void set_params(unsigned long long frequency,
+				unsigned long samplerate,
+				unsigned long bandwidth,
+				double attenuation);
 	};
 
         } // namespace iio

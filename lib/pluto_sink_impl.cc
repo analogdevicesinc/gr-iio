@@ -56,5 +56,14 @@ pluto_sink_impl::pluto_sink_impl(fmcomms2_sink::sptr block) :
 {
 }
 
+void pluto_sink_impl::set_params(unsigned long long frequency,
+		unsigned long samplerate,
+		unsigned long bandwidth,
+		double attenuation)
+{
+	fmcomms2_sink_f32c::set_params(frequency, samplerate, bandwidth,
+			"A", attenuation, 0.0);
+}
+
         } // namespace iio
 } // namespace gr
