@@ -275,9 +275,10 @@ namespace gr {
 		iio_strerror(-ret, buf, sizeof(buf));
 		std::string error(buf);
 
-		throw std::runtime_error("Unable to refill buffer: "
-				+ error);
+		std::cerr << "Unable to refill buffer: " << error << std::endl;
 	}
+
+	thread_stopped = true;
     }
 
     int
@@ -287,6 +288,9 @@ namespace gr {
     {
 	gr::thread::scoped_lock l(d_setlock);
 	boost::unique_lock<boost::mutex> lock(iio_mutex);
+
+	if (thread_stopped)
+		return -1; /* EOF */
 
 	/* No items in buffer -> ask for a refill */
 	if (!please_refill_buffer && !items_in_buffer) {
@@ -348,6 +352,7 @@ namespace gr {
 	sample_counter = 0;
 	items_in_buffer = 0;
 	please_refill_buffer = false;
+	thread_stopped = false;
 
 	buf = iio_device_create_buffer(dev, buffer_size, false);
 

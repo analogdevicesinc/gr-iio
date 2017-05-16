@@ -43,7 +43,7 @@ namespace gr {
 	     unsigned long items_in_buffer;
 	     off_t byte_offset;
 	     unsigned long sample_counter;
-	     volatile bool please_refill_buffer;
+	     volatile bool please_refill_buffer, thread_stopped;
 	     pmt::pmt_t port_id;
 
 	     boost::thread refill_thd;
