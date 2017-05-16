@@ -49,6 +49,12 @@ namespace gr {
 				const char *gain,
 				double gain_value,
 				const char *filter = "");
+
+		virtual void set_params(unsigned long long frequency,
+				unsigned long samplerate,
+				unsigned long bandwidth,
+				bool quadrature, bool rfdc, bool bbdc,
+				const char *gain, double gain_value) = 0;
 	};
 	} // namespace iio
 } // namespace gr

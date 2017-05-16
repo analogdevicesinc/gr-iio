@@ -92,5 +92,16 @@ pluto_source_impl::pluto_source_impl(fmcomms2_source::sptr block) :
 {
 }
 
+void pluto_source_impl::set_params(unsigned long long frequency,
+		unsigned long samplerate,
+		unsigned long bandwidth,
+		bool quadrature, bool rfdc, bool bbdc,
+		const char *gain, double gain_value)
+{
+	fmcomms2_source_f32c::set_params(frequency, samplerate, bandwidth,
+			quadrature, rfdc, bbdc, gain, gain_value, NULL, 0.0,
+			"A_BALANCED");
+}
+
         } // namespace iio
 } // namespace gr

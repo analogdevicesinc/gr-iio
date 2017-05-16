@@ -40,6 +40,12 @@ namespace gr {
 		explicit pluto_source_impl(fmcomms2_source::sptr block);
 
 		static std::string get_uri();
+
+		void set_params(unsigned long long frequency,
+				unsigned long samplerate,
+				unsigned long bandwidth,
+				bool quadrature, bool rfdc, bool bbdc,
+				const char *gain, double gain_value);
 	};
 
 	} // namespace iio
