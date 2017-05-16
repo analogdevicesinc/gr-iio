@@ -191,7 +191,8 @@ namespace gr {
 		iio_strerror(-ret, buf, sizeof(buf));
 		std::string error(buf);
 
-		throw std::runtime_error("Unable to push buffer: " + error);
+		std::cerr << "Unable to push buffer: " << error << std::endl;
+		return -1; /* EOF */
 	}
 
 	consume_each(buffer_size / (interpolation + 1));
