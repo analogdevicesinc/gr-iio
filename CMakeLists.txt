@@ -33,6 +33,11 @@ if (MSVC)
 	add_definitions(-DNOMINMAX)
 endif (MSVC)
 
+if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+	# https://stackoverflow.com/questions/2842469/python-undefined-reference-to-imp-py-initmodule4
+	add_definitions(-DMS_WIN64)
+endif(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+
 #select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
