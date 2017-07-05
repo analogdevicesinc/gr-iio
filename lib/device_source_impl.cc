@@ -349,6 +349,8 @@ namespace gr {
 
     bool device_source_impl::start()
     {
+	boost::unique_lock<boost::mutex> lock(iio_mutex);
+
 	sample_counter = 0;
 	items_in_buffer = 0;
 	please_refill_buffer = false;
