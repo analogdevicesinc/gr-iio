@@ -279,6 +279,7 @@ namespace gr {
 	}
 
 	thread_stopped = true;
+	iio_cond2.notify_all();
     }
 
     int
@@ -301,6 +302,8 @@ namespace gr {
 	while (please_refill_buffer) {
 		bool fast_enough = iio_cond2.timed_wait(lock,
 				boost::posix_time::milliseconds(timeout));
+		if (thread_stopped)
+			return -1; /* EOF */
 
 		if (!fast_enough) {
 			message_port_pub(port_id, pmt::mp("timeout"));
