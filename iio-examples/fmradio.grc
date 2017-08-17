@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.8.git'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Thu Nov 20 10:51:02 2014</timestamp>
   <block>
@@ -246,143 +246,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_float_to_complex</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(489, 202)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_float_to_complex_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_short_to_float</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(293, 198)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_short_to_float_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>scale</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_short_to_float</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(291, 257)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_short_to_float_0_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>scale</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -526,22 +389,6 @@
       <value>0x20000</value>
     </param>
     <param>
-      <key>ch1_en</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>ch2_en</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>ch3_en</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ch4_en</key>
-      <value>False</value>
-    </param>
-    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -558,8 +405,16 @@
       <value>True</value>
     </param>
     <param>
+      <key>auto_filter</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value></value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(12, 111)</value>
+      <value>(112, 116)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -618,6 +473,14 @@
       <value>20000000</value>
     </param>
     <param>
+      <key>rx1_en</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>rx2_en</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>samplerate</key>
       <value>sample_rate</value>
     </param>
@@ -658,7 +521,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(693, 167)</value>
+      <value>(448, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -747,33 +610,9 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_float_to_complex_0</source_block_id>
+    <source_block_id>iio_fmcomms2_source_0</source_block_id>
     <sink_block_id>low_pass_filter_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_short_to_float_0</source_block_id>
-    <sink_block_id>blocks_float_to_complex_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_short_to_float_0_0</source_block_id>
-    <sink_block_id>blocks_float_to_complex_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>iio_fmcomms2_source_0</source_block_id>
-    <sink_block_id>blocks_short_to_float_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>iio_fmcomms2_source_0</source_block_id>
-    <sink_block_id>blocks_short_to_float_0_0</sink_block_id>
-    <source_key>1</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
