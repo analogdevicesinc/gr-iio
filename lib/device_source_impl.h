@@ -24,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include <iio.h>
 #include <boost/thread.hpp>
@@ -31,6 +32,8 @@
 
 namespace gr {
   namespace iio {
+
+    static std::map<std::string,struct iio_context *> contexts;
 
     class device_source_impl : public device_source
     {
