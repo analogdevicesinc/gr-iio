@@ -26,7 +26,7 @@ include_directories(${Boost_INCLUDE_DIR} ${IIO_INCLUDE_DIRS} ${AD9361_INCLUDE_DI
 link_directories(${Boost_LIBRARY_DIRS})
 
 include(FindFLEX REQUIRED)
-include(FindBISON REQUIRED)
+find_package(BISON "3.0.2" REQUIRED)
 
 flex_target(lexer
 	${CMAKE_CURRENT_SOURCE_DIR}/iio_math_lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.c)
