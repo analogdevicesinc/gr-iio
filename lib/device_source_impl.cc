@@ -131,13 +131,13 @@ namespace gr {
     {
 	    struct iio_context *ctx;
 	    unsigned short vid, pid;
-      std::map<std::string,struct iio_context *>::iterator it;
+	    std::map<std::string,struct iio_context *>::iterator it;
 
-      // Check if we have a context with the same URI open
-      if (!contexts.empty()){
-        it = contexts.find(uri);
-        if (it != contexts.end()) return it->second;
-      }
+	    // Check if we have a context with the same URI open
+	    if (!contexts.empty()){
+	    	it = contexts.find(uri);
+	        if (it != contexts.end()) return it->second;
+	    }
 
 	    if (uri.empty()) {
 		    ctx = iio_create_default_context();
@@ -151,7 +151,8 @@ namespace gr {
 		    if (!ctx)
 			    ctx = iio_create_network_context(uri.c_str());
 	    }
-      contexts[uri] = ctx;
+	    // Save context info for future checks
+	    contexts[uri] = ctx;
 
 	    return ctx;
     }
