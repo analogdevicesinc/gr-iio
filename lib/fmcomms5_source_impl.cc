@@ -28,10 +28,43 @@
 #include <gnuradio/io_signature.h>
 #include "fmcomms5_source_impl.h"
 
+#include <gnuradio/blocks/short_to_float.h>
+#include <gnuradio/blocks/float_to_complex.h>
+
 #include <ad9361.h>
+
+using namespace gr::blocks;
 
 namespace gr {
   namespace iio {
+
+    fmcomms5_source_f32c::fmcomms5_source_f32c(bool rx1_en, bool rx2_en,
+                    bool rx3_en, bool rx4_en,
+                    fmcomms5_source::sptr src_block) :
+            hier_block2("fmcomms5_f32c",
+                io_signature::make(0, 0, 0),
+                io_signature::make(
+      (int) rx1_en + (int) rx2_en + (int) rx3_en + (int) rx4_en,
+      (int) rx1_en + (int) rx2_en + (int) rx3_en + (int) rx4_en,
+      sizeof(gr_complex))),
+            fmcomms5_block(src_block)
+    {
+      basic_block_sptr hier = shared_from_this();
+      unsigned int num_streams = (int) rx1_en + (int) rx2_en +
+       (int) rx3_en + (int) rx4_en;
+
+      for (unsigned int i = 0; i < num_streams; i++) {
+        short_to_float::sptr s2f1 = short_to_float::make(1, 2048.0);
+        short_to_float::sptr s2f2 = short_to_float::make(1, 2048.0);
+        float_to_complex::sptr f2c = float_to_complex::make(1);
+
+        connect(src_block, i * 2, s2f1, 0);
+        connect(src_block, i * 2 + 1, s2f2, 0);
+        connect(s2f1, 0, f2c, 0);
+        connect(s2f2, 0, f2c, 1);
+        connect(f2c, 0, hier, i);
+      }
+    }
 
     fmcomms5_source::sptr
     fmcomms5_source::make(const std::string &uri,
