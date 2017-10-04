@@ -37,6 +37,7 @@ GR_SWIG_BLOCK_MAGIC2(iio, fmcomms2_sink_f32c);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_source);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_source_f32c);
 GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_sink);
+GR_SWIG_BLOCK_MAGIC2(iio, fmcomms5_sink_f32c);
 GR_SWIG_BLOCK_MAGIC2(iio, iio_math);
 GR_SWIG_BLOCK_MAGIC2(iio, iio_math_gen);
 GR_SWIG_BLOCK_MAGIC2(iio, power_ff);
