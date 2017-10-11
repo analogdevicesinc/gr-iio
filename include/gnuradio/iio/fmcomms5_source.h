@@ -93,7 +93,8 @@ namespace gr {
       typedef boost::shared_ptr<fmcomms5_source_f32c> sptr;
 
       static sptr make(const std::string &uri,
-        unsigned long long frequency, unsigned long samplerate,
+        unsigned long long frequency1, unsigned long long frequency2,
+        unsigned long samplerate,
         unsigned long decimation, unsigned long bandwidth,
         bool rx1_en, bool rx2_en, bool rx3_en, bool rx4_en,
         unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -104,7 +105,7 @@ namespace gr {
         const char *rf_port_select, const char *filter = "")
       {
         fmcomms5_source::sptr block = fmcomms5_source::make(uri,
-            frequency, frequency, samplerate, decimation,
+            frequency1, frequency2, samplerate, decimation,
             bandwidth, rx1_en, rx1_en, rx2_en,
             rx2_en, rx3_en, rx3_en, rx4_en,
             rx4_en, buffer_size, quadrature,
@@ -117,7 +118,8 @@ namespace gr {
             new fmcomms5_source_f32c(rx1_en, rx2_en, rx3_en, rx4_en, block));
       }
 
-      void set_params(unsigned long long frequency,
+      void set_params(unsigned long long frequency1,
+          unsigned long long frequency2,
           unsigned long samplerate, unsigned long bandwidth,
           bool quadrature, bool rfdc, bool bbdc,
           const char *gain1, double gain1_value,
@@ -126,7 +128,7 @@ namespace gr {
           const char *gain4, double gain4_value,
           const char *rf_port_select)
       {
-              fmcomms5_block->set_params(frequency, frequency, samplerate, bandwidth,
+              fmcomms5_block->set_params(frequency1, frequency2, samplerate, bandwidth,
                               quadrature, rfdc, bbdc, gain1, gain1_value,
                               gain2, gain2_value, gain3, gain3_value,
                               gain4, gain4_value, rf_port_select);

@@ -75,7 +75,7 @@ namespace gr {
       typedef boost::shared_ptr<fmcomms5_sink_f32c> sptr;
 
       static sptr make(const std::string &uri, unsigned long long frequency1,
-        unsigned long long frequency2,
+		    unsigned long long frequency2,
 		    unsigned long samplerate, unsigned long interpolation,
 		    unsigned long bandwidth, bool rx1_en, bool rx2_en,
         bool rx3_en, bool rx4_en,
@@ -96,12 +96,13 @@ namespace gr {
 			      new fmcomms5_sink_f32c(rx1_en, rx2_en, rx3_en, rx4_en, block));
       }
 
-      void set_params(unsigned long long frequency,
+      void set_params(unsigned long long frequency1,
+		      unsigned long long frequency2,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      const char *rf_port_select, double attenuation1,
 		      double attenuation2, double attenuation3, double attenuation4)
       {
-	      fmcomms5_block->set_params(frequency, frequency,
+	      fmcomms5_block->set_params(frequency1, frequency2,
             samplerate, bandwidth,
 			      rf_port_select, attenuation1, attenuation2,
             attenuation3, attenuation4);
