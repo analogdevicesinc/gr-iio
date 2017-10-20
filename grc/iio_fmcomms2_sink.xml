@@ -2,7 +2,7 @@
 <block>
 	<name>FMComms2/3/4 Sink</name>
 	<key>iio_fmcomms2_sink</key>
-	<category>Industrial IO</category>
+	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
 	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</make>

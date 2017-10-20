@@ -2,7 +2,7 @@
 <block>
 	<name>Modulo</name>
 	<key>iio_modulo_ff</key>
-	<category>Math Operators</category>
+	<category>[Industrial IO]/Math Operators</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.modulo_ff($vlen)</make>
 	<param>
