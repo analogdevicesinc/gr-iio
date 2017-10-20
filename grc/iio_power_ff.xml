@@ -8,7 +8,7 @@
 <block>
 	<name>Power</name>
 	<key>iio_power_ff</key>
-	<category>Math Operators</category>
+	<category>[Industrial IO]/Math Operators</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.power_ff($vlen)</make>
 	<param>

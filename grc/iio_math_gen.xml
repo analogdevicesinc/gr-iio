@@ -2,7 +2,7 @@
 <block>
 	<name>Function Generator</name>
 	<key>math_gen</key>
-	<category>Waveform Generators</category>
+	<category>[Industrial IO]/Waveform Generators</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.iio_math_gen($samp_rate, $wav_freq, $function)</make>
 

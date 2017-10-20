@@ -2,7 +2,7 @@
 <block>
 	<name>FMComms2/3/4 Source</name>
 	<key>iio_fmcomms2_source</key>
-	<category>Industrial IO</category>
+	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
 	<make>iio.fmcomms2_source_f32c($uri, $frequency, $samplerate, $decimation - 1, $bandwidth, $rx1_en, $rx2_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</make>

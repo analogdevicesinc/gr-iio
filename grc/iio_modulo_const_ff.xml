@@ -2,7 +2,7 @@
 <block>
 	<name>Modulo Const</name>
 	<key>iio_modulo_const_ff</key>
-	<category>Math Operators</category>
+	<category>[Industrial IO]/Math Operators</category>
 	<import>from gnuradio import iio</import>
 	<make>iio.modulo_const_ff($modulo, $vlen)</make>
 	<param>
