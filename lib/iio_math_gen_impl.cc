@@ -63,7 +63,7 @@ gr::basic_block_sptr iio_math_gen_impl::get_src_block()
 	return src_block;
 }
 
-void iio_math_gen_impl::connect_to_output(gr::basic_block_sptr block)
+void iio_math_gen_impl::connect_to_output(gr::basic_block_sptr block, unsigned int port)
 {
 	basic_block_sptr hier = shared_from_this();
 

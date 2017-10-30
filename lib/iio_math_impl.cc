@@ -131,15 +131,14 @@ gr::basic_block_sptr iio_math_impl::get_src_block()
 	return shared_from_this();
 }
 
-void iio_math_impl::connect_to_output(gr::basic_block_sptr block)
+void iio_math_impl::connect_to_output(gr::basic_block_sptr block, unsigned int port)
 {
 	basic_block_sptr hier = shared_from_this();
 
 	if (hier == block) {
 		blocks::copy::sptr copy = blocks::copy::make(sizeof(float));
-
 		/* Handle 'y = x' expression */
-		connect(hier, 0, copy, 0);
+		connect(hier, port, copy, 0);
 		connect(copy, 0, hier, 0);
 	} else {
 		connect(block, 0, hier, 0);
@@ -299,7 +298,7 @@ void connect_to_output(void *pdata, void *_block)
 	struct iio_math_impl::block *block = (struct iio_math_impl::block *) _block;
 	iio_math_impl *m = (iio_math_impl *) pdata;
 
-	m->connect_to_output(block->sptr);
+	m->connect_to_output(block->sptr, block->port);
 }
 
 void delete_block(void *pdata, void *_block)

@@ -48,7 +48,7 @@ namespace gr {
 			void register_block(struct block *block);
 			void set_port_used(unsigned int port);
 			virtual gr::basic_block_sptr get_src_block();
-			virtual void connect_to_output(gr::basic_block_sptr block);
+			virtual void connect_to_output(gr::basic_block_sptr block, unsigned int port = 0);
 
 		private:
 			std::vector<struct block *> blocks;
@@ -71,7 +71,7 @@ namespace gr {
 					const std::string &function);
 
 			virtual gr::basic_block_sptr get_src_block();
-			virtual void connect_to_output(gr::basic_block_sptr block);
+			virtual void connect_to_output(gr::basic_block_sptr block, unsigned int port = 0);
 
 		private:
 			gr::basic_block_sptr src_block;
