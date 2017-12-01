@@ -41,7 +41,6 @@ namespace gr {
 		static sptr make(const std::string &uri,
 				unsigned long long frequency,
 				unsigned long samplerate,
-				unsigned long interpolation,
 				unsigned long bandwidth,
 				unsigned long buffer_size,
 				bool cyclic,

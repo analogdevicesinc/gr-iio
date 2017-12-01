@@ -51,7 +51,7 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(const std::string &uri, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long decimation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -62,7 +62,7 @@ namespace gr {
 
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
@@ -86,7 +86,7 @@ namespace gr {
 
       static sptr make(const std::string &uri,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool rx1_en, bool rx2_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
@@ -95,7 +95,7 @@ namespace gr {
 		    bool auto_filter = true)
       {
 	      fmcomms2_source::sptr block = fmcomms2_source::make(uri,
-			      frequency, samplerate, decimation,
+			      frequency, samplerate,
 			      bandwidth, rx1_en, rx1_en, rx2_en,
 			      rx2_en, buffer_size, quadrature,
 			      rfdc, bbdc, gain1, gain1_value,

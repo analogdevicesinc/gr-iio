@@ -5,7 +5,7 @@
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_source_f32c($uri, $frequency, $samplerate, $decimation - 1, $bandwidth, $rx1_en, $rx2_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</make>
+	<make>iio.fmcomms2_source_f32c($uri, $frequency, $samplerate, $bandwidth, $rx1_en, $rx2_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</callback>
 
 	<param>
@@ -40,13 +40,6 @@
 		<name>Buffer size</name>
 		<key>buffer_size</key>
 		<value>0x8000</value>
-		<type>int</type>
-	</param>
-
-	<param>
-		<name>Decimation</name>
-		<key>decimation</key>
-		<value>1</value>
 		<type>int</type>
 	</param>
 

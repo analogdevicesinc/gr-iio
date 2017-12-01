@@ -5,7 +5,7 @@
 	<category>[Industrial IO]/PlutoSDR</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.pluto_source($uri, $frequency, $samplerate, $decimation - 1, $bandwidth, $buffer_size, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter, $auto_filter)</make>
+	<make>iio.pluto_source($uri, $frequency, $samplerate, $bandwidth, $buffer_size, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter, $auto_filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter, $auto_filter)</callback>
 
 	<param>
@@ -40,13 +40,6 @@
 		<name>Buffer size</name>
 		<key>buffer_size</key>
 		<value>0x8000</value>
-		<type>int</type>
-	</param>
-
-	<param>
-		<name>Decimation</name>
-		<key>decimation</key>
-		<value>1</value>
 		<type>int</type>
 	</param>
 

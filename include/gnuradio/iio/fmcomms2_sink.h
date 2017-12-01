@@ -38,7 +38,7 @@ namespace gr {
       typedef boost::shared_ptr<fmcomms2_sink> sptr;
 
       static sptr make(const std::string &uri, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
@@ -48,7 +48,7 @@ namespace gr {
 
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long interpolation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
@@ -68,7 +68,7 @@ namespace gr {
       typedef boost::shared_ptr<fmcomms2_sink_f32c> sptr;
 
       static sptr make(const std::string &uri, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth, bool rx1_en, bool rx2_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
@@ -76,7 +76,7 @@ namespace gr {
 		    bool auto_filter = true)
       {
 	      fmcomms2_sink::sptr block = fmcomms2_sink::make(uri, frequency,
-			      samplerate, interpolation, bandwidth, rx1_en,
+			      samplerate, bandwidth, rx1_en,
 			      rx1_en, rx2_en, rx2_en, buffer_size, cyclic,
 			      rf_port_select, attenuation1, attenuation2,
 			      filter, auto_filter);
