@@ -139,7 +139,7 @@
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
-      <value>1000</value>
+      <value>1</value>
     </param>
     <param>
       <key>alias</key>
@@ -432,7 +432,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 304)</value>
+      <value>(560, 312)</value>
     </param>
     <param>
       <key>gui_hint</key>
