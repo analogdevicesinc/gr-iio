@@ -70,7 +70,7 @@ namespace gr {
     fmcomms5_source::make(const std::string &uri,
 		    unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -83,7 +83,7 @@ namespace gr {
       return gnuradio::get_initial_sptr
         (new fmcomms5_source_impl(device_source_impl::get_context(uri),
 				  true, frequency1, frequency2,
-				  samplerate, decimation, bandwidth,
+				  samplerate, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en,
 				  ch5_en, ch6_en, ch7_en, ch8_en,
 				  buffer_size,
@@ -96,7 +96,7 @@ namespace gr {
     fmcomms5_source::make_from(struct iio_context *ctx,
 		    unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -108,7 +108,7 @@ namespace gr {
     {
       return gnuradio::get_initial_sptr
         (new fmcomms5_source_impl(ctx, false, frequency1, frequency2,
-				  samplerate, decimation, bandwidth,
+				  samplerate, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en,
 				  ch5_en, ch6_en, ch7_en, ch8_en,
 				  buffer_size,
@@ -144,7 +144,7 @@ namespace gr {
     fmcomms5_source_impl::fmcomms5_source_impl(struct iio_context *ctx,
 		    bool destroy_ctx, unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -160,7 +160,7 @@ namespace gr {
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en,
 			      ch5_en, ch6_en, ch7_en, ch8_en),
 		      "ad9361-phy", std::vector<std::string>(),
-		      buffer_size, decimation),
+		      buffer_size, 0),
         samplerate(0)
     {
 	    phy2 = iio_context_find_device(ctx, "ad9361-phy-B");

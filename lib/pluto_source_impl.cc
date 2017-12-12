@@ -29,14 +29,14 @@ namespace gr {
 
 pluto_source::sptr pluto_source::make(const std::string& uri,
 		unsigned long long frequency, unsigned long samplerate,
-		unsigned long decimation, unsigned long bandwidth,
+		unsigned long bandwidth,
 		unsigned long buffer_size, bool quadrature, bool rfdc,
 		bool bbdc, const char *gain, double gain_value,
 		const char *filter, bool auto_filter)
 {
 	fmcomms2_source::sptr block = fmcomms2_source::make(
 			uri.empty() ? pluto_source_impl::get_uri() : uri,
-			frequency, samplerate, decimation,
+			frequency, samplerate,
 			bandwidth, true, true, false, false,
 			buffer_size, quadrature, rfdc, bbdc,
 			gain, gain_value, NULL, 0.0, "A_BALANCED",

@@ -5,7 +5,7 @@
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</make>
+	<make>iio.fmcomms2_sink_f32c($uri, $frequency, $samplerate, $bandwidth, $tx1_en, $tx2_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2, $filter, $auto_filter)</callback>
 
 	<param>
@@ -40,13 +40,6 @@
 		<name>Buffer size</name>
 		<key>buffer_size</key>
 		<value>0x8000</value>
-		<type>int</type>
-	</param>
-
-	<param>
-		<name>Interpolation</name>
-		<key>interpolation</key>
-		<value>1</value>
 		<type>int</type>
 	</param>
 
@@ -121,8 +114,6 @@
 		<option><name>False</name><key>False</key></option>
 	</param>
 
-	<!-- Avoid divisions by zero -->
-	<check>$interpolation > 0</check>
 
 	<check>sum([$tx1_en, $tx2_en]) &gt; 0</check>
 

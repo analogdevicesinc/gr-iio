@@ -5,7 +5,7 @@
 	<category>[Industrial IO]/PlutoSDR</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.pluto_sink($uri, $frequency, $samplerate, $interpolation - 1, $bandwidth, $buffer_size, $cyclic, $attenuation, $filter, $auto_filter)</make>
+	<make>iio.pluto_sink($uri, $frequency, $samplerate, $bandwidth, $buffer_size, $cyclic, $attenuation, $filter, $auto_filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $attenuation, $filter, $auto_filter)</callback>
 
 	<param>
@@ -44,13 +44,6 @@
 	</param>
 
 	<param>
-		<name>Interpolation</name>
-		<key>interpolation</key>
-		<value>1</value>
-		<type>int</type>
-	</param>
-
-	<param>
 		<name>Cyclic</name>
 		<key>cyclic</key>
 		<value>False</value>
@@ -81,9 +74,6 @@
 		<option><name>True</name><key>True</key></option>
 		<option><name>False</name><key>False</key></option>
 	</param>
-
-	<!-- Avoid divisions by zero -->
-	<check>$interpolation > 0</check>
 
 	<!-- if we're below 2.084 MSPS, we require either a user-supplied filter, or the auto filter. -->
 	<check>($samplerate &gt;= 2084000) or (len($filter) &gt; 0) or $auto_filter</check>

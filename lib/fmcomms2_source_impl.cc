@@ -66,7 +66,7 @@ namespace gr {
 
     fmcomms2_source::sptr
     fmcomms2_source::make(const std::string &uri, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long decimation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
@@ -77,7 +77,7 @@ namespace gr {
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(device_source_impl::get_context(uri), true,
-				  frequency, samplerate, decimation, bandwidth,
+				  frequency, samplerate, bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
 				  gain2, gain2_value, port_select, filter,
@@ -87,7 +87,7 @@ namespace gr {
     fmcomms2_source::sptr
     fmcomms2_source::make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
@@ -97,7 +97,7 @@ namespace gr {
     {
       return gnuradio::get_initial_sptr
         (new fmcomms2_source_impl(ctx, false, frequency, samplerate,
-				  decimation, bandwidth,
+				  bandwidth,
 				  ch1_en, ch2_en, ch3_en, ch4_en, buffer_size,
 				  quadrature, rfdc, bbdc, gain1, gain1_value,
 				  gain2, gain2_value, port_select, filter,
@@ -122,7 +122,7 @@ namespace gr {
     fmcomms2_source_impl::fmcomms2_source_impl(struct iio_context *ctx,
 		    bool destroy_ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long decimation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
@@ -135,7 +135,7 @@ namespace gr {
       , device_source_impl(ctx, destroy_ctx, "cf-ad9361-lpc",
 		      get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 		      "ad9361-phy", std::vector<std::string>(),
-		      buffer_size, decimation)
+		      buffer_size, 0)
     {
 	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
 			    gain1, gain1_value, gain2, gain2_value,

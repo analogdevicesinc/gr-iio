@@ -5,7 +5,7 @@
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms5_sink_f32c($uri, $frequency1, $frequency2, $samplerate, $interpolation - 1, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $attenuation3, $attenuation4, $filter)</make>
+	<make>iio.fmcomms5_sink_f32c($uri, $frequency1, $frequency2, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $cyclic, $rf_port_select, $attenuation1, $attenuation2, $attenuation3, $attenuation4, $filter)</make>
 	<callback>set_params($frequency, $samplerate, $bandwidth, $rf_port_select, $attenuation1, $attenuation2)</callback>
 
 	<param>
@@ -47,13 +47,6 @@
 		<name>Buffer size</name>
 		<key>buffer_size</key>
 		<value>0x8000</value>
-		<type>int</type>
-	</param>
-
-	<param>
-		<name>Interpolation</name>
-		<key>interpolation</key>
-		<value>1</value>
 		<type>int</type>
 	</param>
 
@@ -150,9 +143,6 @@
 		<value></value>
 		<type>file_open</type>
 	</param>
-
-	<!-- Avoid divisions by zero -->
-	<check>$interpolation > 0</check>
 
 	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
 	<check>$samplerate &gt;= 2084000</check>

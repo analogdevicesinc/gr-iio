@@ -67,7 +67,7 @@ namespace gr {
 
     fmcomms2_sink::sptr
     fmcomms2_sink::make(const std::string &uri, unsigned long long frequency,
-		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
@@ -76,7 +76,7 @@ namespace gr {
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(device_source_impl::get_context(uri), true,
-		    frequency, samplerate, interpolation, bandwidth, ch1_en,
+		    frequency, samplerate, bandwidth, ch1_en,
 		    ch2_en, ch3_en, ch4_en, buffer_size, cyclic, rf_port_select,
 		    attenuation1, attenuation2, filter, auto_filter));
     }
@@ -84,7 +84,7 @@ namespace gr {
     fmcomms2_sink::sptr
     fmcomms2_sink::make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long interpolation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
@@ -92,7 +92,7 @@ namespace gr {
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(ctx, false, frequency, samplerate,
-		    interpolation, bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
+		    bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    buffer_size, cyclic, rf_port_select,
 		    attenuation1, attenuation2, filter, auto_filter));
     }
@@ -115,7 +115,7 @@ namespace gr {
     fmcomms2_sink_impl::fmcomms2_sink_impl(struct iio_context *ctx,
 		    bool destroy_ctx,
 		    unsigned long long frequency, unsigned long samplerate,
-		    unsigned long interpolation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
@@ -126,7 +126,7 @@ namespace gr {
 	      device_sink_impl(ctx, destroy_ctx, "cf-ad9361-dds-core-lpc",
 			    get_channels_vector(ch1_en, ch2_en, ch3_en, ch4_en),
 			    "ad9361-phy", std::vector<std::string>(),
-			    buffer_size, interpolation, cyclic),
+			    buffer_size, 0, cyclic),
 	      cyclic(cyclic)
     {
 	    set_params(frequency, samplerate, bandwidth, rf_port_select,

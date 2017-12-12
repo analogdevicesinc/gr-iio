@@ -39,7 +39,7 @@ namespace gr {
 
       static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
-		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
@@ -52,7 +52,7 @@ namespace gr {
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency1,
 		    unsigned long long frequency2, unsigned long samplerate,
-		    unsigned long interpolation, unsigned long bandwidth,
+		    unsigned long bandwidth,
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    bool ch5_en, bool ch6_en, bool ch7_en, bool ch8_en,
 		    unsigned long buffer_size, bool cyclic,
@@ -76,7 +76,7 @@ namespace gr {
 
       static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
-		    unsigned long samplerate, unsigned long interpolation,
+		    unsigned long samplerate,
 		    unsigned long bandwidth, bool rx1_en, bool rx2_en,
         bool rx3_en, bool rx4_en,
 		    unsigned long buffer_size, bool cyclic,
@@ -85,7 +85,7 @@ namespace gr {
         double attenuation4, const char *filter = "")
       {
 	      fmcomms5_sink::sptr block = fmcomms5_sink::make(uri, frequency1,
-			      frequency2, samplerate, interpolation, bandwidth, rx1_en,
+			      frequency2, samplerate, bandwidth, rx1_en,
 			      rx1_en, rx2_en, rx2_en, rx3_en, rx3_en,
             rx4_en, rx4_en, buffer_size, cyclic,
 			      rf_port_select, attenuation1, attenuation2,

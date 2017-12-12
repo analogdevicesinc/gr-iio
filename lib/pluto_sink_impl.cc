@@ -30,7 +30,6 @@ namespace gr {
 pluto_sink::sptr pluto_sink::make(const std::string& uri,
 		unsigned long long frequency,
 		unsigned long samplerate,
-		unsigned long interpolation,
 		unsigned long bandwidth,
 		unsigned long buffer_size,
 		bool cyclic,
@@ -40,7 +39,7 @@ pluto_sink::sptr pluto_sink::make(const std::string& uri,
 {
 	fmcomms2_sink::sptr block = fmcomms2_sink::make(
 			uri.empty() ? pluto_source_impl::get_uri() : uri,
-			frequency, samplerate, interpolation,
+			frequency, samplerate,
 			bandwidth, true, true, false, false,
 			buffer_size, cyclic, "A",
 			attenuation, 0.0, filter, auto_filter);
