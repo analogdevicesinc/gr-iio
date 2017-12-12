@@ -216,9 +216,6 @@
 		<option><name>False</name><key>False</key></option>
 	</param>
 
-	<!-- Avoid divisions by zero -->
-	<check>$decimation > 0</check>
-
 	<check>sum([$rx1_en, $rx2_en]) &gt; 0</check>
 
 	<!-- if we're below 2.084 MSPS, we require either a user-supplied filter, or the auto filter. -->

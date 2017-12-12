@@ -290,9 +290,6 @@
 		<type>file_open</type>
 	</param>
 
-	<!-- Avoid divisions by zero -->
-	<check>$decimation > 0</check>
-
 	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
 	<check>$samplerate &gt;= 2084000</check>
 

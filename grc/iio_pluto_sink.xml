@@ -75,9 +75,6 @@
 		<option><name>False</name><key>False</key></option>
 	</param>
 
-	<!-- Avoid divisions by zero -->
-	<check>$interpolation > 0</check>
-
 	<!-- if we're below 2.084 MSPS, we require either a user-supplied filter, or the auto filter. -->
 	<check>($samplerate &gt;= 2084000) or (len($filter) &gt; 0) or $auto_filter</check>
 

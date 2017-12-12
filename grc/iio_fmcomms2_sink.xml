@@ -114,8 +114,6 @@
 		<option><name>False</name><key>False</key></option>
 	</param>
 
-	<!-- Avoid divisions by zero -->
-	<check>$interpolation > 0</check>
 
 	<check>sum([$tx1_en, $tx2_en]) &gt; 0</check>
 
