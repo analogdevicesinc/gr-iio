@@ -58,7 +58,7 @@
     </param>
     <param>
       <key>realtime_scheduling</key>
-      <value>1</value>
+      <value></value>
     </param>
     <param>
       <key>run_command</key>
@@ -257,10 +257,6 @@
       <value>uri</value>
     </param>
     <param>
-      <key>interpolation</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>frequency</key>
       <value>2400000000</value>
     </param>
@@ -308,10 +304,6 @@
       <value></value>
     </param>
     <param>
-      <key>decimation</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -333,11 +325,11 @@
     </param>
     <param>
       <key>gain1</key>
-      <value>"manual"</value>
+      <value>"slow_attack"</value>
     </param>
     <param>
       <key>gain2</key>
-      <value>"manual"</value>
+      <value>"slow_attack"</value>
     </param>
     <param>
       <key>id</key>
