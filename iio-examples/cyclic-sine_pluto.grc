@@ -58,7 +58,7 @@
     </param>
     <param>
       <key>realtime_scheduling</key>
-      <value>1</value>
+      <value></value>
     </param>
     <param>
       <key>run_command</key>
@@ -139,7 +139,7 @@
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
-      <value>1000</value>
+      <value>1</value>
     </param>
     <param>
       <key>alias</key>
@@ -253,10 +253,6 @@
       <value>uri</value>
     </param>
     <param>
-      <key>interpolation</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>frequency</key>
       <value>2400000000</value>
     </param>
@@ -292,10 +288,6 @@
       <value></value>
     </param>
     <param>
-      <key>decimation</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>uri</key>
       <value>uri</value>
     </param>
@@ -321,7 +313,7 @@
     </param>
     <param>
       <key>gain</key>
-      <value>"manual"</value>
+      <value>"slow_attack"</value>
     </param>
     <param>
       <key>id</key>
