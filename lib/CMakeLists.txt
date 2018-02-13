@@ -67,12 +67,16 @@ if (COMPAT_GR_3_7_OR_LESS)
 	add_definitions(-DGR_VERSION_3_7_OR_LESS)
 endif()
 
-add_library(gnuradio-iio SHARED ${iio_sources})
+set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries")
+
+add_library(gnuradio-iio ${iio_sources})
+
 target_link_libraries(gnuradio-iio
 	${Boost_LIBRARIES}
 	${IIO_LIBRARIES}
 	${AD9361_LIBRARIES}
 	${GNURADIO_ALL_LIBRARIES})
+
 set_target_properties(gnuradio-iio PROPERTIES
 	VERSION ${GR_IIO_VERSION}
 	SOVERSION ${GR_IIO_VERSION_MAJOR}
