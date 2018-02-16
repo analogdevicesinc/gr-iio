@@ -24,7 +24,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 
 #include <iio.h>
 #include <boost/thread.hpp>
@@ -33,7 +32,10 @@
 namespace gr {
   namespace iio {
 
-    static std::map<std::string,struct iio_context *> contexts;
+    struct ctxInfo{std::string uri; struct iio_context * ctx; int count;};
+    static std::vector<ctxInfo> contexts;
+
+    typedef std::vector<ctxInfo>::iterator ctx_it;
 
     class device_source_impl : public device_source
     {
