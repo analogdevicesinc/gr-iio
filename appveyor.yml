@@ -12,8 +12,11 @@ install:
     - appveyor-retry nuget install boost_thread-vc120 -Version 1.61.0
 
     # Install libiio
-    - appveyor DownloadFile https://ci.appveyor.com/api/projects/analogdevicesinc/libiio/artifacts/libiio-win64.zip?branch=master
-    - 7z x libiio-win64.zip > nul
+    - appveyor DownloadFile https://ci.appveyor.com/api/projects/analogdevicesinc/libiio/artifacts/libiio.zip?branch=master
+    - 7z x libiio*.zip > nul
+    - mkdir libiio-win64
+    - mv libiio-*/MS64/* libiio-win64/
+    - mv libiio-*/include/* libiio-win64/
 
     # Install libad9361
     - appveyor DownloadFile https://ci.appveyor.com/api/projects/analogdevicesinc/libad9361-iio/artifacts/libad9361-win64.zip?branch=master
