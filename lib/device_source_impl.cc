@@ -154,7 +154,7 @@ namespace gr {
 			    ctx = iio_create_network_context(uri.c_str());
 	    }
 	    // Save context info for future checks
-           ctxInfo ci = {.uri=uri,.ctx=ctx,.count=1};
+           ctxInfo ci = {uri, ctx, 1};
            contexts.push_back(ci);
 
 	    return ctx;
