@@ -232,19 +232,21 @@ namespace gr {
     }
 
     void device_source_impl::remove_ctx_history(struct iio_context *ctx_from_block,
-          bool destroy_ctx)
+                           bool destroy_ctx)
     {
+      boost::lock_guard<boost::mutex> lock(ctx_mutex);
+
       for(ctx_it it = contexts.begin(); it != contexts.end(); ++it) {
-          if (it->ctx == ctx_from_block) {
-              if (it->count==1){
-                  if (destroy_ctx)
-                    iio_context_destroy(ctx_from_block);
-                  it = contexts.erase(it);
-                  return;
-              }
-              else
-                  it->count--;
+        if (it->ctx == ctx_from_block) {
+          if (it->count==1) {
+            if (destroy_ctx)
+              iio_context_destroy(ctx_from_block);
+            it = contexts.erase(it);
+            return;
           }
+          else
+            it->count--;
+        }
       }
     }
 

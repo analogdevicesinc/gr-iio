@@ -34,6 +34,7 @@ namespace gr {
 
     struct ctxInfo{std::string uri; struct iio_context * ctx; int count;};
     static std::vector<ctxInfo> contexts;
+    static boost::mutex ctx_mutex;
 
     typedef std::vector<ctxInfo>::iterator ctx_it;
 
