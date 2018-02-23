@@ -91,6 +91,8 @@ namespace gr {
       bool start();
       bool stop();
 
+      static void remove_ctx_history(struct iio_context *ctx, bool destroy_ctx);
+
       static struct iio_context * get_context(const std::string &uri);
       static bool load_fir_filter(std::string &filter, struct iio_device *phy);
     };

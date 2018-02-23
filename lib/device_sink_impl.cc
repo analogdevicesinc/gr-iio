@@ -148,8 +148,7 @@ namespace gr {
     device_sink_impl::~device_sink_impl()
     {
 	    iio_buffer_destroy(buf);
-	    if (destroy_ctx)
-		    iio_context_destroy(ctx);
+           device_source_impl::remove_ctx_history(ctx,destroy_ctx);
     }
 
     void
