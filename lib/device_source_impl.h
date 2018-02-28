@@ -24,7 +24,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 
 #include <iio.h>
 #include <boost/thread.hpp>
@@ -33,7 +32,11 @@
 namespace gr {
   namespace iio {
 
-    static std::map<std::string,struct iio_context *> contexts;
+    struct ctxInfo{std::string uri; struct iio_context * ctx; int count;};
+    static std::vector<ctxInfo> contexts;
+    static boost::mutex ctx_mutex;
+
+    typedef std::vector<ctxInfo>::iterator ctx_it;
 
     class device_source_impl : public device_source
     {
@@ -88,6 +91,8 @@ namespace gr {
 
       bool start();
       bool stop();
+
+      static void remove_ctx_history(struct iio_context *ctx, bool destroy_ctx);
 
       static struct iio_context * get_context(const std::string &uri);
       static bool load_fir_filter(std::string &filter, struct iio_device *phy);

@@ -131,12 +131,14 @@ namespace gr {
     {
 	    struct iio_context *ctx;
 	    unsigned short vid, pid;
-	    std::map<std::string,struct iio_context *>::iterator it;
 
 	    // Check if we have a context with the same URI open
-	    if (!contexts.empty()){
-	    	it = contexts.find(uri);
-	        if (it != contexts.end()) return it->second;
+	    if (!contexts.empty()) {
+                    for(ctx_it it = contexts.begin(); it != contexts.end(); ++it) {
+		        if (it->uri.compare(uri)==0) {
+		            it->count++; return it->ctx;
+		        }
+		   }
 	    }
 
 	    if (uri.empty()) {
@@ -152,7 +154,8 @@ namespace gr {
 			    ctx = iio_create_network_context(uri.c_str());
 	    }
 	    // Save context info for future checks
-	    contexts[uri] = ctx;
+           ctxInfo ci = {uri, ctx, 1};
+           contexts.push_back(ci);
 
 	    return ctx;
     }
@@ -228,13 +231,35 @@ namespace gr {
 	    message_port_register_out(port_id);
     }
 
+    void device_source_impl::remove_ctx_history(struct iio_context *ctx_from_block,
+                           bool destroy_ctx)
+    {
+      boost::lock_guard<boost::mutex> lock(ctx_mutex);
+
+      for(ctx_it it = contexts.begin(); it != contexts.end(); ++it) {
+        if (it->ctx == ctx_from_block) {
+          if (it->count==1) {
+            if (destroy_ctx)
+              iio_context_destroy(ctx_from_block);
+            it = contexts.erase(it);
+            return;
+          }
+          else
+            it->count--;
+        }
+      }
+    }
+
+
+
     /*
      * Our virtual destructor.
      */
     device_source_impl::~device_source_impl()
     {
-	    if (destroy_ctx)
-		    iio_context_destroy(ctx);
+            // Make sure this is the last open block with a given context
+            // before removing the context
+            remove_ctx_history(ctx,destroy_ctx);
     }
 
     void
