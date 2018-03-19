@@ -97,6 +97,7 @@
 		<key>manual_gain</key>
 		<value>64.0</value>
 		<type>real</type>
+		<hide>#if $gain() == '"manual"' then 'none' else 'all'#</hide>
 	</param>
 
 	<param>

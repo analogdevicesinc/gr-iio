@@ -170,16 +170,21 @@ namespace gr {
 			    boost::to_string(rfdc));
 	    params.push_back("in_voltage_bb_dc_offset_tracking_en=" +
 			    boost::to_string(bbdc));
+	    std::string gain1_str = boost::to_string(gain1);
 	    params.push_back("in_voltage0_gain_control_mode=" +
-			    boost::to_string(gain1));
-	    params.push_back("in_voltage0_hardwaregain=" +
+			    gain1_str);
+	    if (gain1_str.compare("manual") == 0) {
+	            params.push_back("in_voltage0_hardwaregain=" +
 			    boost::to_string(gain1_value));
-
+	    }
 	    if (!is_fmcomms4) {
+		    std::string gain2_str = boost::to_string(gain2);
 		    params.push_back("in_voltage1_gain_control_mode=" +
-				    boost::to_string(gain2));
-		    params.push_back("in_voltage1_hardwaregain=" +
-				    boost::to_string(gain2_value));
+				    gain2_str);
+		    if (gain2_str.compare("manual") == 0) {
+			    params.push_back("in_voltage1_hardwaregain=" +
+					    boost::to_string(gain2_value));
+	            }
 	    }
 
 	    params.push_back("in_voltage0_rf_port_select=" +

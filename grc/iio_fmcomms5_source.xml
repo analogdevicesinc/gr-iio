@@ -140,6 +140,7 @@
 		<key>manual_gain1</key>
 		<value>64.0</value>
 		<type>real</type>
+		<hide>#if $gain1() == '"manual"' then 'none' else 'all'#</hide>
 	</param>
 
 	<param>
@@ -169,6 +170,7 @@
 		<key>manual_gain2</key>
 		<value>64.0</value>
 		<type>real</type>
+		<hide>#if $gain2() == '"manual"' then 'none' else 'all'#</hide>
 	</param>
 
 	<param>
@@ -198,6 +200,7 @@
 		<key>manual_gain3</key>
 		<value>64.0</value>
 		<type>real</type>
+		<hide>#if $gain3() == '"manual"' then 'none' else 'all'#</hide>
 	</param>
 
 	<param>
@@ -227,6 +230,7 @@
 		<key>manual_gain4</key>
 		<value>64.0</value>
 		<type>real</type>
+		<hide>#if $gain4() == '"manual"' then 'none' else 'all'#</hide>
 	</param>
 
 	<param>
