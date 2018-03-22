@@ -49,7 +49,7 @@ namespace gr {
 	     unsigned long items_in_buffer;
 	     off_t byte_offset;
 	     unsigned long sample_counter;
-	     volatile bool please_refill_buffer, thread_stopped;
+	     volatile bool please_refill_buffer;
 	     pmt::pmt_t port_id;
 
 	     boost::thread refill_thd;
@@ -66,6 +66,7 @@ namespace gr {
 	     unsigned int buffer_size;
 	     unsigned int decimation;
 	     bool destroy_ctx;
+	     volatile bool thread_stopped;
 
      public:
       device_source_impl(struct iio_context *ctx, bool destroy_ctx,

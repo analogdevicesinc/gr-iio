@@ -77,6 +77,9 @@ namespace gr {
 		      const char *gain2, double gain2_value,
 		      const char *rf_port_select,
 		      const char *filter = "", bool auto_filter = true) = 0;
+
+     private:
+      void check_overflow(void);
     };
 
     class IIO_API fmcomms2_source_f32c : virtual public gr::hier_block2
@@ -121,6 +124,7 @@ namespace gr {
       }
     private:
       fmcomms2_source::sptr fmcomms2_block;
+      void check_overflow(void);
 
     protected:
       explicit fmcomms2_source_f32c(bool rx1_en, bool rx2_en,

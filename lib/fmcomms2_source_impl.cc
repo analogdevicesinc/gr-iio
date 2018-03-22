@@ -140,6 +140,36 @@ namespace gr {
 	    set_params(frequency, samplerate, bandwidth, quadrature, rfdc, bbdc,
 			    gain1, gain1_value, gain2, gain2_value,
 			    port_select, filter, auto_filter);
+
+	    overflow_thd = boost::thread(&fmcomms2_source_impl::check_overflow, this);
+    }
+
+
+    void fmcomms2_source_impl::check_overflow(void)
+    {
+	    uint32_t status;
+	    int ret;
+
+	    // Wait for stream startup
+	    while(thread_stopped) {sleep(1);}
+	    sleep(1);
+
+	    // Clear status registers
+	    iio_device_reg_write(dev, 0x80000088, 0x6);
+
+	    while (!thread_stopped) {
+		    ret = iio_device_reg_read(dev, 0x80000088, &status);
+		    if (ret) {
+			    throw std::runtime_error("Failed to read overflow status register");
+		    }
+		    if (status & 4) {
+			    printf("O");
+			    // Clear status registers
+			    iio_device_reg_write(dev, 0x80000088, 0x6);
+		    }
+		    usleep(1000);
+	    }
+
     }
 
     void fmcomms2_source_impl::set_params(unsigned long long frequency,

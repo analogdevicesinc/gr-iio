@@ -39,6 +39,11 @@ namespace gr {
       std::vector<std::string> get_channels_vector(
 		      bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
 
+      boost::thread overflow_thd;
+
+      void check_overflow(void);
+
+
      public:
       fmcomms2_source_impl(struct iio_context *ctx, bool destroy_ctx,
 		    unsigned long long frequency, unsigned long samplerate,
