@@ -145,14 +145,24 @@ namespace gr {
     }
 
 
+    fmcomms2_source_impl::~fmcomms2_source_impl()
+    {
+	    overflow_thd.join();
+    }
+
     void fmcomms2_source_impl::check_overflow(void)
     {
 	    uint32_t status;
 	    int ret;
 
 	    // Wait for stream startup
-	    while(thread_stopped) {sleep(1);}
-	    sleep(1);
+#ifdef _WIN32
+	    while(thread_stopped) {Sleep(1);}
+	    Sleep(1);
+#else
+	    while(thread_stopped) {usleep(1000);}
+	    usleep(1000);
+#endif
 
 	    // Clear status registers
 	    iio_device_reg_write(dev, 0x80000088, 0x6);
@@ -167,7 +177,11 @@ namespace gr {
 			    // Clear status registers
 			    iio_device_reg_write(dev, 0x80000088, 0x6);
 		    }
+#ifdef _WIN32
+		    Sleep(1);
+#else
 		    usleep(1000);
+#endif
 	    }
 
     }

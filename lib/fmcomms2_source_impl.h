@@ -54,6 +54,7 @@ namespace gr {
 		    const char *gain2, double gain2_value,
 		    const char *rf_port_select, const char *filter,
 		    bool auto_filter);
+      ~fmcomms2_source_impl();
 
       void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
