@@ -175,7 +175,7 @@ namespace gr {
 		    if (status & 4) {
 			    printf("O");
 			    // Clear status registers
-			    iio_device_reg_write(dev, 0x80000088, 0x6);
+			    iio_device_reg_write(dev, 0x80000088, 4);
 		    }
 #ifdef _WIN32
 		    Sleep(1);

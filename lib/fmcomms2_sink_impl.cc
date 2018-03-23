@@ -131,7 +131,52 @@ namespace gr {
     {
 	    set_params(frequency, samplerate, bandwidth, rf_port_select,
 			    attenuation1, attenuation2, filter, auto_filter);
+
+	    stop_thread = false;
+	    underflow_thd = boost::thread(&fmcomms2_sink_impl::check_underflow, this);
+
     }
+
+    fmcomms2_sink_impl::~fmcomms2_sink_impl()
+    {
+	    boost::unique_lock<boost::mutex> lock(uf_mutex);
+            stop_thread = true;
+	    lock.unlock();
+	    underflow_thd.join();
+
+    }
+
+    void fmcomms2_sink_impl::check_underflow(void)
+    {
+	    uint32_t status;
+	    int ret;
+	    boost::unique_lock<boost::mutex> lock(uf_mutex, boost::defer_lock);
+
+	    // Clear status registers
+	    iio_device_reg_write(dev, 0x80000088, 0x6);
+
+	    for (;;) {
+		    ret = iio_device_reg_read(dev, 0x80000088, &status);
+		    if (ret) {
+			    throw std::runtime_error("Failed to read underflow status register");
+		    }
+		    if (status & 1) {
+			    printf("U");
+			    // Clear status registers
+			    iio_device_reg_write(dev, 0x80000088, 1);
+		    }
+#ifdef _WIN32
+		    Sleep(1);
+#else
+		    usleep(1000);
+#endif
+		    lock.lock();
+		    if (stop_thread)
+			    break;
+		    lock.unlock();
+	    }
+
+}
 
     void fmcomms2_sink_impl::set_params(unsigned long long frequency,
 		    unsigned long samplerate, unsigned long bandwidth,
