@@ -369,7 +369,7 @@ namespace gr {
 		if (!byte_offset) {
 			tag_t tag;
 			tag.value = pmt::from_long(items_in_buffer);
-			tag.offset = sample_counter;
+			tag.offset = nitems_written(i);
 			tag.key = pmt::intern("buffer_start");
 			tag.srcid = alias_pmt();
 
@@ -377,7 +377,6 @@ namespace gr {
 		}
 	}
 
-	sample_counter += items;
 	items_in_buffer -= items;
 	byte_offset += items * iio_buffer_step(buf);
 
@@ -388,7 +387,6 @@ namespace gr {
     {
 	boost::unique_lock<boost::mutex> lock(iio_mutex);
 
-	sample_counter = 0;
 	items_in_buffer = 0;
 	please_refill_buffer = false;
 	thread_stopped = false;
