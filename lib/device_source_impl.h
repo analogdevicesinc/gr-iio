@@ -48,7 +48,6 @@ namespace gr {
 	     boost::condition_variable iio_cond, iio_cond2;
 	     unsigned long items_in_buffer;
 	     off_t byte_offset;
-	     unsigned long sample_counter;
 	     volatile bool please_refill_buffer, thread_stopped;
 	     pmt::pmt_t port_id;
 
