@@ -92,6 +92,11 @@ pluto_source_impl::pluto_source_impl(fmcomms2_source::sptr block) :
 {
 }
 
+void pluto_source_impl::set_single_param(std::string paramname, long long val)
+{
+  fmcomms2_source_f32c::set_single_param(paramname, val);
+}
+
 void pluto_source_impl::set_params(unsigned long long frequency,
 		unsigned long samplerate,
 		unsigned long bandwidth,

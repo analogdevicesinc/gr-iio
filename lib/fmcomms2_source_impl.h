@@ -50,6 +50,8 @@ namespace gr {
 		    const char *rf_port_select, const char *filter,
 		    bool auto_filter);
 
+      void set_single_param(std::string paramname, long long val);
+
       void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      bool quadrature, bool rfdc, bool bbdc,

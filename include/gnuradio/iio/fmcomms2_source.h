@@ -70,6 +70,8 @@ namespace gr {
 		    const char *rf_port_select, const char *filter = "",
 		    bool auto_filter = true);
 
+      virtual void set_single_param(std::string paramname, long long val) = 0;
+
       virtual void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
 		      bool quadrature, bool rfdc, bool bbdc,
@@ -104,6 +106,11 @@ namespace gr {
 
 	      return gnuradio::get_initial_sptr(
 			      new fmcomms2_source_f32c(rx1_en, rx2_en, block));
+      }
+
+      void set_single_param(std::string paramname, long long val)
+      {
+        fmcomms2_block->set_single_param(paramname, val);
       }
 
       void set_params(unsigned long long frequency,

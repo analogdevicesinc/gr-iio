@@ -142,6 +142,13 @@ namespace gr {
 			    port_select, filter, auto_filter);
     }
 
+    void fmcomms2_source_impl::set_single_param(std::string paramname, long long val)
+    {
+      std::vector<std::string> params;
+      params.push_back(paramname + "=" + boost::to_string(val));
+      device_source_impl::set_params(params);
+    }
+
     void fmcomms2_source_impl::set_params(unsigned long long frequency,
 		    unsigned long samplerate, unsigned long bandwidth,
 		    bool quadrature, bool rfdc, bool bbdc,
