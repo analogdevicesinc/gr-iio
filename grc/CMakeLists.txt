@@ -18,7 +18,8 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    iio_device_source.xml iio_device_sink.xml
+	iio_device_source.xml iio_device_sink.xml
+	iio_adrv9371_source.xml
 	iio_fmcomms2_source.xml iio_fmcomms2_sink.xml
 	iio_fmcomms5_source.xml iio_fmcomms5_sink.xml
 	iio_pluto_source.xml iio_pluto_sink.xml

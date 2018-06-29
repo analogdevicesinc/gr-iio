@@ -47,11 +47,12 @@ set(GR_SWIG_LIBRARIES gnuradio-iio)
 GR_SWIG_MAKE(iio_swig iio_swig.i)
 GR_SWIG_MAKE(iio_pluto_source_swig iio_pluto_source_swig.i)
 GR_SWIG_MAKE(iio_pluto_sink_swig iio_pluto_sink_swig.i)
+GR_SWIG_MAKE(iio_adrv9371_source_swig iio_adrv9371_source_swig.i)
 
 ########################################################################
 # Install the build swig module
 ########################################################################
-GR_SWIG_INSTALL(TARGETS iio_swig iio_pluto_source_swig iio_pluto_sink_swig
+GR_SWIG_INSTALL(TARGETS iio_swig iio_pluto_source_swig iio_pluto_sink_swig iio_adrv9371_source_swig
 	DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
 
 ########################################################################
@@ -62,5 +63,6 @@ install(
     iio_swig.i
     iio_pluto_source_swig.i
     iio_pluto_sink_swig.i
+    iio_adrv9371_source_swig.i
     DESTINATION ${GR_INCLUDE_DIR}/swig
 )

@@ -21,10 +21,11 @@
 # Install public header files
 ########################################################################
 install(FILES
-    api.h
-    device_source.h device_sink.h
+	api.h
+	device_source.h device_sink.h
 	fmcomms2_source.h fmcomms2_sink.h
 	fmcomms5_source.h fmcomms5_sink.h
+	adrv9371_source.h
 	pluto_source.h pluto_sink.h
 	converter_ss.h math.h power_ff.h
 	modulo_ff.h modulo_const_ff.h
