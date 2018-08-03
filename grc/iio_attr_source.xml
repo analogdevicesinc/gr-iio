@@ -2,7 +2,7 @@
 <block>
   <name>IIO Attribute Source</name>
   <key>iio_attr_source</key>
-  <category>[IIO]</category>
+  <category>[Industrial IO]</category>
   <import>from gnuradio import iio</import>
   <make>iio.attr_source($uri, $device, $channel, $attribute, $update_interval_ms, $samples_per_update, $type)</make>
   <param>
