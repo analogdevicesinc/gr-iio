@@ -25,5 +25,6 @@ install(FILES
 	iio_math.xml iio_math_gen.xml iio_power_ff.xml
 	iio_modulo_ff.xml iio_modulo_const_ff.xml
 	iio_attr_sink.xml
+	iio_attr_source.xml
 	DESTINATION share/gnuradio/grc/blocks
 )

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<block>
+  <name>IIO Attribute Source</name>
+  <key>iio_attr_source</key>
+  <category>[IIO]</category>
+  <import>from gnuradio import iio</import>
+  <make>iio.attr_source($uri, $device, $channel, $attributes, $update_interval_ms, $samples_per_update)</make>
+  <param>
+		<name>uri</name>
+		<key>uri</key>
+		<value>""</value>
+		<type>string</type>
+  </param>
+  <param>
+    <name>Device</name>
+    <key>device</key>
+    <value>""</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Channel</name>
+    <key>channel</key>
+    <value>""</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Attributes</name>
+    <key>attributes</key>
+    <value>[]</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Update Interval (ms)</name>
+    <key>update_interval_ms</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Samples Per Update</name>
+    <key>samples_per_update</key>
+    <value>1024</value>
+    <type>int</type>
+  </param>
+
+  <source>
+    <name>out</name>
+    <type>float</type>
+    <nports>len($attributes)</nports>
+  </source>
+  <doc>
+    https://wiki.analog.com/resources/tools-software/linux-software/gnuradio
+  </doc>
+</block>
