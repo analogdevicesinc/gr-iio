@@ -36,26 +36,27 @@ namespace gr {
 
     attr_source::sptr
     attr_source::make(const std::string &uri, const std::string &device, const std::string &channel,
-      const std::vector<std::string> &attributes, int update_interval_ms, int samples_per_update)
+      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type)
     {
       return gnuradio::get_initial_sptr
-        (new attr_source_impl(uri, device, channel, attributes, update_interval_ms, samples_per_update));
+        (new attr_source_impl(uri, device, channel, attribute, update_interval_ms, samples_per_update, data_type));
     }
 
     /*
      * The private constructor
      */
     attr_source_impl::attr_source_impl(const std::string &uri, const std::string &device, const std::string &channel,
-      const std::vector<std::string> &attributes, int update_interval_ms, int samples_per_update)
+      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type)
       : gr::sync_block("attr_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float))),
       device(device),
       channel(channel),
       uri(uri),
-      attributes(attributes),
+      attribute(attribute),
       update_interval_ms(update_interval_ms),
-      samples_per_update(samples_per_update)
+      samples_per_update(samples_per_update),
+      data_type(data_type)
     {
 
       ctx = device_source_impl::get_context(uri);
@@ -89,14 +90,35 @@ namespace gr {
     attr_source_impl::get_attribute_data(const std::string& attribute)
     {
       int ret;
-      // char buf[1024];
-      double val;
-      // ret = iio_channel_attr_read(chan, attribute.c_str(), buf, sizeof(buf));
-      ret = iio_channel_attr_read_double(chan, attribute.c_str(), &val);
+      char buf[1024];
+      double vald;
+      long long valll;
+      bool valb;
+      float result;
+
+      switch (data_type) {
+        case 0:
+          ret = iio_channel_attr_read_double(chan, attribute.c_str(), &vald);
+          result = boost::lexical_cast<float>(vald);
+        break;
+        case 1:
+          ret = iio_channel_attr_read_longlong(chan, attribute.c_str(), &valll);
+          result = boost::lexical_cast<float>(valll);
+        break;
+        case 2:
+          ret = iio_channel_attr_read_bool(chan, attribute.c_str(), &valb);
+          result = boost::lexical_cast<float>(valb);
+        break;
+        default:
+          ret = iio_channel_attr_read(chan, attribute.c_str(), buf, sizeof(buf));
+          result = boost::lexical_cast<float>(buf);
+        break;
+      }
+
       if (ret > 0) {
         std::cerr << "Reading parameter failed: "<< ret << std::endl;
       }
-      return boost::lexical_cast<float>(val);
+      return result;
     }
 
     int
@@ -104,18 +126,15 @@ namespace gr {
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
-      int sample, output;
+      int sample;
       float *out;
 
+      out = (float*) output_items[0];
 
       for (sample = 0; sample<samples_per_update; sample++)
       {
         boost::this_thread::sleep_for(boost::chrono::milliseconds(update_interval_ms));
-        for (output = 0; output<output_items.size(); output++)
-        {
-          out = (float*) output_items[output];
-          out[sample] = get_attribute_data(attributes[output]);
-        }
+        out[sample] = get_attribute_data(attribute);
       }
 
       // Tell runtime system how many output items we produced.

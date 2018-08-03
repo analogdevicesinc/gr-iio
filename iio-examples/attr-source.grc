@@ -84,8 +84,8 @@
   <block>
     <key>iio_attr_source</key>
     <param>
-      <key>attributes</key>
-      <value>["rssi"]</value>
+      <key>attribute</key>
+      <value>"rssi"</value>
     </param>
     <param>
       <key>alias</key>
@@ -136,6 +136,10 @@
       <value>32</value>
     </param>
     <param>
+      <key>type</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>update_interval_ms</key>
       <value>1</value>
     </param>
@@ -148,7 +152,7 @@
     <key>qtgui_time_sink_x</key>
     <param>
       <key>autoscale</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>axislabels</key>
@@ -180,7 +184,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 72)</value>
+      <value>(544, 80)</value>
     </param>
     <param>
       <key>gui_hint</key>

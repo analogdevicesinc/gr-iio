@@ -48,7 +48,8 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(const std::string &uri, const std::string &device, const std::string &channel,
-        const std::vector<std::string> &attributes, int update_interval_ms, int samples_per_update);
+        const std::string &attribute, int update_interval_ms, int samples_per_update,
+        int data_type);
     };
 
   } // namespace iio

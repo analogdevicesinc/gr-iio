@@ -36,9 +36,10 @@ namespace gr {
        std::string device;
        std::string channel;
        std::string uri;
-       std::vector<std::string> attributes;
+       std::string attribute;
        int update_interval_ms;
        int samples_per_update;
+       int data_type;
 
      protected:
       struct iio_context *ctx;
@@ -47,7 +48,8 @@ namespace gr {
 
      public:
       attr_source_impl(const std::string &uri, const std::string &device, const std::string &channel,
-        const std::vector<std::string> &attributes, int update_interval_ms, int samples_per_update);
+        const std::string &attribute, int update_interval_ms, int samples_per_update,
+        int data_type);
       ~attr_source_impl();
 
       // Where all the action really happens
