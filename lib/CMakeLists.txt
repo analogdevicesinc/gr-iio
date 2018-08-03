@@ -34,14 +34,15 @@ bison_target(parser
 	${CMAKE_CURRENT_SOURCE_DIR}/iio_math_parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
 
 list(APPEND iio_sources
-    device_source_impl.cc
-    device_sink_impl.cc
+	device_source_impl.cc
+	device_sink_impl.cc
 	fmcomms2_source_impl.cc
 	fmcomms2_sink_impl.cc
 	fmcomms5_source_impl.cc
 	fmcomms5_sink_impl.cc
 	pluto_source_impl.cc
 	pluto_sink_impl.cc
+	attr_sink_impl.cc
 	converter_ss_impl.cc
 	iio_math_impl.cc
 	iio_math_gen_impl.cc

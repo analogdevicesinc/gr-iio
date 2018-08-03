@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<block>
+  <name>IIO Attribute Sink</name>
+  <key>iio_attr_sink</key>
+  <category>[Industrial IO]</category>
+  <import>from gnuradio import iio</import>
+  <make>iio.attr_sink($uri, $device, $channel)</make>
+  <param>
+		<name>uri</name>
+		<key>uri</key>
+		<value>""</value>
+		<type>string</type>
+  </param>
+  <param>
+    <name>Device</name>
+    <key>device</key>
+    <value>""</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Channel</name>
+    <key>channel</key>
+    <value>""</value>
+    <type>string</type>
+  </param>
+  <sink>
+		<name>attr</name>
+		<type>message</type>
+		<optional>1</optional>
+  </sink>
+  <doc>
+    https://wiki.analog.com/resources/tools-software/linux-software/gnuradio
+  </doc>
+</block>
