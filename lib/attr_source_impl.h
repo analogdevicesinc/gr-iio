@@ -40,6 +40,9 @@ namespace gr {
        int update_interval_ms;
        int samples_per_update;
        int data_type;
+       int attr_type;
+       int m_attr_type;
+       bool output;
 
      protected:
       struct iio_context *ctx;
@@ -49,7 +52,7 @@ namespace gr {
      public:
       attr_source_impl(const std::string &uri, const std::string &device, const std::string &channel,
         const std::string &attribute, int update_interval_ms, int samples_per_update,
-        int data_type);
+        int data_type, int attr_type, bool output);
       ~attr_source_impl();
 
       // Where all the action really happens

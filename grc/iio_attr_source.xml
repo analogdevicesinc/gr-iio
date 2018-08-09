@@ -4,7 +4,7 @@
   <key>iio_attr_source</key>
   <category>[Industrial IO]</category>
   <import>from gnuradio import iio</import>
-  <make>iio.attr_source($uri, $device, $channel, $attribute, $update_interval_ms, $samples_per_update, $type)</make>
+  <make>iio.attr_source($uri, $device, $channel, $attribute, $update_interval_ms, $samples_per_update, $type, $attr_type, $output)</make>
   <param>
 		<name>uri</name>
 		<key>uri</key>
@@ -17,21 +17,53 @@
     <value>""</value>
     <type>string</type>
   </param>
+
   <param>
-    <name>Channel</name>
+    <name>Attribute Type</name>
+    <key>attr_type</key>
+    <type>enum</type>
+    <option>
+      <name>Channel</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Device</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Device Debug</name>
+      <key>2</key>
+    </option>
+  </param>
+  <param>
+    <name>Input/Output</name>
+    <key>output</key>
+    <type>enum</type>
+    <hide>#if int($attr_type()) == 0 then 'none' else 'all'#</hide>
+    <option>
+      <name>Input</name>
+      <key>False</key>
+    </option>
+    <option>
+      <name>Output</name>
+      <key>True</key>
+    </option>
+  </param>
+  <param>
+    <name>Channel Name</name>
     <key>channel</key>
     <value>""</value>
     <type>string</type>
+    <hide>#if int($attr_type()) == 0 then 'none' else 'all'#</hide>
   </param>
   <param>
-    <name>Attribute</name>
+    <name>Attribute Name</name>
     <key>attribute</key>
     <value>""</value>
     <type>string</type>
   </param>
-
   <param>
-    <name>Type</name>
+    <name>Data Type</name>
     <key>type</key>
     <type>enum</type>
     <option>
@@ -51,7 +83,6 @@
       <key>3</key>
     </option>
   </param>
-
   <param>
     <name>Update Interval (ms)</name>
     <key>update_interval_ms</key>

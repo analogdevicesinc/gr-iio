@@ -36,17 +36,20 @@ namespace gr {
 
     attr_source::sptr
     attr_source::make(const std::string &uri, const std::string &device, const std::string &channel,
-      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type)
+      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type,
+      int attr_type, bool output)
     {
       return gnuradio::get_initial_sptr
-        (new attr_source_impl(uri, device, channel, attribute, update_interval_ms, samples_per_update, data_type));
+        (new attr_source_impl(uri, device, channel, attribute, update_interval_ms, samples_per_update,
+          data_type, attr_type, output));
     }
 
     /*
      * The private constructor
      */
     attr_source_impl::attr_source_impl(const std::string &uri, const std::string &device, const std::string &channel,
-      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type)
+      const std::string &attribute, int update_interval_ms, int samples_per_update, int data_type, int attr_type,
+      bool output)
       : gr::sync_block("attr_source",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(1, -1, sizeof(float))),
@@ -56,8 +59,12 @@ namespace gr {
       attribute(attribute),
       update_interval_ms(update_interval_ms),
       samples_per_update(samples_per_update),
-      data_type(data_type)
+      attr_type(attr_type),
+      data_type(data_type),
+      output(output)
     {
+      // Set necessary iio attribute decode mechanism
+      m_attr_type = attr_type*10 + data_type;
 
       ctx = device_source_impl::get_context(uri);
       if (!ctx)
@@ -68,13 +75,15 @@ namespace gr {
 		    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
 	    }
-
-      chan = iio_device_find_channel(dev, channel.c_str(), false);
-      if (!chan) {
-        iio_context_destroy(ctx);
-        throw std::runtime_error("Channel not found");
+      // Channel only needed for channel attributes
+      if (attr_type==0)
+      {
+        chan = iio_device_find_channel(dev, channel.c_str(), output);
+        if (!chan) {
+          iio_context_destroy(ctx);
+          throw std::runtime_error("Channel not found");
+        }
       }
-
       set_output_multiple(samples_per_update);
 
     }
@@ -96,7 +105,8 @@ namespace gr {
       bool valb;
       float result;
 
-      switch (data_type) {
+      switch (m_attr_type) {
+        // channel attr
         case 0:
           ret = iio_channel_attr_read_double(chan, attribute.c_str(), &vald);
           result = boost::lexical_cast<float>(vald);
@@ -109,13 +119,47 @@ namespace gr {
           ret = iio_channel_attr_read_bool(chan, attribute.c_str(), &valb);
           result = boost::lexical_cast<float>(valb);
         break;
-        default:
+        case 3:
           ret = iio_channel_attr_read(chan, attribute.c_str(), buf, sizeof(buf));
           result = boost::lexical_cast<float>(buf);
         break;
+        // device attr
+        case 10:
+          ret = iio_device_attr_read_double(dev, attribute.c_str(), &vald);
+          result = boost::lexical_cast<float>(vald);
+        break;
+        case 11:
+          ret = iio_device_attr_read_longlong(dev, attribute.c_str(), &valll);
+          result = boost::lexical_cast<float>(valll);
+        break;
+        case 12:
+          ret = iio_device_attr_read_bool(dev, attribute.c_str(), &valb);
+          result = boost::lexical_cast<float>(valb);
+        break;
+        case 13:
+          ret = iio_device_attr_read(dev, attribute.c_str(), buf, sizeof(buf));
+          result = boost::lexical_cast<float>(buf);
+        break;
+        // debug attr
+        case 20:
+          ret = iio_device_debug_attr_read_double(dev, attribute.c_str(), &vald);
+          result = boost::lexical_cast<float>(vald);
+        break;
+        case 21:
+          ret = iio_device_debug_attr_read_longlong(dev, attribute.c_str(), &valll);
+          result = boost::lexical_cast<float>(valll);
+        break;
+        case 22:
+          ret = iio_device_debug_attr_read_bool(dev, attribute.c_str(), &valb);
+          result = boost::lexical_cast<float>(valb);
+        break;
+        // case 23:
+        default:
+          ret = iio_device_debug_attr_read(dev, attribute.c_str(), buf, sizeof(buf));
+          result = boost::lexical_cast<float>(buf);
+        break;
       }
-
-      if (ret > 0) {
+      if (ret < 0) {
         std::cerr << "Reading parameter failed: "<< ret << std::endl;
       }
       return result;
