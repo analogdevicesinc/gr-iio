@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<block>
+  <name>IIO Attribute Updater</name>
+  <key>iio_attr_updater</key>
+  <category>[Industrial IO]</category>
+  <import>from gnuradio import iio</import>
+  <make>iio.attr_updater($attr, $value, $interval)</make>
+  <callback>update_value($value)</callback>
+  <param>
+		<name>Attribute</name>
+		<key>attr</key>
+		<value>""</value>
+		<type>string</type>
+  </param>
+  <param>
+		<name>Value</name>
+		<key>value</key>
+		<value>""</value>
+		<type>string</type>
+  </param>
+  <param>
+		<name>Interval (ms)</name>
+		<key>interval</key>
+		<value>1</value>
+		<type>int</type>
+  </param>
+
+  <source>
+    <name>out</name>
+    <type>message</type>
+  </source>
+</block>

@@ -4,7 +4,8 @@
   <key>iio_attr_source</key>
   <category>[Industrial IO]</category>
   <import>from gnuradio import iio</import>
-  <make>iio.attr_source($uri, $device, $channel, $attribute, $update_interval_ms, $samples_per_update, $type, $attr_type, $output)</make>
+  <make>iio.attr_source($uri, $device, $channel, $attribute, $update_interval_ms, $samples_per_update, $type, $attr_type, $output, $address, $required_enable)</make>
+
   <param>
 		<name>uri</name>
 		<key>uri</key>
@@ -17,7 +18,6 @@
     <value>""</value>
     <type>string</type>
   </param>
-
   <param>
     <name>Attribute Type</name>
     <key>attr_type</key>
@@ -33,6 +33,10 @@
     <option>
       <name>Device Debug</name>
       <key>2</key>
+    </option>
+    <option>
+      <name>Register</name>
+      <key>3</key>
     </option>
   </param>
   <param>
@@ -61,26 +65,58 @@
     <key>attribute</key>
     <value>""</value>
     <type>string</type>
+    <hide>#if int($attr_type()) != 3 then 'none' else 'all'#</hide>
+  </param>
+  <param>
+    <name>Register Address</name>
+    <key>address</key>
+    <value>int("0x123",0)</value>
+    <type>int</type>
+    <hide>#if int($attr_type()) == 3 then 'none' else 'all'#</hide>
+  </param>
+  <param>
+    <name>Required Enable</name>
+    <key>required_enable</key>
+    <type>enum</type>
+    <hide>#if int($attr_type()) == 3 then 'none' else 'all'#</hide>
+    <option>
+      <name>Not Required</name>
+      <key>False</key>
+    </option>
+    <option>
+      <name>Enable</name>
+      <key>True</key>
+    </option>
   </param>
   <param>
     <name>Data Type</name>
     <key>type</key>
     <type>enum</type>
+    <hide>#if int($attr_type()) != 3 then 'none' else 'all'#</hide>
     <option>
-      <name>Float</name>
+      <name>Double</name>
       <key>0</key>
+      <opt>fcn:f64</opt>
     </option>
     <option>
-      <name>Long</name>
+      <name>Float (casted from double)</name>
       <key>1</key>
+      <opt>fcn:f32</opt>
+    </option>
+    <option>
+      <name>Long Long</name>
+      <key>2</key>
+      <opt>fcn:s64</opt>
+    </option>
+    <option>
+      <name>Long (casted from long long)</name>
+      <key>3</key>
+      <opt>fcn:s32</opt>
     </option>
     <option>
       <name>Bool</name>
-      <key>2</key>
-    </option>
-    <option>
-      <name>String or Raw</name>
-      <key>3</key>
+      <key>4</key>
+      <opt>fcn:s8</opt>
     </option>
   </param>
   <param>
@@ -98,10 +134,12 @@
 
   <source>
     <name>out</name>
-    <type>float</type>
+    <type>#if int($attr_type()) == 3 then 's32' else str($type.fcn)#</type>
     <nports>len($attributes)</nports>
   </source>
+
   <doc>
     https://wiki.analog.com/resources/tools-software/linux-software/gnuradio
   </doc>
+
 </block>

@@ -47,7 +47,8 @@ namespace gr {
        * class. iio::attr_sink::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string &uri, const std::string &device, const std::string &channel);
+      static sptr make(const std::string &uri, const std::string &device,
+        const std::string &channel, int type, bool output, bool required_enable);
     };
 
   } // namespace iio

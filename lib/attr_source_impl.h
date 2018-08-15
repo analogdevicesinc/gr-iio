@@ -43,6 +43,9 @@ namespace gr {
        int attr_type;
        int m_attr_type;
        bool output;
+       int ret;
+       uint32_t address;
+       bool required_enable;
 
      protected:
       struct iio_context *ctx;
@@ -52,7 +55,7 @@ namespace gr {
      public:
       attr_source_impl(const std::string &uri, const std::string &device, const std::string &channel,
         const std::string &attribute, int update_interval_ms, int samples_per_update,
-        int data_type, int attr_type, bool output);
+        int data_type, int attr_type, bool output, uint32_t address, bool required_enable);
       ~attr_source_impl();
 
       // Where all the action really happens
@@ -60,7 +63,14 @@ namespace gr {
          gr_vector_const_void_star &input_items,
          gr_vector_void_star &output_items);
 
-      float get_attribute_data(const std::string& attribute);
+      size_t type_sizeof(int data_type, int attr_type);
+      void get_attribute_data(const std::string& attribute, double* value);
+      void get_attribute_data(const std::string& attribute, float* value);
+      void get_attribute_data(const std::string& attribute, long long* value);
+      void get_attribute_data(const std::string& attribute, int* value);
+      void get_attribute_data(const std::string& attribute, uint8_t* value);
+      void get_register_data(uint32_t address, int* value);
+      void check(int ret);
 
     };
 

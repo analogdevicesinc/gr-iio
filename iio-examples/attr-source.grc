@@ -109,7 +109,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>device</key>
@@ -142,6 +142,14 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>address</key>
+      <value>int("0x123",0)</value>
+    </param>
+    <param>
+      <key>required_enable</key>
+      <value>False</value>
     </param>
     <param>
       <key>samples_per_update</key>
@@ -184,7 +192,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>device</key>
@@ -217,6 +225,14 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>address</key>
+      <value>int("0x123",0)</value>
+    </param>
+    <param>
+      <key>required_enable</key>
+      <value>False</value>
     </param>
     <param>
       <key>samples_per_update</key>
@@ -259,7 +275,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>device</key>
@@ -292,6 +308,14 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>address</key>
+      <value>int("0x123",0)</value>
+    </param>
+    <param>
+      <key>required_enable</key>
+      <value>False</value>
     </param>
     <param>
       <key>samples_per_update</key>
@@ -334,7 +358,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>device</key>
@@ -367,6 +391,14 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>address</key>
+      <value>int("0x123",0)</value>
+    </param>
+    <param>
+      <key>required_enable</key>
+      <value>False</value>
     </param>
     <param>
       <key>samples_per_update</key>
@@ -780,7 +812,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 232)</value>
+      <value>(552, 232)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1506,7 +1538,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 512)</value>
+      <value>(568, 512)</value>
     </param>
     <param>
       <key>gui_hint</key>

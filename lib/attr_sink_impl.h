@@ -37,6 +37,9 @@ namespace gr {
       std::string device;
       std::string channel;
       std::string uri;
+      int type;
+      bool output;
+      bool required_enable;
 
      protected:
       struct iio_context *ctx;
@@ -44,7 +47,8 @@ namespace gr {
       struct iio_channel * chan;
 
      public:
-      attr_sink_impl(const std::string &uri, const std::string &device, const std::string &channel);
+      attr_sink_impl(const std::string &uri, const std::string &device,
+        const std::string &channel, int type, bool output, bool required_enable);
       ~attr_sink_impl();
 
       void write_attribute(pmt::pmt_t pdu);
