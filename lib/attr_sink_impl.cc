@@ -104,7 +104,7 @@ namespace gr {
     attr_sink_impl::write_attribute(pmt::pmt_t pdu)
     {
       int ret = 0;
-      uint k;
+      uint16_t k;
       std::string value, attribute;
       pmt::pmt_t keys;
 
