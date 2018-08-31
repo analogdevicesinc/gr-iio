@@ -26,16 +26,24 @@
 #include "iio_math_impl.h"
 
 #include <boost/lexical_cast.hpp>
-
+#ifdef GR_VERSION_3_7_OR_LESS
 #include <gnuradio/analog/sig_source_f.h>
-#include <gnuradio/analog/sig_source_waveform.h>
 #include <gnuradio/blocks/add_ff.h>
-#include <gnuradio/blocks/copy.h>
 #include <gnuradio/blocks/divide_ff.h>
 #include <gnuradio/blocks/multiply_const_ff.h>
 #include <gnuradio/blocks/multiply_ff.h>
-#include <gnuradio/blocks/null_sink.h>
 #include <gnuradio/blocks/sub_ff.h>
+#else
+#include <gnuradio/analog/sig_source.h>
+#include <gnuradio/blocks/add_blk.h>
+#include <gnuradio/blocks/divide.h>
+#include <gnuradio/blocks/multiply_const.h>
+#include <gnuradio/blocks/multiply.h>
+#include <gnuradio/blocks/sub.h>
+#endif
+#include <gnuradio/analog/sig_source_waveform.h>
+#include <gnuradio/blocks/copy.h>
+#include <gnuradio/blocks/null_sink.h>
 #include <gnuradio/blocks/transcendental.h>
 #include <gnuradio/iio/modulo_ff.h>
 #include <gnuradio/iio/power_ff.h>
