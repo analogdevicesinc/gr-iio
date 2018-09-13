@@ -27,8 +27,11 @@
 #include <cmath>
 
 #include "iio_math_impl.h"
-
+#ifdef GR_VERSION_3_7_OR_LESS
 #include <gnuradio/analog/sig_source_f.h>
+#else
+#include <gnuradio/analog/sig_source.h>
+#endif
 #include <gnuradio/analog/sig_source_waveform.h>
 #include <gnuradio/io_signature.h>
 
