@@ -5,8 +5,8 @@
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms5_source_f32c($uri, $frequency1, $frequency2, $samplerate, $bandwidth, $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select, $filter)</make>
-	<callback>set_params($frequency1, $frequency2, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select)</callback>
+	<make>iio.fmcomms5_source_f32c($uri, int($frequency1), int($frequency2), int($samplerate), int($bandwidth), $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select, $filter)</make>
+	<callback>set_params(int($frequency1), int($frequency2), int($samplerate), int($bandwidth), $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select)</callback>
 
 	<param>
 		<name>IIO context URI</name>
@@ -19,28 +19,28 @@
 		<name>LO Frequency (RX1/RX2)</name>
 		<key>frequency1</key>
 		<value>2400000000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
 		<name>LO Frequency (RX3/RX4)</name>
 		<key>frequency2</key>
 		<value>2400000000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
 		<name>Sample rate</name>
 		<key>samplerate</key>
 		<value>2084000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
 		<name>RF bandwidth</name>
 		<key>bandwidth</key>
 		<value>20000000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
@@ -296,6 +296,12 @@
 
 	<check>sum([$ch1_en, $ch2_en, $ch3_en, $ch4_en]) &gt; 0</check>
 	<check>$samplerate &gt;= 2084000</check>
+
+	<!-- Can't have negative values for curtain parameters. -->
+	<check>($frequency1 &gt;= 0)</check>
+	<check>($frequency2 &gt;= 0)</check>
+	<check>($bandwidth &gt;= 0)</check>
+	<check>($samplerate &gt;= 0)</check>
 
 	<source>
 		<name>out</name>
