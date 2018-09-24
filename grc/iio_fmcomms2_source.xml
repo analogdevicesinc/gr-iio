@@ -5,8 +5,8 @@
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
 	<import>from gnuradio import iio</import>
-	<make>iio.fmcomms2_source_f32c($uri, $frequency, $samplerate, $bandwidth, $rx1_en, $rx2_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</make>
-	<callback>set_params($frequency, $samplerate, $bandwidth, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</callback>
+	<make>iio.fmcomms2_source_f32c($uri, int($frequency), int($samplerate), int($bandwidth), $rx1_en, $rx2_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</make>
+	<callback>set_params(int($frequency), int($samplerate), int($bandwidth), $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $rf_port_select, $filter, $auto_filter)</callback>
 
 	<param>
 		<name>IIO context URI</name>
@@ -19,21 +19,21 @@
 		<name>LO Frequency</name>
 		<key>frequency</key>
 		<value>2400000000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
 		<name>Sample rate</name>
 		<key>samplerate</key>
 		<value>2084000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
 		<name>RF bandwidth</name>
 		<key>bandwidth</key>
 		<value>20000000</value>
-		<type>int</type>
+		<type>real</type>
 	</param>
 
 	<param>
@@ -222,6 +222,11 @@
 
 	<!-- if we're below 2.084 MSPS, we require either a user-supplied filter, or the auto filter. -->
 	<check>($samplerate &gt;= 2084000) or (len($filter) &gt; 0) or $auto_filter</check>
+
+	<!-- Can't have negative values for curtain parameters. -->
+	<check>($frequency &gt;= 0)</check>
+	<check>($bandwidth &gt;= 0)</check>
+	<check>($samplerate &gt;= 0)</check>
 
 	<!-- We can't enable user-supplied filter and auto-filter at the same time. -->
 	<check>not ($auto_filter and len($filter))</check>
