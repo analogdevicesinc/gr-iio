@@ -26,7 +26,6 @@ install(FILES
 	fmcomms2_source.h fmcomms2_sink.h
 	fmcomms5_source.h fmcomms5_sink.h
 	pluto_source.h pluto_sink.h
-	converter_ss.h math.h power_ff.h
-	modulo_ff.h modulo_const_ff.h
+	converter_ss.h 
 	DESTINATION ${GR_INCLUDE_DIR}/gnuradio/iio
 )
