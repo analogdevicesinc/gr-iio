@@ -1,0 +1,35 @@
+language: c
+sudo: required
+
+matrix:
+  include:
+    - compiler: "gcc"
+      os: linux
+      dist: xenial
+      env:
+        - EXTRA_SSH=-oHostKeyAlgorithms=+ssh-dss
+    - os: linux
+      env:
+        - OS_TYPE=centos_docker
+        - OS_VERSION=7
+    - os: linux
+      env:
+        - OS_TYPE=ubuntu_docker
+        - OS_VERSION=bionic
+    - compiler: "gcc"
+      os: osx
+      osx_image: xcode10.1
+      env:
+        - EXTRA_SSH=-oHostKeyAlgorithms=+ssh-dss
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ci/travis/before_install_darwin ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ci/travis/before_install_linux "$OS_TYPE" "$OS_VERSION" ; fi
+
+script:
+  - ci/travis/make_linux "$OS_TYPE" "$OS_VERSION"
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
