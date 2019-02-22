@@ -45,6 +45,7 @@ namespace gr {
 	     unsigned int buffer_size;
 	     unsigned int interpolation;
 	     bool destroy_ctx;
+	     bool cyclic;
 
      public:
       device_sink_impl(struct iio_context *ctx, bool destroy_ctx,

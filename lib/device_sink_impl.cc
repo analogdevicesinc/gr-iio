@@ -81,7 +81,8 @@ namespace gr {
         ctx(ctx),
         interpolation(interpolation),
         buffer_size(buffer_size),
-        destroy_ctx(destroy_ctx)
+        destroy_ctx(destroy_ctx),
+        cyclic(cyclic)
     {
 	    unsigned int nb_channels, i;
 	    unsigned short vid, pid;
@@ -195,7 +196,11 @@ namespace gr {
 	}
 
 	consume_each(buffer_size / (interpolation + 1));
-	return 0;
+
+        if (cyclic)
+            return WORK_DONE;
+        else
+	    return 0;
     }
 
     void
