@@ -1,0 +1,23 @@
+#!/bin/sh -xe
+
+. ci/travis/lib.sh
+. ci/travis/before_install_lib.sh
+
+brew_install_or_upgrade cmake boost bison libusb libxml2 python@2 brew-pip \
+	fftw flex
+
+for pkg in gcc bison gettext ; do
+	brew link --overwrite --force $pkg
+done
+
+if [ "$TRAVIS" == "true" ] ; then
+	# FIXME: remove & pip these when not building gnuradio
+	sudo pip install -U six mako
+	for pkg in libiio libad9361-iio ; do
+		wget http://swdownloads.analog.com/cse/travis_builds/master_latest_${pkg}${LDIST}.pkg
+		sudo installer -pkg master_latest_${pkg}${LDIST}.pkg -target /
+	done
+fi
+
+__handle_common
+
