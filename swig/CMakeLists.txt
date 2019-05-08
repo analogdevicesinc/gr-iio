@@ -43,6 +43,11 @@ foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
     list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
 endforeach(incdir)
 
+if (NOT "")
+    find_path(GNURADIO_SWIG_RUNTIME_INCLUDE_DIRS gnuradio.i PATH_SUFFIXES gnuradio/swig)
+    list(APPEND GR_SWIG_INCLUDE_DIRS ${GNURADIO_SWIG_RUNTIME_INCLUDE_DIRS})
+endif()
+
 set(GR_SWIG_LIBRARIES gnuradio-iio)
 GR_SWIG_MAKE(iio_swig iio_swig.i)
 GR_SWIG_MAKE(iio_pluto_source_swig iio_pluto_source_swig.i)
