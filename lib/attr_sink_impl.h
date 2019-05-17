@@ -23,7 +23,7 @@
 #define INCLUDED_IIO_ATTR_SINK_IMPL_H
 
 #include <iio.h>
-#include <gnuradio/iio/attr_sink.h>
+#include <iio/attr_sink.h>
 #include <pmt/pmt.h>
 
 #include "device_source_impl.h"

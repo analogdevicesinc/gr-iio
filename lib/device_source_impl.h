@@ -27,7 +27,7 @@
 
 #include <iio.h>
 #include <boost/thread.hpp>
-#include <gnuradio/iio/device_source.h>
+#include <iio/device_source.h>
 
 namespace gr {
   namespace iio {

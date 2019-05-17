@@ -1,0 +1,71 @@
+id: iio_pluto_sink
+label: PlutoSDR Sink
+flags: [ python ]
+
+parameters:
+-   id: uri
+    label: IIO context URI
+    dtype: string
+    default: ''
+
+-   id: frequency
+    label: LO Frequency
+    dtype: int
+    default: 2400000000
+
+-   id: samplerate
+    label: Sample Rate
+    dtype: int
+    default: 2084000
+
+-   id: bandwidth
+    label: RF Bandwidth
+    dtype: int
+    default: 20000000
+
+-   id: buffer_size
+    label: Buffer size
+    dtype: int
+    default: 0x8000
+
+-   id: cyclic
+    label: Cyclic
+    dtype: bool
+    default: 'False'
+    options: ['False', 'True']
+    option_labels: ['False', 'True']
+
+-   id: attenuation1
+    label: Attenuation TX1 (dB)
+    dtype: float
+    default: 10.0
+
+-   id: filter
+    label: Filter
+    dtype: file_open
+    default: ''
+
+-   id: auto_filter
+    label: Filter Auto
+    dtype: bool
+    default: 'True'
+    options: ['False', 'True']
+    option_labels: ['False', 'True']
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+asserts:
+- ${ ((samplerate>=2084000) or (len(filter)>0) or auto_filter) }
+- ${ ((samplerate<=61440000) and (samplerate>=520833)) }
+- ${ ((bandwidth<=52000000) and (bandwidth>=200000)) }
+- ${ ((frequency<=6000000000) and (frequency>=47000000)) }
+
+templates:
+    imports: from gnuradio import iio
+    make: iio.pluto_sink(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
+    callbacks:
+      - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
+
+file_format: 1
