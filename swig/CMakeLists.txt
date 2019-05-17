@@ -29,7 +29,7 @@ endif(NOT iio_sources)
 # Include swig generation macros
 ########################################################################
 find_package(SWIG)
-find_package(PythonLibs 2)
+find_package(PythonLibs)
 if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
     return()
 endif()
@@ -39,11 +39,11 @@ include(GrPython)
 ########################################################################
 # Setup swig generation
 ########################################################################
-foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
-    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
-endforeach(incdir)
+set(GR_SWIG_INCLUDE_DIRS $<TARGET_PROPERTY:gnuradio::runtime_swig,INTERFACE_INCLUDE_DIRECTORIES>)
+set(GR_SWIG_TARGET_DEPS gnuradio::runtime_swig)
 
 set(GR_SWIG_LIBRARIES gnuradio-iio)
+
 GR_SWIG_MAKE(iio_swig iio_swig.i)
 GR_SWIG_MAKE(iio_pluto_source_swig iio_pluto_source_swig.i)
 GR_SWIG_MAKE(iio_pluto_sink_swig iio_pluto_sink_swig.i)
@@ -52,7 +52,7 @@ GR_SWIG_MAKE(iio_pluto_sink_swig iio_pluto_sink_swig.i)
 # Install the build swig module
 ########################################################################
 GR_SWIG_INSTALL(TARGETS iio_swig iio_pluto_source_swig iio_pluto_sink_swig
-	DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
+	DESTINATION ${GR_PYTHON_DIR}/iio)
 
 ########################################################################
 # Install swig .i files for development
@@ -62,5 +62,5 @@ install(
     iio_swig.i
     iio_pluto_source_swig.i
     iio_pluto_sink_swig.i
-    DESTINATION ${GR_INCLUDE_DIR}/swig
+    DESTINATION ${GR_INCLUDE_DIR}/iio/swig
 )

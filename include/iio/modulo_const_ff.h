@@ -20,23 +20,23 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_GR_IIO_POWER_FF_H
-#define INCLUDED_GR_IIO_POWER_FF_H
+#ifndef INCLUDED_GR_IIO_MODULO_CONST_FF_H
+#define INCLUDED_GR_IIO_MODULO_CONST_FF_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/sync_block.h>
 
 namespace gr {
 	namespace iio {
-		class IIO_API power_ff : virtual public sync_block
+		class IIO_API modulo_const_ff : virtual public sync_block
 		{
 		public:
-			typedef std::shared_ptr<power_ff> sptr;
+			typedef std::shared_ptr<modulo_const_ff> sptr;
 
-			static sptr make(size_t vlen=1);
+			static sptr make(float modulo, size_t vlen=1);
 		};
 
 	}
 }
 
-#endif /* INCLUDED_GR_IIO_POWER_FF_H */
+#endif /* INCLUDED_GR_IIO_MODULO_CONST_FF_H */

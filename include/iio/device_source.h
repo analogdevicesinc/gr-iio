@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_DEVICE_SOURCE_H
 #define INCLUDED_IIO_DEVICE_SOURCE_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/sync_block.h>
 
 #define DEFAULT_BUFFER_SIZE 0x8000
