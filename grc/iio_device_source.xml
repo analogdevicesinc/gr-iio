@@ -56,7 +56,6 @@
 
 	<!-- Refuse empty strings -->
 	<check>$device</check>
-	<check>$device_phy</check>
 
 	<!-- Avoid divisions by zero -->
 	<check>$decimation > 0</check>

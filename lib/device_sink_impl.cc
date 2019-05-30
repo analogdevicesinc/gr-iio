@@ -94,7 +94,7 @@ namespace gr {
 
 	    dev = iio_context_find_device(ctx, device.c_str());
 	    phy = iio_context_find_device(ctx, device_phy.c_str());
-	    if (!dev || !phy) {
+	    if ((!dev) || (device_phy.length()>0 && !phy)) {
 		    if (destroy_ctx)
 			    iio_context_destroy(ctx);
 		    throw std::runtime_error("Device not found");
