@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_CONVERTER_SS_H
 #define INCLUDED_IIO_CONVERTER_SS_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/sync_block.h>
 
 extern "C" {

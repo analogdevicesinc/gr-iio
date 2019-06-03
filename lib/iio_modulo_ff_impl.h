@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_MODULO_FF_IMPL_H
 #define INCLUDED_IIO_MODULO_FF_IMPL_H
 
-#include <gnuradio/iio/modulo_ff.h>
+#include <iio/modulo_ff.h>
 
 namespace gr {
 	namespace iio {

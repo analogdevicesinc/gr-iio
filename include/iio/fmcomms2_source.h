@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_FMCOMMS2_SOURCE_H
 #define INCLUDED_IIO_FMCOMMS2_SOURCE_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/hier_block2.h>
 #include <gnuradio/sync_block.h>
 

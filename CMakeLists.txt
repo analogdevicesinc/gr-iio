@@ -187,10 +187,10 @@ install(
 ########################################################################
 # Add subdirectories
 ########################################################################
-add_subdirectory(include/gnuradio/iio)
+add_subdirectory(include/iio)
 add_subdirectory(lib)
 add_subdirectory(swig)
-add_subdirectory(python/iio)
+add_subdirectory(python)
 add_subdirectory(grc)
 
 ########################################################################
