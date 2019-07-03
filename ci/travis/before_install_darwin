@@ -3,8 +3,10 @@
 . ci/travis/lib.sh
 . ci/travis/before_install_lib.sh
 
-brew_install_or_upgrade cmake boost bison libusb libxml2 python@2 brew-pip \
+brew_install_or_upgrade cmake bison libusb libxml2 python@2 brew-pip \
 	fftw flex
+# keep the old boost version for now
+brew switch boost 1.67.0_1
 
 for pkg in gcc bison gettext ; do
 	brew link --overwrite --force $pkg
