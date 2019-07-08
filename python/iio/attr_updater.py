@@ -69,9 +69,17 @@ class attr_updater(gr.basic_block):
             msg_dic = pmt.make_dict()
             msg_dic = pmt.dict_add(msg_dic, key0, val0)
             try:
+                # This sleep is needed due to a bug in GR
+                if int(self.interval) == 0:
+                    sleep(2)
                 self.message_port_pub(self.port, msg_dic)
             except:
                 print "Error: Failed to publish message"
                 return
 
+            if int(self.interval) == 0:
+                self.lock.acquire()
+                self.run = False
+                self.lock.release()
+                return
             sleep(self.interval/1000)
