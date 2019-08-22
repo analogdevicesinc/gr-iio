@@ -3,9 +3,9 @@
   <name>IIO Attribute Updater</name>
   <key>iio_attr_updater</key>
   <category>[Industrial IO]</category>
-  <import>from gnuradio import iio</import>
+  <import>import iio</import>
   <make>iio.attr_updater($attr, $value, $interval)</make>
-  <callback>update_value($value)</callback>
+  <callback>set_value($value)</callback>
   <param>
 		<name>Attribute</name>
 		<key>attr</key>

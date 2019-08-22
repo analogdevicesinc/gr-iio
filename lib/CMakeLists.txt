@@ -44,6 +44,7 @@ list(APPEND iio_sources
 	pluto_sink_impl.cc
 	attr_sink_impl.cc
 	attr_source_impl.cc
+	attr_updater_impl.cc
 	converter_ss_impl.cc
 	iio_math_impl.cc
 	iio_math_gen_impl.cc
