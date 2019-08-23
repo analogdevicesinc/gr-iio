@@ -85,7 +85,7 @@ asserts:
 - ${ ((frequency<=6000000000) and (frequency>=70000000)) }
 
 templates:
-    imports: from gnuradio import iio
+    imports: import iio
     make: iio.pluto_source(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${filter}, ${auto_filter})
     callbacks:
       - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${filter}, ${auto_filter})

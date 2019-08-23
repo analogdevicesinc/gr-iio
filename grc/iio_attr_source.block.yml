@@ -77,7 +77,7 @@ outputs:
     dtype: ${ type.fcn }
 
 templates:
-    imports: from gnuradio import iio
+    imports: import iio
     make: iio.attr_source(${uri}, ${device}, ${channel}, ${attribute}, ${update_interval_ms}, ${samples_per_update}, ${type}, ${attr_type}, ${output}, ${address}, ${required_enable})
 
 documentation: https://wiki.analog.com/resources/tools-software/linux-software/gnuradio

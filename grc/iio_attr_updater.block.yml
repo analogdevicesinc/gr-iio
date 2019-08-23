@@ -23,7 +23,7 @@ outputs:
     id: out
 
 templates:
-    imports: from gnuradio import iio
+    imports: import iio
     make: iio.attr_updater(${attr}, ${value}, ${update_interval_ms})
     callbacks:
       - update_value(${value})
