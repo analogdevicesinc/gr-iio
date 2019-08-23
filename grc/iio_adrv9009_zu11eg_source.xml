@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<block>
+  <name>ADRV9009_ZU11EG Source</name>
+  <key>iio_adrv9009_zu11eg_source</key>
+  <category>[Industrial IO]/ADRV</category>
+	<flags>throttle</flags>
+	<import>import iio</import>
+  <make>iio.adrv9009_zu11eg_source_f32c($uri, int($frequency1), int($frequency2), $rx1_en, $rx2_en, $rx4_en, $rx4_en, $buffer_size, $quadrature, $gain1, $manual_gain1, $gain1, $manual_gain2, $gain2, $manual_gain3, $gain2, $manual_gain4, $profile)</make>
+  <!-- <callback>set_params($frequency, $profile, $rf_bandwidth, $gain1, $manual_gain1, $gain2, $manual_gain2)</callback> -->
+
+	<param>
+		<name>IIO context URI</name>
+		<key>uri</key>
+		<value>ip:analog</value>
+		<type>string</type>
+	</param>
+
+	<param>
+		<name>LO Frequency 1</name>
+		<key>frequency1</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+  <param>
+		<name>LO Frequency 2</name>
+		<key>frequency2</key>
+		<value>2400000000</value>
+		<type>int</type>
+	</param>
+
+	<param>
+		<name>Buffer size</name>
+		<key>buffer_size</key>
+		<value>0x8000</value>
+		<type>int</type>
+	</param>
+
+
+	<param>
+		<name>Quadrature</name>
+		<key>quadrature</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>RX1 Enabled</name>
+		<key>rx1_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>RX2 Enabled</name>
+		<key>rx2_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+  <param>
+		<name>RX3 Enabled</name>
+		<key>rx3_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+  <param>
+		<name>RX4 Enabled</name>
+		<key>rx4_en</key>
+		<value>True</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+	</param>
+
+	<param>
+		<name>Gain Mode (RX1/2)</name>
+		<key>gain1</key>
+		<type>enum</type>
+		<option>
+			<name>Manual</name>
+			<key>"manual"</key>
+		</option>
+    <option>
+			<name>Slow Attack</name>
+			<key>"slow_attack"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Manual Gain (RX1)(dB)</name>
+		<key>manual_gain1</key>
+		<value>64.0</value>
+		<type>real</type>
+		<hide>#if $gain1() == '"manual"' then 'none' else 'all'#</hide>
+	</param>
+  <param>
+		<name>Manual Gain (RX2)(dB)</name>
+		<key>manual_gain2</key>
+		<value>64.0</value>
+		<type>real</type>
+		<hide>#if $gain1() == '"manual"' then 'none' else 'all'#</hide>
+	</param>
+
+	<param>
+		<name>Gain Mode (RX3/4)</name>
+		<key>gain2</key>
+		<type>enum</type>
+		<option>
+			<name>Manual</name>
+			<key>"manual"</key>
+		</option>
+    <option>
+			<name>Slow Attack</name>
+			<key>"slow_attack"</key>
+		</option>
+	</param>
+
+	<param>
+		<name>Manual Gain (RX3)(dB)</name>
+		<key>manual_gain3</key>
+		<value>64.0</value>
+		<type>real</type>
+		<hide>#if $gain2() == '"manual"' then 'none' else 'all'#</hide>
+	</param>
+  <param>
+    <name>Manual Gain (RX4)(dB)</name>
+    <key>manual_gain4</key>
+    <value>64.0</value>
+    <type>real</type>
+    <hide>#if $gain2() == '"manual"' then 'none' else 'all'#</hide>
+  </param>
+
+	<param>
+		<name>Profile</name>
+		<key>profile</key>
+		<value></value>
+		<type>file_open</type>
+	</param>
+
+	<check>sum([$rx1_en, $rx2_en, $rx3_en, $rx4_en]) &gt; 0</check>
+
+	<!-- <check>(len($profile))</check> -->
+
+	<source>
+		<name>out</name>
+		<type>complex</type>
+		<nports>sum([$rx1_en, $rx2_en, $rx3_en, $rx4_en])</nports>
+	</source>
+</block>

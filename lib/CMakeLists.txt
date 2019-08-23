@@ -40,6 +40,7 @@ list(APPEND iio_sources
 	fmcomms2_sink_impl.cc
 	fmcomms5_source_impl.cc
 	fmcomms5_sink_impl.cc
+	adrv9009_zu11eg_source_impl.cc
 	pluto_source_impl.cc
 	pluto_sink_impl.cc
 	attr_sink_impl.cc

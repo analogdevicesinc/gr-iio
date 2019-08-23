@@ -52,7 +52,7 @@ GR_SWIG_MAKE(iio_pluto_sink_swig iio_pluto_sink_swig.i)
 # Install the build swig module
 ########################################################################
 GR_SWIG_INSTALL(TARGETS iio_swig iio_pluto_source_swig iio_pluto_sink_swig
-	DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio)
+	DESTINATION ${GR_PYTHON_DIR}/iio)
 
 ########################################################################
 # Install swig .i files for development
@@ -62,5 +62,5 @@ install(
     iio_swig.i
     iio_pluto_source_swig.i
     iio_pluto_sink_swig.i
-    DESTINATION ${GR_INCLUDE_DIR}/swig
+    DESTINATION ${GR_INCLUDE_DIR}/iio/swig
 )
