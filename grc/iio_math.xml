@@ -3,7 +3,7 @@
 	<name>Function</name>
 	<key>math</key>
 	<category>[Industrial IO]/Math Operators</category>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.iio_math($function, $num_inputs)</make>
 
 	<param>
