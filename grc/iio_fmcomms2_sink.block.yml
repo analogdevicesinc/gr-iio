@@ -93,7 +93,7 @@ asserts:
 - ${ ((frequency<=6000000000) and (frequency>=47000000)) }
 
 templates:
-    imports: from gnuradio import iio
+    imports: import iio
     make: iio.fmcomms2_sink_f32c(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${tx1_en}, ${tx2_en}, ${buffer_size}, ${cyclic}, ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${filter}, ${auto_filter})
     callbacks:
       - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${tx1_en}, ${tx2_en}, ${buffer_size}, ${cyclic}, ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${filter}, ${auto_filter})
