@@ -19,6 +19,9 @@
 #include "gnuradio/iio/attr_sink.h"
 #include "gnuradio/iio/attr_source.h"
 #include "gnuradio/iio/attr_updater.h"
+// #include "iio/moving_variance.h"
+#include "gnuradio/iio/vector_select.h"
+#include "gnuradio/iio/fftshift.h"
 %}
 
 %include "gnuradio/iio/device_source.h"
@@ -35,6 +38,8 @@
 %include "gnuradio/iio/attr_sink.h"
 %include "gnuradio/iio/attr_source.h"
 %include "gnuradio/iio/attr_updater.h"
+%include "gnuradio/iio/vector_select.h"
+%include "gnuradio/iio/fftshift.h"
 
 GR_SWIG_BLOCK_MAGIC2(iio, device_source);
 GR_SWIG_BLOCK_MAGIC2(iio, device_sink);
@@ -56,3 +61,7 @@ GR_SWIG_BLOCK_MAGIC2(iio, modulo_const_ff);
 GR_SWIG_BLOCK_MAGIC2(iio, attr_sink);
 GR_SWIG_BLOCK_MAGIC2(iio, attr_source);
 GR_SWIG_BLOCK_MAGIC2(iio, attr_updater);
+// %include "iio/moving_variance.h"
+// GR_SWIG_BLOCK_MAGIC2(iio, moving_variance);
+GR_SWIG_BLOCK_MAGIC2(iio, vector_select);
+GR_SWIG_BLOCK_MAGIC2(iio, fftshift);

@@ -54,7 +54,9 @@ list(APPEND iio_sources
 	iio_modulo_const_ff_impl.cc
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
-)
+#    moving_variance_impl.cc
+    vector_select_impl.cc
+    fftshift_impl.cc )
 
 set(iio_sources "${iio_sources}" PARENT_SCOPE)
 if(NOT iio_sources)

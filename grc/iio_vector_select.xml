@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<block>
+  <name>Vector Select</name>
+  <key>iio_vector_select</key>
+  <category>[iio]</category>
+  <import>import iio</import>
+  <make>iio.vector_select($vlen)</make>
+
+  <param>
+    <name>vlen</name>
+    <key>vlen</key>
+    <type>int</type>
+  </param>
+
+
+  <sink>
+    <name>vec</name>
+    <type>complex</type>
+    <vlen>$vlen</vlen>
+  </sink>
+  <sink>
+    <name>indx</name>
+    <type>short</type>
+  </sink>
+
+  <source>
+    <name>value</name>
+    <type>complex</type>
+  </source>
+  <source>
+    <name>offset</name>
+    <type>short</type>
+  </source>
+</block>

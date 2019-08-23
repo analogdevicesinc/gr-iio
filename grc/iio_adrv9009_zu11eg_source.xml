@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>ADRV9009_ZU11EG Source</name>
+  <name>ADRV9009-ZU11EG Source</name>
   <key>iio_adrv9009_zu11eg_source</key>
   <category>[Industrial IO]/ADRV</category>
 	<flags>throttle</flags>
