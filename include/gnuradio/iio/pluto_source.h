@@ -23,42 +23,46 @@
 #ifndef INCLUDED_IIO_PLUTO_SOURCE_H
 #define INCLUDED_IIO_PLUTO_SOURCE_H
 
-#include <gnuradio/iio/api.h>
 #include <gnuradio/hier_block2.h>
+#include <gnuradio/iio/api.h>
 
 namespace gr {
-  namespace iio {
-	/*!
-	 * \brief Source block for the PlutoSDR
-	 * \ingroup iio
-	 *
-	 */
-	class IIO_API pluto_source : virtual public gr::hier_block2
-	{
-	public:
-		typedef boost::shared_ptr<pluto_source> sptr;
+namespace iio {
+/*!
+ * \brief Source block for the PlutoSDR
+ * \ingroup iio
+ *
+ */
+class IIO_API pluto_source : virtual public gr::hier_block2
+{
+public:
+    typedef boost::shared_ptr<pluto_source> sptr;
 
-		static sptr make(const std::string &uri,
-				unsigned long long frequency,
-				unsigned long samplerate,
-				unsigned long bandwidth,
-				unsigned long buffer_size,
-				bool quadrature, bool rfdc,
-				bool bbdc,
-				const char *gain,
-				double gain_value,
-				const char *filter = "",
-				bool auto_filter = true);
+    static sptr make(const std::string& uri,
+                     unsigned long long frequency,
+                     unsigned long samplerate,
+                     unsigned long bandwidth,
+                     unsigned long buffer_size,
+                     bool quadrature,
+                     bool rfdc,
+                     bool bbdc,
+                     const char* gain,
+                     double gain_value,
+                     const char* filter = "",
+                     bool auto_filter = true);
 
-		virtual void set_params(unsigned long long frequency,
-				unsigned long samplerate,
-				unsigned long bandwidth,
-				bool quadrature, bool rfdc, bool bbdc,
-				const char *gain, double gain_value,
-				const char *filter = "",
-				bool auto_filter = true) = 0;
-	};
-	} // namespace iio
+    virtual void set_params(unsigned long long frequency,
+                            unsigned long samplerate,
+                            unsigned long bandwidth,
+                            bool quadrature,
+                            bool rfdc,
+                            bool bbdc,
+                            const char* gain,
+                            double gain_value,
+                            const char* filter = "",
+                            bool auto_filter = true) = 0;
+};
+} // namespace iio
 } // namespace gr
 
 #endif /* INCLUDED_IIO_PLUTO_SOURCE_H */

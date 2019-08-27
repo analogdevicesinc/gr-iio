@@ -26,21 +26,21 @@
 #include <gnuradio/iio/modulo_ff.h>
 
 namespace gr {
-	namespace iio {
+namespace iio {
 
-		class IIO_API modulo_ff_impl : public modulo_ff
-		{
-			size_t d_vlen;
+class IIO_API modulo_ff_impl : public modulo_ff
+{
+    size_t d_vlen;
 
-		public:
-			modulo_ff_impl(size_t vlen);
+public:
+    modulo_ff_impl(size_t vlen);
 
-			int work(int noutput_items,
-					gr_vector_const_void_star &input_items,
-					gr_vector_void_star &output_items);
-		};
+    int work(int noutput_items,
+             gr_vector_const_void_star& input_items,
+             gr_vector_void_star& output_items);
+};
 
-	} /* namespace iio */
+} /* namespace iio */
 } /* namespace gr */
 
 

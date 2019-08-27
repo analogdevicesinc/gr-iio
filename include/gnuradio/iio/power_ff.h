@@ -27,16 +27,16 @@
 #include <gnuradio/sync_block.h>
 
 namespace gr {
-	namespace iio {
-		class IIO_API power_ff : virtual public sync_block
-		{
-		public:
-			typedef boost::shared_ptr<power_ff> sptr;
+namespace iio {
+class IIO_API power_ff : virtual public sync_block
+{
+public:
+    typedef boost::shared_ptr<power_ff> sptr;
 
-			static sptr make(size_t vlen=1);
-		};
+    static sptr make(size_t vlen = 1);
+};
 
-	}
-}
+} // namespace iio
+} // namespace gr
 
 #endif /* INCLUDED_GR_IIO_POWER_FF_H */

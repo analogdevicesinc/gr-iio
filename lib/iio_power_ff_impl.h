@@ -26,21 +26,21 @@
 #include <gnuradio/iio/power_ff.h>
 
 namespace gr {
-	namespace iio {
+namespace iio {
 
-		class IIO_API power_ff_impl : public power_ff
-		{
-			size_t d_vlen;
+class IIO_API power_ff_impl : public power_ff
+{
+    size_t d_vlen;
 
-		public:
-			power_ff_impl(size_t vlen);
+public:
+    power_ff_impl(size_t vlen);
 
-			int work(int noutput_items,
-					gr_vector_const_void_star &input_items,
-					gr_vector_void_star &output_items);
-		};
+    int work(int noutput_items,
+             gr_vector_const_void_star& input_items,
+             gr_vector_void_star& output_items);
+};
 
-	} /* namespace iio */
+} /* namespace iio */
 } /* namespace gr */
 
 

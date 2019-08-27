@@ -27,32 +27,40 @@
 #include <gnuradio/sync_block.h>
 
 namespace gr {
-  namespace iio {
+namespace iio {
+
+/*!
+ * \brief <+description of block+>
+ * \ingroup iio
+ *
+ */
+class IIO_API attr_source : virtual public gr::sync_block
+{
+public:
+    typedef boost::shared_ptr<attr_source> sptr;
 
     /*!
-     * \brief <+description of block+>
-     * \ingroup iio
+     * \brief Return a shared_ptr to a new instance of iio::attr_source.
      *
+     * To avoid accidental use of raw pointers, iio::attr_source's
+     * constructor is in a private implementation
+     * class. iio::attr_source::make is the public interface for
+     * creating new instances.
      */
-    class IIO_API attr_source : virtual public gr::sync_block
-    {
-     public:
-      typedef boost::shared_ptr<attr_source> sptr;
+    static sptr make(const std::string& uri,
+                     const std::string& device,
+                     const std::string& channel,
+                     const std::string& attribute,
+                     int update_interval_ms,
+                     int samples_per_update,
+                     int data_type,
+                     int attr_type,
+                     bool output,
+                     uint32_t address,
+                     bool required_enable);
+};
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of iio::attr_source.
-       *
-       * To avoid accidental use of raw pointers, iio::attr_source's
-       * constructor is in a private implementation
-       * class. iio::attr_source::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(const std::string &uri, const std::string &device, const std::string &channel,
-        const std::string &attribute, int update_interval_ms, int samples_per_update,
-        int data_type, int attr_type, bool output, uint32_t address, bool required_enable);
-    };
-
-  } // namespace iio
+} // namespace iio
 } // namespace gr
 
 #endif /* INCLUDED_IIO_ATTR_SOURCE_H */
