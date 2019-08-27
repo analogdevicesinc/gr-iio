@@ -57,8 +57,10 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *rf_port_select, const char *filter = "",
-		    bool auto_filter = true);
+		    const char *rf_port_select,
+        const char *filter_source = "",
+        const char *filter_filename = "",
+        float Fpass = 0.0, float Fstop = 0.0);
 
       static sptr make_from(struct iio_context *ctx,
 		    unsigned long long frequency, unsigned long samplerate,
@@ -67,8 +69,10 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *rf_port_select, const char *filter = "",
-		    bool auto_filter = true);
+		    const char *rf_port_select,
+        const char *filter_source = "",
+        const char *filter_filename = "",
+        float Fpass = 0.0, float Fstop = 0.0);
 
       virtual void set_params(unsigned long long frequency,
 		      unsigned long samplerate, unsigned long bandwidth,
@@ -76,7 +80,9 @@ namespace gr {
 		      const char *gain1, double gain1_value,
 		      const char *gain2, double gain2_value,
 		      const char *rf_port_select,
-		      const char *filter = "", bool auto_filter = true) = 0;
+          const char *filter_source = "",
+          const char *filter_filename = "",
+          float Fpass = 0.0, float Fstop = 0.0) = 0;
     };
 
     class IIO_API fmcomms2_source_f32c : virtual public gr::hier_block2
@@ -91,8 +97,10 @@ namespace gr {
 		    unsigned long buffer_size, bool quadrature, bool rfdc,
 		    bool bbdc, const char *gain1, double gain1_value,
 		    const char *gain2, double gain2_value,
-		    const char *rf_port_select, const char *filter = "",
-		    bool auto_filter = true)
+		    const char *rf_port_select,
+        const char *filter_source = "",
+        const char *filter_filename = "",
+        float Fpass = 0.0, float Fstop = 0.0)
       {
 	      fmcomms2_source::sptr block = fmcomms2_source::make(uri,
 			      frequency, samplerate,
@@ -100,7 +108,7 @@ namespace gr {
 			      rx2_en, buffer_size, quadrature,
 			      rfdc, bbdc, gain1, gain1_value,
 			      gain2, gain2_value, rf_port_select,
-			      filter, auto_filter);
+			      filter_source, filter_filename, Fpass, Fstop);
 
 	      return gnuradio::get_initial_sptr(
 			      new fmcomms2_source_f32c(rx1_en, rx2_en, block));
@@ -112,12 +120,14 @@ namespace gr {
 		      const char *gain1, double gain1_value,
 		      const char *gain2, double gain2_value,
 		      const char *rf_port_select,
-		      const char *filter = "", bool auto_filter = true)
+          const char *filter_source = "",
+          const char *filter_filename = "",
+          float Fpass = 0.0, float Fstop = 0.0)
       {
               fmcomms2_block->set_params(frequency, samplerate, bandwidth,
                               quadrature, rfdc, bbdc, gain1, gain1_value,
-                              gain2, gain2_value, rf_port_select, filter,
-                              auto_filter);
+                              gain2, gain2_value, rf_port_select,
+                              filter_source, filter_filename, Fpass, Fstop);
       }
     private:
       fmcomms2_source::sptr fmcomms2_block;

@@ -72,13 +72,14 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter, bool auto_filter)
+		    double attenuation2, const char *filter_source,
+        const char *filter_filename, float Fpass, float Fstop)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(device_source_impl::get_context(uri), true,
 		    frequency, samplerate, bandwidth, ch1_en,
 		    ch2_en, ch3_en, ch4_en, buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, filter, auto_filter));
+		    attenuation1, attenuation2, filter_source, filter_filename, Fpass, Fstop));
     }
 
     fmcomms2_sink::sptr
@@ -88,13 +89,17 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter, bool auto_filter)
+		    double attenuation2,
+        const char *filter_source,
+        const char *filter_filename,
+        float Fpass, float Fstop)
     {
       return gnuradio::get_initial_sptr(
 	    new fmcomms2_sink_impl(ctx, false, frequency, samplerate,
 		    bandwidth, ch1_en, ch2_en, ch3_en, ch4_en,
 		    buffer_size, cyclic, rf_port_select,
-		    attenuation1, attenuation2, filter, auto_filter));
+		    attenuation1, attenuation2, filter_source, filter_filename,
+        Fpass, Fstop));
     }
 
     std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(
@@ -119,7 +124,9 @@ namespace gr {
 		    bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en,
 		    unsigned long buffer_size, bool cyclic,
 		    const char *rf_port_select, double attenuation1,
-		    double attenuation2, const char *filter, bool auto_filter)
+		    double attenuation2, const char *filter_source,
+        const char *filter_filename,
+        float Fpass, float Fstop)
 	    : gr::sync_block("fmcomms2_sink",
 			    gr::io_signature::make(1, -1, sizeof(short)),
 			    gr::io_signature::make(0, 0, 0)),

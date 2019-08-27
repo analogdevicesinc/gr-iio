@@ -47,16 +47,20 @@ namespace gr {
 				bool bbdc,
 				const char *gain,
 				double gain_value,
-				const char *filter = "",
-				bool auto_filter = true);
+        const char *filter_source = "",
+        const char *filter_filename = "",
+        float Fpass = 0.0, float Fstop = 0.0);
+
+    // virtual void update_sample_rate(unsigned long samplerate) = 0;
 
 		virtual void set_params(unsigned long long frequency,
 				unsigned long samplerate,
 				unsigned long bandwidth,
 				bool quadrature, bool rfdc, bool bbdc,
 				const char *gain, double gain_value,
-				const char *filter = "",
-				bool auto_filter = true) = 0;
+        const char *filter_source = "",
+        const char *filter_filename = "",
+        float Fpass = 0.0, float Fstop = 0.0) = 0;
 	};
 	} // namespace iio
 } // namespace gr

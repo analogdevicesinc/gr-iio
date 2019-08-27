@@ -32,7 +32,8 @@ pluto_source::sptr pluto_source::make(const std::string& uri,
 		unsigned long bandwidth,
 		unsigned long buffer_size, bool quadrature, bool rfdc,
 		bool bbdc, const char *gain, double gain_value,
-		const char *filter, bool auto_filter)
+		const char *filter_source, const char *filter_filename,
+    float Fpass, float Fstop)
 {
 	fmcomms2_source::sptr block = fmcomms2_source::make(
 			uri.empty() ? pluto_source_impl::get_uri() : uri,
@@ -40,10 +41,9 @@ pluto_source::sptr pluto_source::make(const std::string& uri,
 			bandwidth, true, true, false, false,
 			buffer_size, quadrature, rfdc, bbdc,
 			gain, gain_value, NULL, 0.0, "A_BALANCED",
-			filter, auto_filter);
+			filter_source, filter_filename, Fpass, Fstop);
 
-	return gnuradio::get_initial_sptr(
-			new pluto_source_impl(block));
+	return gnuradio::get_initial_sptr(new pluto_source_impl(block));
 }
 
 std::string pluto_source_impl::get_uri()
@@ -97,11 +97,12 @@ void pluto_source_impl::set_params(unsigned long long frequency,
 		unsigned long bandwidth,
 		bool quadrature, bool rfdc, bool bbdc,
 		const char *gain, double gain_value,
-		const char *filter, bool auto_filter)
+    const char *filter_source, const char *filter_filename,
+    float Fpass, float Fstop)
 {
 	fmcomms2_source_f32c::set_params(frequency, samplerate, bandwidth,
 			quadrature, rfdc, bbdc, gain, gain_value, NULL, 0.0,
-			"A_BALANCED", filter, auto_filter);
+			"A_BALANCED", filter_source, filter_filename, Fpass, Fstop);
 }
 
         } // namespace iio
