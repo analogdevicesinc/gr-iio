@@ -27,7 +27,6 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/thread/thread.h>
 
-#include <boost/regex.hpp>
 #include <cstdio>
 #include <fstream>
 #include <string>
