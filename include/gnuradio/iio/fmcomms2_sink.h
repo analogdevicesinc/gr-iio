@@ -50,8 +50,10 @@ public:
                      const char* rf_port_select,
                      double attenuation1,
                      double attenuation2,
-                     const char* filter = "",
-                     bool auto_filter = true);
+                     const char* filter_source = "",
+                     const char* filter_filename = "",
+                     float Fpass = 0.0,
+                     float Fstop = 0.0);
 
     static sptr make_from(struct iio_context* ctx,
                           unsigned long long frequency,
@@ -66,8 +68,10 @@ public:
                           const char* rf_port_select,
                           double attenuation1,
                           double attenuation2,
-                          const char* filter = "",
-                          bool auto_filter = true);
+                          const char* filter_source = "",
+                          const char* filter_filename = "",
+                          float Fpass = 0.0,
+                          float Fstop = 0.0);
 
     virtual void set_params(unsigned long long frequency,
                             unsigned long samplerate,
@@ -75,8 +79,10 @@ public:
                             const char* rf_port_select,
                             double attenuation1,
                             double attenuation2,
-                            const char* filter = "",
-                            bool auto_filter = true) = 0;
+                            const char* filter_source = "",
+                            const char* filter_filename = "",
+                            float Fpass = 0.0,
+                            float Fstop = 0.0) = 0;
 };
 
 class IIO_API fmcomms2_sink_f32c : virtual public gr::hier_block2
@@ -95,8 +101,10 @@ public:
                      const char* rf_port_select,
                      double attenuation1,
                      double attenuation2,
-                     const char* filter = "",
-                     bool auto_filter = true)
+                     const char* filter_source = "",
+                     const char* filter_filename = "",
+                     float Fpass = 0.0,
+                     float Fstop = 0.0)
     {
         fmcomms2_sink::sptr block = fmcomms2_sink::make(uri,
                                                         frequency,
@@ -111,8 +119,10 @@ public:
                                                         rf_port_select,
                                                         attenuation1,
                                                         attenuation2,
-                                                        filter,
-                                                        auto_filter);
+                                                        filter_source,
+                                                        filter_filename,
+                                                        Fpass,
+                                                        Fstop);
 
         return gnuradio::get_initial_sptr(new fmcomms2_sink_f32c(rx1_en, rx2_en, block));
     }
@@ -123,8 +133,10 @@ public:
                     const char* rf_port_select,
                     double attenuation1,
                     double attenuation2,
-                    const char* filter = "",
-                    bool auto_filter = true)
+                    const char* filter_source = "",
+                    const char* filter_filename = "",
+                    float Fpass = 0.0,
+                    float Fstop = 0.0)
     {
         fmcomms2_block->set_params(frequency,
                                    samplerate,
@@ -132,8 +144,10 @@ public:
                                    rf_port_select,
                                    attenuation1,
                                    attenuation2,
-                                   filter,
-                                   auto_filter);
+                                   filter_source,
+                                   filter_filename,
+                                   Fpass,
+                                   Fstop);
     }
 
 private:

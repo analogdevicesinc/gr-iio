@@ -27,6 +27,7 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/thread/thread.h>
 
+#include <boost/regex.hpp>
 #include <cstdio>
 #include <fstream>
 #include <string>
@@ -450,6 +451,40 @@ bool device_source_impl::load_fir_filter(std::string& filter, struct iio_device*
 
     delete[] buffer;
     return ret > 0;
+}
+
+
+int device_source_impl::handle_decimation_interpolation(unsigned long samplerate,
+                                                        const char* channel_name,
+                                                        const char* attr_name,
+                                                        struct iio_device* dev,
+                                                        bool disable_dec)
+{
+    int ret;
+    struct iio_channel* chan;
+    size_t s;
+    char buff[128];
+    unsigned long long min, max;
+
+    std::string an(attr_name);
+    an.append("_available");
+
+    // Get ranges
+    chan = iio_device_find_channel(dev, channel_name, false);
+    if (chan == NULL) {
+        // Channel doesn't exist so the dec/int filters probably don't exist
+        return -1;
+    }
+    s = iio_channel_attr_read(chan, an.c_str(), buff, sizeof(buff));
+    sscanf(buff, "%llu %llu ", &max, &min);
+
+    // Write lower range (maybe)
+    if (disable_dec)
+        min = max;
+    ret = iio_channel_attr_write_longlong(chan, "sampling_frequency", min);
+    if (ret < 0)
+        std::cerr << "Unable to write attribute sampling_frequency\n";
+    return ret;
 }
 
 } /* namespace iio */

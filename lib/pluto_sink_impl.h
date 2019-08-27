@@ -42,8 +42,10 @@ public:
                     unsigned long samplerate,
                     unsigned long bandwidth,
                     double attenuation,
-                    const char* filter,
-                    bool auto_filter);
+                    const char* filter_source,
+                    const char* filter_filename,
+                    float Fpass,
+                    float Fstop);
 };
 
 } // namespace iio

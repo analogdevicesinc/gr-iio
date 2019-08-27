@@ -34,8 +34,10 @@ pluto_sink::sptr pluto_sink::make(const std::string& uri,
                                   unsigned long buffer_size,
                                   bool cyclic,
                                   double attenuation,
-                                  const char* filter,
-                                  bool auto_filter)
+                                  const char* filter_source,
+                                  const char* filter_filename,
+                                  float Fpass,
+                                  float Fstop)
 {
     fmcomms2_sink::sptr block =
         fmcomms2_sink::make(uri.empty() ? pluto_source_impl::get_uri() : uri,
@@ -51,8 +53,10 @@ pluto_sink::sptr pluto_sink::make(const std::string& uri,
                             "A",
                             attenuation,
                             0.0,
-                            filter,
-                            auto_filter);
+                            filter_source,
+                            filter_filename,
+                            Fpass,
+                            Fstop);
 
     return gnuradio::get_initial_sptr(new pluto_sink_impl(block));
 }
@@ -69,11 +73,21 @@ void pluto_sink_impl::set_params(unsigned long long frequency,
                                  unsigned long samplerate,
                                  unsigned long bandwidth,
                                  double attenuation,
-                                 const char* filter,
-                                 bool auto_filter)
+                                 const char* filter_source,
+                                 const char* filter_filename,
+                                 float Fpass,
+                                 float Fstop)
 {
-    fmcomms2_sink_f32c::set_params(
-        frequency, samplerate, bandwidth, "A", attenuation, 0.0, filter, auto_filter);
+    fmcomms2_sink_f32c::set_params(frequency,
+                                   samplerate,
+                                   bandwidth,
+                                   "A",
+                                   attenuation,
+                                   0.0,
+                                   filter_source,
+                                   filter_filename,
+                                   Fpass,
+                                   Fstop);
 }
 
 } // namespace iio

@@ -35,6 +35,9 @@ namespace iio {
 
 class pluto_source_impl : public pluto_source, public fmcomms2_source_f32c
 {
+private:
+    // void update_rate(unsigned long samplerate)
+
 public:
     explicit pluto_source_impl(fmcomms2_source::sptr block);
 
@@ -48,8 +51,10 @@ public:
                     bool bbdc,
                     const char* gain,
                     double gain_value,
-                    const char* filter,
-                    bool auto_filter);
+                    const char* filter_source,
+                    const char* filter_filename,
+                    float Fpass,
+                    float Fstop);
 };
 
 } // namespace iio

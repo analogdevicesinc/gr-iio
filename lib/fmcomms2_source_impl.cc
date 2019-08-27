@@ -33,6 +33,9 @@
 
 #include <ad9361.h>
 
+#define MIN_RATE 520333
+#define DECINT_RATIO 8
+
 using namespace gr::blocks;
 
 namespace gr {
@@ -81,8 +84,10 @@ fmcomms2_source::sptr fmcomms2_source::make(const std::string& uri,
                                             const char* gain2,
                                             double gain2_value,
                                             const char* port_select,
-                                            const char* filter,
-                                            bool auto_filter)
+                                            const char* filter_source,
+                                            const char* filter_filename,
+                                            float Fpass,
+                                            float Fstop)
 {
     return gnuradio::get_initial_sptr(
         new fmcomms2_source_impl(device_source_impl::get_context(uri),
@@ -103,8 +108,10 @@ fmcomms2_source::sptr fmcomms2_source::make(const std::string& uri,
                                  gain2,
                                  gain2_value,
                                  port_select,
-                                 filter,
-                                 auto_filter));
+                                 filter_source,
+                                 filter_filename,
+                                 Fpass,
+                                 Fstop));
 }
 
 fmcomms2_source::sptr fmcomms2_source::make_from(struct iio_context* ctx,
@@ -124,8 +131,10 @@ fmcomms2_source::sptr fmcomms2_source::make_from(struct iio_context* ctx,
                                                  const char* gain2,
                                                  double gain2_value,
                                                  const char* port_select,
-                                                 const char* filter,
-                                                 bool auto_filter)
+                                                 const char* filter_source,
+                                                 const char* filter_filename,
+                                                 float Fpass,
+                                                 float Fstop)
 {
     return gnuradio::get_initial_sptr(new fmcomms2_source_impl(ctx,
                                                                false,
@@ -145,8 +154,10 @@ fmcomms2_source::sptr fmcomms2_source::make_from(struct iio_context* ctx,
                                                                gain2,
                                                                gain2_value,
                                                                port_select,
-                                                               filter,
-                                                               auto_filter));
+                                                               filter_source,
+                                                               filter_filename,
+                                                               Fpass,
+                                                               Fstop));
 }
 
 std::vector<std::string> fmcomms2_source_impl::get_channels_vector(bool ch1_en,
@@ -184,8 +195,10 @@ fmcomms2_source_impl::fmcomms2_source_impl(struct iio_context* ctx,
                                            const char* gain2,
                                            double gain2_value,
                                            const char* port_select,
-                                           const char* filter,
-                                           bool auto_filter)
+                                           const char* filter_source,
+                                           const char* filter_filename,
+                                           float Fpass,
+                                           float Fstop)
     : gr::sync_block("fmcomms2_source",
                      gr::io_signature::make(0, 0, 0),
                      gr::io_signature::make(1, -1, sizeof(short))),
@@ -209,8 +222,10 @@ fmcomms2_source_impl::fmcomms2_source_impl(struct iio_context* ctx,
                gain2,
                gain2_value,
                port_select,
-               filter,
-               auto_filter);
+               filter_source,
+               filter_filename,
+               Fpass,
+               Fstop);
 }
 
 void fmcomms2_source_impl::set_params(unsigned long long frequency,
@@ -224,20 +239,26 @@ void fmcomms2_source_impl::set_params(unsigned long long frequency,
                                       const char* gain2,
                                       double gain2_value,
                                       const char* port_select,
-                                      const char* filter,
-                                      bool auto_filter)
+                                      const char* filter_source,
+                                      const char* filter_filename,
+                                      float Fpass,
+                                      float Fstop)
 {
     bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
     std::vector<std::string> params;
 
-    if (filter && filter[0])
-        auto_filter = false;
+    if (samplerate < MIN_RATE) {
+        int ret;
+        samplerate = samplerate * DECINT_RATIO;
+        ret = device_source_impl::handle_decimation_interpolation(
+            samplerate, "voltage0", "sampling_frequency", dev, false);
+        if (ret < 0)
+            samplerate = samplerate / 8;
+    } else // Disable decimation filter if on
+        device_source_impl::handle_decimation_interpolation(
+            samplerate, "voltage0", "sampling_frequency", dev, true);
 
     params.push_back("out_altvoltage0_RX_LO_frequency=" + boost::to_string(frequency));
-    if (!auto_filter) {
-        params.push_back("in_voltage_sampling_frequency=" + boost::to_string(samplerate));
-    }
-    params.push_back("in_voltage_rf_bandwidth=" + boost::to_string(bandwidth));
     params.push_back("in_voltage_quadrature_tracking_en=" + boost::to_string(quadrature));
     params.push_back("in_voltage_rf_dc_offset_tracking_en=" + boost::to_string(rfdc));
     params.push_back("in_voltage_bb_dc_offset_tracking_en=" + boost::to_string(bbdc));
@@ -246,6 +267,31 @@ void fmcomms2_source_impl::set_params(unsigned long long frequency,
     if (gain1_str.compare("manual") == 0) {
         params.push_back("in_voltage0_hardwaregain=" + boost::to_string(gain1_value));
     }
+
+    // Set rate configuration
+    std::string filt_config(filter_source);
+    if (filt_config.compare("Off") == 0) {
+        params.push_back("in_voltage_sampling_frequency=" + boost::to_string(samplerate));
+        params.push_back("in_voltage_rf_bandwidth=" + boost::to_string(bandwidth));
+    } else if (filt_config.compare("Auto") == 0) {
+        int ret = ad9361_set_bb_rate(phy, samplerate);
+        if (ret) {
+            throw std::runtime_error("Unable to set BB rate");
+            params.push_back("in_voltage_rf_bandwidth=" + boost::to_string(bandwidth));
+        }
+    } else if (filt_config.compare("File") == 0) {
+        std::string filt(filter_filename);
+        if (!load_fir_filter(filt, phy))
+            throw std::runtime_error("Unable to load filter file");
+    } else if (filt_config.compare("Design") == 0) {
+        int ret = ad9361_set_bb_rate_custom_filter_manual(
+            phy, samplerate, Fpass, Fstop, bandwidth, bandwidth);
+        if (ret) {
+            throw std::runtime_error("Unable to set BB rate");
+        }
+    } else
+        throw std::runtime_error("Unknown filter configuration");
+
     if (!is_fmcomms4) {
         std::string gain2_str = boost::to_string(gain2);
         params.push_back("in_voltage1_gain_control_mode=" + gain2_str);
@@ -253,21 +299,9 @@ void fmcomms2_source_impl::set_params(unsigned long long frequency,
             params.push_back("in_voltage1_hardwaregain=" + boost::to_string(gain2_value));
         }
     }
-
     params.push_back("in_voltage0_rf_port_select=" + boost::to_string(port_select));
 
     device_source_impl::set_params(params);
-
-    if (auto_filter) {
-        int ret = ad9361_set_bb_rate(phy, samplerate);
-        if (ret) {
-            throw std::runtime_error("Unable to set BB rate");
-        }
-    } else if (filter && filter[0]) {
-        std::string filt(filter);
-        if (!load_fir_filter(filt, phy))
-            throw std::runtime_error("Unable to load filter file");
-    }
 }
 
 } /* namespace iio */

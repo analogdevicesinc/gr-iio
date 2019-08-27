@@ -37,8 +37,10 @@ pluto_source::sptr pluto_source::make(const std::string& uri,
                                       bool bbdc,
                                       const char* gain,
                                       double gain_value,
-                                      const char* filter,
-                                      bool auto_filter)
+                                      const char* filter_source,
+                                      const char* filter_filename,
+                                      float Fpass,
+                                      float Fstop)
 {
     fmcomms2_source::sptr block =
         fmcomms2_source::make(uri.empty() ? pluto_source_impl::get_uri() : uri,
@@ -58,8 +60,10 @@ pluto_source::sptr pluto_source::make(const std::string& uri,
                               NULL,
                               0.0,
                               "A_BALANCED",
-                              filter,
-                              auto_filter);
+                              filter_source,
+                              filter_filename,
+                              Fpass,
+                              Fstop);
 
     return gnuradio::get_initial_sptr(new pluto_source_impl(block));
 }
@@ -119,8 +123,10 @@ void pluto_source_impl::set_params(unsigned long long frequency,
                                    bool bbdc,
                                    const char* gain,
                                    double gain_value,
-                                   const char* filter,
-                                   bool auto_filter)
+                                   const char* filter_source,
+                                   const char* filter_filename,
+                                   float Fpass,
+                                   float Fstop)
 {
     fmcomms2_source_f32c::set_params(frequency,
                                      samplerate,
@@ -133,8 +139,10 @@ void pluto_source_impl::set_params(unsigned long long frequency,
                                      NULL,
                                      0.0,
                                      "A_BALANCED",
-                                     filter,
-                                     auto_filter);
+                                     filter_source,
+                                     filter_filename,
+                                     Fpass,
+                                     Fstop);
 }
 
 } // namespace iio

@@ -57,8 +57,10 @@ public:
                          const char* gain2,
                          double gain2_value,
                          const char* rf_port_select,
-                         const char* filter,
-                         bool auto_filter);
+                         const char* filter_source,
+                         const char* filter_filename,
+                         float Fpass,
+                         float Fstop);
 
     void set_params(unsigned long long frequency,
                     unsigned long samplerate,
@@ -71,8 +73,10 @@ public:
                     const char* gain2,
                     double gain2_value,
                     const char* rf_port_select,
-                    const char* filter,
-                    bool auto_filter);
+                    const char* filter_source,
+                    const char* filter_filename,
+                    float Fpass,
+                    float Fstop);
 };
 
 } // namespace iio

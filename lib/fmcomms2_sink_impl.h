@@ -55,8 +55,10 @@ public:
                        const char* rf_port_select,
                        double attenuation1,
                        double attenuation2,
-                       const char* filter,
-                       bool auto_filter);
+                       const char* filter_source,
+                       const char* filter_filename,
+                       float Fpass,
+                       float Fstop);
 
     int work(int noutput_items,
              gr_vector_const_void_star& input_items,
@@ -68,8 +70,10 @@ public:
                     const char* rf_port_select,
                     double attenuation1,
                     double attenuation2,
-                    const char* filter,
-                    bool auto_filter);
+                    const char* filter_source,
+                    const char* filter_filename,
+                    float Fpass,
+                    float Fstop);
 };
 
 } // namespace iio

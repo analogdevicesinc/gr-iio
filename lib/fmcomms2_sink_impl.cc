@@ -78,8 +78,10 @@ fmcomms2_sink::sptr fmcomms2_sink::make(const std::string& uri,
                                         const char* rf_port_select,
                                         double attenuation1,
                                         double attenuation2,
-                                        const char* filter,
-                                        bool auto_filter)
+                                        const char* filter_source,
+                                        const char* filter_filename,
+                                        float Fpass,
+                                        float Fstop)
 {
     return gnuradio::get_initial_sptr(
         new fmcomms2_sink_impl(device_source_impl::get_context(uri),
@@ -96,8 +98,10 @@ fmcomms2_sink::sptr fmcomms2_sink::make(const std::string& uri,
                                rf_port_select,
                                attenuation1,
                                attenuation2,
-                               filter,
-                               auto_filter));
+                               filter_source,
+                               filter_filename,
+                               Fpass,
+                               Fstop));
 }
 
 fmcomms2_sink::sptr fmcomms2_sink::make_from(struct iio_context* ctx,
@@ -113,8 +117,10 @@ fmcomms2_sink::sptr fmcomms2_sink::make_from(struct iio_context* ctx,
                                              const char* rf_port_select,
                                              double attenuation1,
                                              double attenuation2,
-                                             const char* filter,
-                                             bool auto_filter)
+                                             const char* filter_source,
+                                             const char* filter_filename,
+                                             float Fpass,
+                                             float Fstop)
 {
     return gnuradio::get_initial_sptr(new fmcomms2_sink_impl(ctx,
                                                              false,
@@ -130,8 +136,10 @@ fmcomms2_sink::sptr fmcomms2_sink::make_from(struct iio_context* ctx,
                                                              rf_port_select,
                                                              attenuation1,
                                                              attenuation2,
-                                                             filter,
-                                                             auto_filter));
+                                                             filter_source,
+                                                             filter_filename,
+                                                             Fpass,
+                                                             Fstop));
 }
 
 std::vector<std::string> fmcomms2_sink_impl::get_channels_vector(bool ch1_en,
@@ -165,8 +173,10 @@ fmcomms2_sink_impl::fmcomms2_sink_impl(struct iio_context* ctx,
                                        const char* rf_port_select,
                                        double attenuation1,
                                        double attenuation2,
-                                       const char* filter,
-                                       bool auto_filter)
+                                       const char* filter_source,
+                                       const char* filter_filename,
+                                       float Fpass,
+                                       float Fstop)
     : gr::sync_block("fmcomms2_sink",
                      gr::io_signature::make(1, -1, sizeof(short)),
                      gr::io_signature::make(0, 0, 0)),
@@ -187,8 +197,10 @@ fmcomms2_sink_impl::fmcomms2_sink_impl(struct iio_context* ctx,
                rf_port_select,
                attenuation1,
                attenuation2,
-               filter,
-               auto_filter);
+               filter_source,
+               filter_filename,
+               Fpass,
+               Fstop);
 }
 
 void fmcomms2_sink_impl::set_params(unsigned long long frequency,
@@ -197,13 +209,16 @@ void fmcomms2_sink_impl::set_params(unsigned long long frequency,
                                     const char* rf_port_select,
                                     double attenuation1,
                                     double attenuation2,
-                                    const char* filter,
-                                    bool auto_filter)
+                                    const char* filter_source,
+                                    const char* filter_filename,
+                                    float Fpass,
+                                    float Fstop)
 {
     bool is_fmcomms4 = !iio_device_find_channel(phy, "voltage1", false);
     std::vector<std::string> params;
 
-    if (filter && filter[0])
+    bool auto_filter = false;
+    if (filter_filename && filter_filename[0])
         auto_filter = false;
 
     params.push_back("out_altvoltage1_TX_LO_frequency=" + boost::to_string(frequency));
@@ -226,8 +241,8 @@ void fmcomms2_sink_impl::set_params(unsigned long long frequency,
         if (ret) {
             throw std::runtime_error("Unable to set BB rate");
         }
-    } else if (filter && filter[0]) {
-        std::string f(filter);
+    } else if (filter_filename && filter_filename[0]) {
+        std::string f(filter_filename);
         if (!device_source_impl::load_fir_filter(f, phy))
             throw std::runtime_error("Unable to load filter file");
     }
