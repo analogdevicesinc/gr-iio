@@ -35,6 +35,7 @@
 
 #define MIN_RATE 520333
 #define DECINT_RATIO 8
+#define OVERFLOW_CHECK_PERIOD_MS 1000
 
 using namespace gr::blocks;
 
@@ -226,6 +227,49 @@ fmcomms2_source_impl::fmcomms2_source_impl(struct iio_context* ctx,
                filter_filename,
                Fpass,
                Fstop);
+
+    overflow_thd = boost::thread(&fmcomms2_source_impl::check_overflow, this);
+}
+
+fmcomms2_source_impl::~fmcomms2_source_impl() { overflow_thd.join(); }
+
+void fmcomms2_source_impl::check_overflow(void)
+{
+    uint32_t status;
+    int ret;
+
+    // Wait for stream startup
+#ifdef _WIN32
+    while (thread_stopped) {
+        Sleep(OVERFLOW_CHECK_PERIOD_MS);
+    }
+    Sleep(OVERFLOW_CHECK_PERIOD_MS);
+#else
+    while (thread_stopped) {
+        usleep(OVERFLOW_CHECK_PERIOD_MS*1000);
+    }
+    usleep(OVERFLOW_CHECK_PERIOD_MS*1000);
+#endif
+
+    // Clear status registers
+    iio_device_reg_write(dev, 0x80000088, 0x6);
+
+    while (!thread_stopped) {
+        ret = iio_device_reg_read(dev, 0x80000088, &status);
+        if (ret) {
+            throw std::runtime_error("Failed to read overflow status register");
+        }
+        if (status & 4) {
+            printf("O");
+            // Clear status registers
+            iio_device_reg_write(dev, 0x80000088, 4);
+        }
+#ifdef _WIN32
+        Sleep(OVERFLOW_CHECK_PERIOD_MS);
+#else
+        usleep(OVERFLOW_CHECK_PERIOD_MS*1000);
+#endif
+    }
 }
 
 void fmcomms2_source_impl::set_params(unsigned long long frequency,

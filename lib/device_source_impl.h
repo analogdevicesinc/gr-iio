@@ -51,7 +51,7 @@ private:
     boost::condition_variable iio_cond, iio_cond2;
     unsigned long items_in_buffer;
     off_t byte_offset;
-    volatile bool please_refill_buffer, thread_stopped;
+    volatile bool please_refill_buffer;
     pmt::pmt_t port_id;
 
     boost::thread refill_thd;
@@ -68,6 +68,7 @@ protected:
     unsigned int buffer_size;
     unsigned int decimation;
     bool destroy_ctx;
+    volatile bool thread_stopped;
 
 
 public:

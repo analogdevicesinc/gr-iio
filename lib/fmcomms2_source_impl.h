@@ -37,6 +37,8 @@ class fmcomms2_source_impl : public fmcomms2_source, public device_source_impl
 private:
     std::vector<std::string>
     get_channels_vector(bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
+    boost::thread overflow_thd;
+    void check_overflow(void);
 
 public:
     fmcomms2_source_impl(struct iio_context* ctx,
@@ -61,6 +63,8 @@ public:
                          const char* filter_filename,
                          float Fpass,
                          float Fstop);
+
+    ~fmcomms2_source_impl();
 
     void set_params(unsigned long long frequency,
                     unsigned long samplerate,

@@ -35,10 +35,14 @@ namespace iio {
 class fmcomms2_sink_impl : public fmcomms2_sink, public device_sink_impl
 {
 private:
-    bool cyclic;
+    bool cyclic, stop_thread;
+    boost::mutex uf_mutex;
+    boost::thread underflow_thd;
 
     std::vector<std::string>
     get_channels_vector(bool ch1_en, bool ch2_en, bool ch3_en, bool ch4_en);
+
+    void check_underflow(void);
 
 public:
     fmcomms2_sink_impl(struct iio_context* ctx,
@@ -59,6 +63,8 @@ public:
                        const char* filter_filename,
                        float Fpass,
                        float Fstop);
+
+    ~fmcomms2_sink_impl();
 
     int work(int noutput_items,
              gr_vector_const_void_star& input_items,
