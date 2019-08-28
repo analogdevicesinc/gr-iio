@@ -30,5 +30,6 @@ install(FILES
 	attr_sink.h
 	attr_source.h
 	modulo_ff.h modulo_const_ff.h
+	dds_control.h
 	DESTINATION ${GR_INCLUDE_DIR}/gnuradio/iio
 )

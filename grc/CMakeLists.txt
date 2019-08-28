@@ -27,5 +27,6 @@ install(FILES
 	iio_attr_sink.xml
 	iio_attr_source.xml
 	iio_attr_updater.xml
+	iio_dds_control.xml
 	DESTINATION share/gnuradio/grc/blocks
 )

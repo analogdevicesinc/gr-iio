@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<block>
+  <name>DDS Control</name>
+  <key>iio_dds_control</key>
+  <category>[Industrial IO]</category>
+  <import>from gnuradio import iio</import>
+  <make>iio.dds_control($uri, [int($enabled_dds1),int($enabled_dds2)],\
+     [$freq_t1, $freq_t2, $freq_t1_q, $freq_t2_q,   $freq_t1_b, $freq_t2_b, $freq_t1_b_q, $freq_t2_b_q], \
+     [$phase_t1,$phase_t1,$phase_t1_q,$phase_t1_q,  $phase_t1_b,$phase_t2_b,$phase_t1_b_q,$phase_t2_b_q], \
+     [$scale_t1,$scale_t2,$scale_t1_q,$scale_t2_q,  $scale_t1_b,$scale_t2_b,$scale_t1_b_q,$scale_t2_b_q])</make>
+  <callback>set_dds_confg([$freq_t1, $freq_t2, $freq_t1_q, $freq_t2_q,   $freq_t1_b, $freq_t2_b, $freq_t1_b_q, $freq_t2_b_q], \
+    [$phase_t1,$phase_t1,$phase_t1_q,$phase_t1_q,  $phase_t1_b,$phase_t2_b,$phase_t1_b_q,$phase_t2_b_q], \
+    [$scale_t1,$scale_t2,$scale_t1_q,$scale_t2_q,  $scale_t1_b,$scale_t2_b,$scale_t1_b_q,$scale_t2_b_q])</callback>
+
+  <param>
+		<name>IIO context URI</name>
+		<key>uri</key>
+		<value>ip:analog</value>
+		<type>string</type>
+	</param>
+
+  <param>
+		<name>Enabled DDSs (TX1)</name>
+		<key>enabled_dds1</key>
+		<value>False</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+    <tab>TX1</tab>
+	</param>
+
+  <param>
+		<name>Channel I Freq (Tone 1)</name>
+		<key>freq_t1</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel I Phase (Tone 1)</name>
+		<key>phase_t1</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel I Scale (Tone 1)</name>
+		<key>scale_t1</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+
+  <param>
+		<name>Channel I Freq (Tone 2)</name>
+		<key>freq_t2</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel I Phase (Tone 2)</name>
+		<key>phase_t2</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel I Scale (Tone 2)</name>
+		<key>scale_t2</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+
+  <param>
+		<name>Channel Q Freq (Tone 1)</name>
+		<key>freq_t1_q</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel Q Phase (Tone 1)</name>
+		<key>phase_t1_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel Q Scale (Tone 1)</name>
+		<key>scale_t1_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+
+  <param>
+		<name>Channel Q Freq (Tone 2)</name>
+		<key>freq_t2_q</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel Q Phase (Tone 2)</name>
+		<key>phase_t2_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+  <param>
+		<name>Channel Q Scale (Tone 2)</name>
+		<key>scale_t2_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds1() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX1</tab>
+	</param>
+
+
+  <!-- COMPLEX CHANNEL 2 -->
+  <param>
+		<name>Enabled DDSs (TX2)</name>
+		<key>enabled_dds2</key>
+		<value>False</value>
+		<type>enum</type>
+		<option><name>True</name><key>True</key></option>
+		<option><name>False</name><key>False</key></option>
+    <tab>TX2</tab>
+	</param>
+
+  <param>
+		<name>Channel I Freq (Tone 1)</name>
+		<key>freq_t1_b</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel I Phase (Tone 1)</name>
+		<key>phase_t1_b</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel I Scale (Tone 1)</name>
+		<key>scale_t1_b</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+
+  <param>
+		<name>Channel I Freq (Tone 2)</name>
+		<key>freq_t2_b</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel I Phase (Tone 2)</name>
+		<key>phase_t2_b</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel I Scale (Tone 2)</name>
+		<key>scale_t2_b</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+
+  <param>
+		<name>Channel Q Freq (Tone 1)</name>
+		<key>freq_t1_b_q</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel Q Phase (Tone 1)</name>
+		<key>phase_t1_b_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel Q Scale (Tone 1)</name>
+		<key>scale_t1_b_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+
+  <param>
+		<name>Channel Q Freq (Tone 2)</name>
+		<key>freq_t2_b_q</key>
+		<value>100000</value>
+		<type>int</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel Q Phase (Tone 2)</name>
+		<key>phase_t2_b_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+  <param>
+		<name>Channel Q Scale (Tone 2)</name>
+		<key>scale_t2_b_q</key>
+		<value>0</value>
+		<type>float</type>
+    <hide>#if $enabled_dds2() == 'True' then 'none' else 'all'#</hide>
+    <tab>TX2</tab>
+	</param>
+
+  <doc>
+Transmitter blocks cannot be run simultaneously with this block for the same device
+
+DDS units and ranges:
+ - Frequency: [0 samp_rate/2] Hz
+ - Phase: [0 360] Degress
+ - Scale: [0 1] Fullscale=1
+  </doc>
+
+</block>
