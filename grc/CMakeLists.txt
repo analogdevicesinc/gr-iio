@@ -28,7 +28,6 @@ install(FILES
 	iio_attr_sink.xml
 	iio_attr_source.xml
 	iio_attr_updater.xml
-    iio_moving_variance.xml
     iio_vector_select.xml
     iio_fftshift.xml DESTINATION share/gnuradio/grc/blocks
 )
