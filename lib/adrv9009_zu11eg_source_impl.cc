@@ -24,6 +24,7 @@
 #endif
 
 #include <cstdio>
+#include <fstream>
 
 #include "adrv9009_zu11eg_source_impl.h"
 #include <gnuradio/io_signature.h>
