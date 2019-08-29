@@ -27,6 +27,7 @@ project(gr-iio CXX C)
 set(GR_IIO_VERSION_MAJOR 0)
 set(GR_IIO_VERSION_MINOR 3)
 set(GR_IIO_VERSION ${GR_IIO_VERSION_MAJOR}.${GR_IIO_VERSION_MINOR})
+set(CMAKE_CXX_STANDARD 11)
 
 if (MSVC)
 	# http://www.suodenjoki.dk/us/archive/2010/min-max.htm
