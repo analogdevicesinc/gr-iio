@@ -52,6 +52,7 @@ list(APPEND iio_sources
 	iio_power_ff_impl.cc
 	iio_modulo_ff_impl.cc
 	iio_modulo_const_ff_impl.cc
+	communication/spi/spi.cpp
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
 #    moving_variance_impl.cc
@@ -78,7 +79,9 @@ target_link_libraries(gnuradio-iio
 	${Boost_LIBRARIES}
 	${IIO_LIBRARIES}
 	${AD9361_LIBRARIES}
+	${LIBM2K_LIBRARIES}
 	${GNURADIO_ALL_LIBRARIES})
+
 set_target_properties(gnuradio-iio PROPERTIES
 	VERSION ${GR_IIO_VERSION}
 	SOVERSION ${GR_IIO_VERSION_MAJOR}

@@ -130,6 +130,10 @@ find_path(IIO_INCLUDE_DIRS iio.h)
 find_library(AD9361_LIBRARIES ad9361)
 find_path(AD9361_INCLUDE_DIRS ad9361.h)
 
+find_package(PkgConfig)
+
+pkg_check_modules(LIBM2K REQUIRED libm2k)
+
 ########################################################################
 # Setup doxygen option
 ########################################################################
@@ -149,6 +153,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include
     ${Boost_INCLUDE_DIRS}
     ${GNURADIO_ALL_INCLUDE_DIRS}
+    ${LIBM2K_INCLUDE_DIRS}
 )
 
 link_directories(
