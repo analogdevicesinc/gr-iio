@@ -26,6 +26,7 @@ install(FILES
 	fmcomms2_source.h fmcomms2_sink.h
 	fmcomms5_source.h fmcomms5_sink.h
 	adrv9009_zu11eg_source.h
+	adf4350_sink.h
 	pluto_source.h pluto_sink.h
 	converter_ss.h math.h power_ff.h
 	attr_sink.h

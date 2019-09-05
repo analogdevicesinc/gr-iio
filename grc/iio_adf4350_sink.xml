@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<block>
+    <name>ADF4350 Sink</name>
+    <key>iio_adf4350_sink</key>
+    <category>[Industrial IO]</category>
+    <import>import iio</import>
+    <make>iio.adf4350_sink($uri)</make>
+    <param>
+        <name>uri</name>
+        <key>uri</key>
+        <value>""</value>
+        <type>string</type>
+    </param>
+
+    <sink>
+        <name>attr</name>
+        <type>message</type>
+        <optional>1</optional>
+    </sink>
+</block>

@@ -52,6 +52,9 @@ list(APPEND iio_sources
 	iio_power_ff_impl.cc
 	iio_modulo_ff_impl.cc
 	iio_modulo_const_ff_impl.cc
+	adf4350_sink_impl.cc
+	drivers/adf4350/adf4350.cpp
+	drivers/delay.cpp
 	communication/spi/spi.cpp
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
