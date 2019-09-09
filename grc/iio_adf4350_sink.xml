@@ -4,12 +4,202 @@
     <key>iio_adf4350_sink</key>
     <category>[Industrial IO]</category>
     <import>import iio</import>
-    <make>iio.adf4350_sink($uri)</make>
+    <make>iio.adf4350_sink($uri, $clkin, $channel_spacing, $power_up_frequency, $reference_div_factor,
+        $reference_doubler_enable, $reference_div2_enable, $phase_detector_polarity_positive_enable,
+        $lock_detect_precision_6ns_enable, $lock_detect_function_integer_n_enable, $charge_pump_current,
+        $muxout_select, $low_spur_mode_enable, $cycle_slip_reduction_enable, $charge_cancellation_enable,
+        $anti_backlash_3ns_enable, $band_select_clock_mode_high_enable, $clk_divider_12bit, $clk_divider_mode,
+        $aux_output_enable, $aux_output_fundamental_enable, $mute_till_lock_enable, $output_power, $aux_output_power)</make>
+
     <param>
         <name>uri</name>
         <key>uri</key>
-        <value>""</value>
+        <value>"ip:192.168.2.1"</value>
         <type>string</type>
+    </param>
+
+    <param>
+        <name>clkin</name>
+        <key>clkin</key>
+        <value>10000000</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>channel_spacing</name>
+        <key>channel_spacing</key>
+        <value>10000</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>power_up_frequency</name>
+        <key>power_up_frequency</key>
+        <value>2500000000</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>reference_div_factor</name>
+        <key>reference_div_factor</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>reference_doubler_enable</name>
+        <key>reference_doubler_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>reference_div2_enable</name>
+        <key>reference_div2_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>phase_detector_polarity_positive_enable</name>
+        <key>phase_detector_polarity_positive_enable</key>
+        <value>1</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>lock_detect_precision_6ns_enable</name>
+        <key>lock_detect_precision_6ns_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>lock_detect_function_integer_n_enable</name>
+        <key>lock_detect_function_integer_n_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>charge_pump_current</name>
+        <key>charge_pump_current</key>
+        <value>2500</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>muxout_select</name>
+        <key>muxout_select</key>
+        <value>1</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>low_spur_mode_enable</name>
+        <key>low_spur_mode_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>cycle_slip_reduction_enable</name>
+        <key>cycle_slip_reduction_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>charge_cancellation_enable</name>
+        <key>charge_cancellation_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>anti_backlash_3ns_enable</name>
+        <key>anti_backlash_3ns_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>band_select_clock_mode_high_enable</name>
+        <key>band_select_clock_mode_high_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>clk_divider_12bit</name>
+        <key>clk_divider_12bit</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>clk_divider_mode</name>
+        <key>clk_divider_mode</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>aux_output_enable</name>
+        <key>aux_output_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>aux_output_fundamental_enable</name>
+        <key>aux_output_fundamental_enable</key>
+        <value>1</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>mute_till_lock_enable</name>
+        <key>mute_till_lock_enable</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>output_power</name>
+        <key>output_power</key>
+        <value>3</value>
+        <type>int</type>
+        <hide>part</hide>
+    </param>
+
+    <param>
+        <name>aux_output_power</name>
+        <key>aux_output_power</key>
+        <value>0</value>
+        <type>int</type>
+        <hide>part</hide>
     </param>
 
     <sink>
@@ -18,3 +208,4 @@
         <optional>1</optional>
     </sink>
 </block>
+

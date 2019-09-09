@@ -30,13 +30,97 @@ namespace gr {
     namespace iio {
 
         adf4350_sink::sptr
-        adf4350_sink::make(const std::string &uri)
+        adf4350_sink::make(const std::string &uri,
+                           uint32_t    clkin,
+                           uint32_t	channel_spacing,
+                           uint32_t	power_up_frequency,
+                           uint32_t	reference_div_factor,
+                           uint8_t	reference_doubler_enable,
+                           uint8_t	reference_div2_enable,
+
+                /* r2_user_settings */
+                           uint8_t	phase_detector_polarity_positive_enable,
+                           uint8_t	lock_detect_precision_6ns_enable,
+                           uint8_t	lock_detect_function_integer_n_enable,
+                           uint32_t	charge_pump_current,
+                           uint32_t	muxout_select,
+                           uint8_t	low_spur_mode_enable,
+
+                /* r3_user_settings */
+                           uint8_t	cycle_slip_reduction_enable,
+                           uint8_t	charge_cancellation_enable,
+                           uint8_t	anti_backlash_3ns_enable,
+                           uint8_t	band_select_clock_mode_high_enable,
+                           uint32_t	clk_divider_12bit,
+                           uint32_t	clk_divider_mode,
+
+                /* r4_user_settings */
+                           uint8_t	aux_output_enable,
+                           uint8_t	aux_output_fundamental_enable,
+                           uint8_t	mute_till_lock_enable,
+                           uint32_t	output_power,
+                           uint32_t	aux_output_power)
+
         {
             return gnuradio::get_initial_sptr
-                    (new adf4350_sink_impl(uri));
+                    (new adf4350_sink_impl(uri,
+                            clkin,
+                            channel_spacing,
+                            power_up_frequency,
+                            reference_div_factor,
+                            reference_doubler_enable,
+                            reference_div2_enable,
+                            phase_detector_polarity_positive_enable,
+                            lock_detect_precision_6ns_enable,
+                            lock_detect_function_integer_n_enable,
+                            charge_pump_current,
+                            muxout_select,
+                            low_spur_mode_enable,
+
+                            cycle_slip_reduction_enable,
+                            charge_cancellation_enable,
+                            anti_backlash_3ns_enable,
+                            band_select_clock_mode_high_enable,
+                            clk_divider_12bit,
+                            clk_divider_mode,
+
+                            aux_output_enable,
+                            aux_output_fundamental_enable,
+                            mute_till_lock_enable,
+                            output_power,
+                            aux_output_power));
         }
 
-        adf4350_sink_impl::adf4350_sink_impl(const std::string &uri)
+        adf4350_sink_impl::adf4350_sink_impl(const std::string &uri,
+                                             uint32_t    clkin,
+                                             uint32_t	channel_spacing,
+                                             uint32_t	power_up_frequency,
+                                             uint32_t	reference_div_factor,
+                                             uint8_t	reference_doubler_enable,
+                                             uint8_t	reference_div2_enable,
+
+                /* r2_user_settings */
+                                             uint8_t	phase_detector_polarity_positive_enable,
+                                             uint8_t	lock_detect_precision_6ns_enable,
+                                             uint8_t	lock_detect_function_integer_n_enable,
+                                             uint32_t	charge_pump_current,
+                                             uint32_t	muxout_select,
+                                             uint8_t	low_spur_mode_enable,
+
+                /* r3_user_settings */
+                                             uint8_t	cycle_slip_reduction_enable,
+                                             uint8_t	charge_cancellation_enable,
+                                             uint8_t	anti_backlash_3ns_enable,
+                                             uint8_t	band_select_clock_mode_high_enable,
+                                             uint32_t	clk_divider_12bit,
+                                             uint32_t	clk_divider_mode,
+
+                /* r4_user_settings */
+                                             uint8_t	aux_output_enable,
+                                             uint8_t	aux_output_fundamental_enable,
+                                             uint8_t	mute_till_lock_enable,
+                                             uint32_t	output_power,
+                                             uint32_t	aux_output_power)
                 : gr::block("adf4350_sink",
                             gr::io_signature::make(0, 0, 0),
                             gr::io_signature::make(0, 0, 0)),
@@ -50,37 +134,35 @@ namespace gr {
                             static_cast<spi_mode>(0),
                             (void*)(uri.c_str())
                     },
-
-                    /* Device settings */
-                    10000000,		// clkin;
-                    10000,			// channel_spacing;
-                    2500000000ul,		// power_up_frequency;
-                    0,			// reference_div_factor;
-                    0,			// reference_doubler_enable;
-                    0,			// reference_div2_enable;
+			clkin,
+			channel_spacing,
+			power_up_frequency,
+			reference_div_factor,
+			reference_doubler_enable,
+			reference_div2_enable,
 
                     /* r2_user_settings */
-                    1,			// phase_detector_polarity_positive_enable;
-                    0,			// lock_detect_precision_6ns_enable;
-                    0,			// lock_detect_function_integer_n_enable;
-                    2500,			// charge_pump_current;
-                    1,			// muxout_select;
-                    0,			// low_spur_mode_enable;
+			phase_detector_polarity_positive_enable,
+			lock_detect_precision_6ns_enable,
+			lock_detect_function_integer_n_enable,
+			charge_pump_current,
+			muxout_select,
+			low_spur_mode_enable,
 
                     /* r3_user_settings */
-                    0,			// cycle_slip_reduction_enable;
-                    0,			// charge_cancellation_enable;
-                    0,			// anti_backlash_3ns_enable;
-                    0,			// band_select_clock_mode_high_enable;
-                    0,			// clk_divider_12bit;
-                    0,			// clk_divider_mode;
+			cycle_slip_reduction_enable,
+			charge_cancellation_enable,
+			anti_backlash_3ns_enable,
+			band_select_clock_mode_high_enable,
+			clk_divider_12bit,
+			clk_divider_mode,
 
                     /* r4_user_settings */
-                    0,			// aux_output_enable;
-                    1,			// aux_output_fundamental_enable;
-                    0,			// mute_till_lock_enable;
-                    3,			// output_power;
-                    0,			// aux_output_power;
+			aux_output_enable,
+			aux_output_fundamental_enable,
+			mute_till_lock_enable,
+			output_power,
+			aux_output_power    // aux_output_power;
             };
             adf4350_setup(&adf4350_device, default_adf4350_init_param);
             message_port_register_in(pmt::mp("attr"));
