@@ -30,7 +30,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 12)</value>
+      <value>(40, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 84)</value>
+      <value>(344, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -113,7 +113,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>10000000</value>
+      <value>100000000</value>
     </param>
   </block>
   <block>
@@ -128,7 +128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 92)</value>
+      <value>(136, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -140,7 +140,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>5</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(72, 156)</value>
+      <value>(40, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -168,6 +168,33 @@
     <param>
       <key>value</key>
       <value>adc_samp_rate/os_ratio</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(216, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>uri</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"ip:192.168.3.2"</value>
     </param>
   </block>
   <block>
@@ -186,7 +213,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 529)</value>
+      <value>(24, 452)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -249,7 +276,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 164)</value>
+      <value>(40, 148)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -304,7 +331,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>100</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -312,7 +339,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 276)</value>
+      <value>(216, 84)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -344,11 +371,11 @@
     </param>
     <param>
       <key>step</key>
-      <value>1</value>
+      <value>0.05</value>
     </param>
     <param>
       <key>stop</key>
-      <value>2000</value>
+      <value>1</value>
     </param>
     <param>
       <key>rangeType</key>
@@ -383,7 +410,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 620)</value>
+      <value>(264, 540)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -404,108 +431,6 @@
     <param>
       <key>type</key>
       <value>float</value>
-    </param>
-  </block>
-  <block>
-    <key>analog_nbfm_rx</key>
-    <param>
-      <key>audio_rate</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1024, 700)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>analog_nbfm_rx_0</value>
-    </param>
-    <param>
-      <key>max_dev</key>
-      <value>5e3</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>quad_rate</key>
-      <value>250</value>
-    </param>
-    <param>
-      <key>tau</key>
-      <value>75e-6</value>
-    </param>
-  </block>
-  <block>
-    <key>analog_rail_ff</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(824, 380)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>hi</key>
-      <value>6e-6</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>analog_rail_ff_0</value>
-    </param>
-    <param>
-      <key>lo</key>
-      <value>2e-6</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
     </param>
   </block>
   <block>
@@ -536,7 +461,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(264, 704)</value>
+      <value>(264, 588)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -595,7 +520,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 629)</value>
+      <value>(848, 388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -615,7 +540,7 @@
     </param>
     <param>
       <key>quad_rate</key>
-      <value>250</value>
+      <value>250000</value>
     </param>
   </block>
   <block>
@@ -642,7 +567,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 292)</value>
+      <value>(1136, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -685,7 +610,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 593)</value>
+      <value>(472, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -732,7 +657,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 380)</value>
+      <value>(864, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -779,7 +704,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 705)</value>
+      <value>(656, 552)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -834,7 +759,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 401)</value>
+      <value>(288, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -877,7 +802,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 444)</value>
+      <value>(280, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -951,7 +876,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 268)</value>
+      <value>(528, 44)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -963,7 +888,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>uri</key>
-      <value>'ip:192.168.2.1'</value>
+      <value>uri</value>
     </param>
   </block>
   <block>
@@ -986,7 +911,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1136, 220)</value>
+      <value>(744, 108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -998,117 +923,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>uri</key>
-      <value>"ip:192.168.2.1"</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_attr_sink</key>
-    <param>
-      <key>attr_type</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>channel</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>device</key>
-      <value>"m2k-fabric"</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(728, 6)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>iio_attr_sink_0</value>
-    </param>
-    <param>
-      <key>output</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>required_enable</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>uri</key>
-      <value>"ip:192.168.2.1"</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_attr_sink</key>
-    <param>
-      <key>attr_type</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>channel</key>
-      <value>"voltage1"</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>device</key>
-      <value>"m2k-fabric"</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(720, 104)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>iio_attr_sink_0_0</value>
-    </param>
-    <param>
-      <key>output</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>required_enable</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>uri</key>
-      <value>"ip:192.168.2.1"</value>
+      <value>uri</value>
     </param>
   </block>
   <block>
@@ -1163,160 +978,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>uri</key>
-      <value>"ip:192.168.2.1"</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_attr_updater</key>
-    <param>
-      <key>attr</key>
-      <value>"clk_powerdown"</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(376, 6)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>iio_attr_updater_0</value>
-    </param>
-    <param>
-      <key>interval</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"0"</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_attr_updater</key>
-    <param>
-      <key>attr</key>
-      <value>"gain"</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(376, 102)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>iio_attr_updater_0_0</value>
-    </param>
-    <param>
-      <key>interval</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"high"</value>
-    </param>
-  </block>
-  <block>
-    <key>iio_attr_updater</key>
-    <param>
-      <key>attr</key>
-      <value>"powerdown"</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(376, 182)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>iio_attr_updater_0_0_0</value>
-    </param>
-    <param>
-      <key>interval</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"0"</value>
+      <value>uri</value>
     </param>
   </block>
   <block>
@@ -1445,7 +1107,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 204)</value>
+      <value>(528, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1508,7 +1170,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 401)</value>
+      <value>(16, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1520,7 +1182,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>uri</key>
-      <value>ip:192.168.2.1</value>
+      <value>uri</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1559,7 +1221,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>cutoff_freq</key>
-      <value>25000</value>
+      <value>100000</value>
     </param>
     <param>
       <key>decim</key>
@@ -1575,7 +1237,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 594)</value>
+      <value>(784, 516)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1607,7 +1269,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>width</key>
-      <value>25000</value>
+      <value>10000</value>
     </param>
     <param>
       <key>win</key>
@@ -1662,7 +1324,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 358)</value>
+      <value>(624, 276)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1961,7 +1623,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1088, 788)</value>
+      <value>(784, 724)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2248,7 +1910,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 446)</value>
+      <value>(624, 364)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2595,7 +2257,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_enabled</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>fbw</key>
@@ -2603,7 +2265,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 471)</value>
+      <value>(1104, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2639,18 +2301,6 @@ class blk(gr.basic_block):
     <sink_block_id>blocks_float_to_complex_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>analog_nbfm_rx_0</source_block_id>
-    <sink_block_id>rational_resampler_xxx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>analog_rail_ff_0</source_block_id>
-    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>analog_sig_source_x_0</source_block_id>
@@ -2707,24 +2357,6 @@ class blk(gr.basic_block):
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>iio_attr_updater_0</source_block_id>
-    <sink_block_id>iio_attr_sink_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>attr</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>iio_attr_updater_0_0</source_block_id>
-    <sink_block_id>iio_attr_sink_0_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>attr</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>iio_attr_updater_0_0_0</source_block_id>
-    <sink_block_id>iio_attr_sink_0_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>attr</sink_key>
-  </connection>
-  <connection>
     <source_block_id>iio_attr_updater_0_1</source_block_id>
     <sink_block_id>iio_attr_sink_0_1</sink_block_id>
     <source_key>out</source_key>
@@ -2756,19 +2388,13 @@ class blk(gr.basic_block):
   </connection>
   <connection>
     <source_block_id>low_pass_filter_0</source_block_id>
-    <sink_block_id>analog_nbfm_rx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>low_pass_filter_0</source_block_id>
     <sink_block_id>analog_wfm_rcv_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>rational_resampler_xxx_0</source_block_id>
-    <sink_block_id>analog_rail_ff_0</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
