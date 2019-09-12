@@ -130,7 +130,7 @@ namespace gr {
                     /* SPI */
                     {
                             1000000,
-                            3,
+                            2,
                             static_cast<spi_mode>(0),
                             (void*)(uri.c_str())
                     },

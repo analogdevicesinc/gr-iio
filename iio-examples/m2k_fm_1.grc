@@ -704,7 +704,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 552)</value>
+      <value>(656, 592)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -759,7 +759,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 320)</value>
+      <value>(312, 392)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -802,7 +802,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 364)</value>
+      <value>(288, 332)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -920,6 +920,98 @@ class blk(gr.basic_block):
     <param>
       <key>id</key>
       <value>iio_adf4350_sink_0</value>
+    </param>
+    <param>
+      <key>anti_backlash_3ns_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>aux_output_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>aux_output_fundamental_enable</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>aux_output_power</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>band_select_clock_mode_high_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>channel_spacing</key>
+      <value>10000</value>
+    </param>
+    <param>
+      <key>charge_cancellation_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>charge_pump_current</key>
+      <value>2500</value>
+    </param>
+    <param>
+      <key>clk_divider_12bit</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>clk_divider_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>clkin</key>
+      <value>10000000</value>
+    </param>
+    <param>
+      <key>cycle_slip_reduction_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lock_detect_function_integer_n_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lock_detect_precision_6ns_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>low_spur_mode_enable</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>mute_till_lock_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>muxout_select</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>output_power</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>phase_detector_polarity_positive_enable</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>power_up_frequency</key>
+      <value>100000000</value>
+    </param>
+    <param>
+      <key>reference_div2_enable</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>reference_div_factor</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>reference_doubler_enable</key>
+      <value>0</value>
     </param>
     <param>
       <key>uri</key>
@@ -1237,7 +1329,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 516)</value>
+      <value>(784, 556)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1623,7 +1715,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 724)</value>
+      <value>(784, 716)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2376,13 +2468,13 @@ class blk(gr.basic_block):
   </connection>
   <connection>
     <source_block_id>iio_device_source_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0</sink_block_id>
+    <sink_block_id>blocks_short_to_float_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>iio_device_source_0</source_block_id>
-    <sink_block_id>blocks_short_to_float_0</sink_block_id>
+    <sink_block_id>blocks_null_sink_0</sink_block_id>
     <source_key>1</source_key>
     <sink_key>0</sink_key>
   </connection>
