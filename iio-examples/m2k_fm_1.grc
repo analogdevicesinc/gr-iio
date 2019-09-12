@@ -117,6 +117,53 @@
     </param>
   </block>
   <block>
+    <key>variable_qtgui_check_box</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"low"</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>false</key>
+      <value>"low"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(368, 84)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>gain_mode</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>true</key>
+      <value>"high"</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+  </block>
+  <block>
     <key>variable</key>
     <param>
       <key>comment</key>
@@ -229,7 +276,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>offse</value>
+      <value>offset</value>
     </param>
     <param>
       <key>min_len</key>
@@ -292,7 +339,7 @@
     </param>
     <param>
       <key>label</key>
-      <value></value>
+      <value>PLL Frequency</value>
     </param>
     <param>
       <key>min_len</key>
@@ -1022,6 +1069,61 @@ class blk(gr.basic_block):
     <key>iio_attr_sink</key>
     <param>
       <key>attr_type</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>channel</key>
+      <value>voltage0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>device</key>
+      <value>m2k-fabric</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1112, 148)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>iio_attr_sink_0</value>
+    </param>
+    <param>
+      <key>output</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>required_enable</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>uri</key>
+      <value>uri</value>
+    </param>
+  </block>
+  <block>
+    <key>iio_attr_sink</key>
+    <param>
+      <key>attr_type</key>
       <value>1</value>
     </param>
     <param>
@@ -1071,6 +1173,57 @@ class blk(gr.basic_block):
     <param>
       <key>uri</key>
       <value>uri</value>
+    </param>
+  </block>
+  <block>
+    <key>iio_attr_updater</key>
+    <param>
+      <key>attr</key>
+      <value>"gain"</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(904, 172)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>iio_attr_updater_0</value>
+    </param>
+    <param>
+      <key>interval</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>str(gain_mode)</value>
     </param>
   </block>
   <block>
@@ -1148,7 +1301,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 102)</value>
+      <value>(888, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2447,6 +2600,12 @@ class blk(gr.basic_block):
     <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>iio_attr_updater_0</source_block_id>
+    <sink_block_id>iio_attr_sink_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>attr</sink_key>
   </connection>
   <connection>
     <source_block_id>iio_attr_updater_0_1</source_block_id>
