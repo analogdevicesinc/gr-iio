@@ -140,7 +140,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>1,1,1,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -260,11 +260,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 452)</value>
+      <value>(368, 180)</value>
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>0,1,1,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -327,7 +327,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>0,0,1,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -390,7 +390,7 @@
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>1,0,1,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -923,7 +923,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 44)</value>
+      <value>(712, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1352,7 +1352,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 92)</value>
+      <value>(552, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1573,7 +1573,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>9,0,2,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1872,7 +1872,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>6,0,3,2</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2159,7 +2159,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>9,1,2,1</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2522,7 +2522,7 @@ class blk(gr.basic_block):
     </param>
     <param>
       <key>gui_hint</key>
-      <value></value>
+      <value>2,0,4,2</value>
     </param>
     <param>
       <key>_rotation</key>
