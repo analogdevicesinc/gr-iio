@@ -27,6 +27,11 @@ matrix:
       osx_image: xcode10.1
       env:
         - EXTRA_SSH=-oHostKeyAlgorithms=+ssh-dss
+    - compiler: "gcc"
+      os: osx
+      osx_image: xcode11
+      env:
+        - EXTRA_SSH=-oHostKeyAlgorithms=+ssh-dss
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ci/travis/before_install_darwin ; fi
