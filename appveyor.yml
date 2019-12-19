@@ -7,7 +7,6 @@ install:
     - appveyor-retry nuget install boost_atomic-vc120 -Version 1.61.0
     - appveyor-retry nuget install boost_system-vc120 -Version 1.61.0
     - appveyor-retry nuget install boost_filesystem-vc120 -Version 1.61.0
-    - appveyor-retry nuget install boost_chrono-vc120 -Version 1.61.0
     - appveyor-retry nuget install boost_date_time-vc120 -Version 1.61.0
     - appveyor-retry nuget install boost_thread-vc120 -Version 1.61.0
 
@@ -54,7 +53,7 @@ build_script:
         -DBoost_FILESYSTEM_LIBRARY_RELEASE:FILEPATH=c:/boost_filesystem-vc120.1.61.0.0/lib/native/address-model-64/lib/boost_filesystem-vc120-mt-1_61.lib \
         -DBoost_THREAD_LIBRARY_RELEASE:FILEPATH=c:/boost_thread-vc120.1.61.0.0/lib/native/address-model-64/lib/boost_thread-vc120-mt-1_61.lib \
         -DBoost_SYSTEM_LIBRARY_RELEASE:FILEPATH=c:/boost_system-vc120.1.61.0.0/lib/native/address-model-64/lib/boost_system-vc120-mt-1_61.lib \
-        -DBoost_LIBRARY_DIR_RELEASE:PATH=c:/boost_chrono-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_date_time-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_thread-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_system-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_filesystem-vc120.1.61.0.0/lib/native/address-model-64/lib \
+        -DBoost_LIBRARY_DIR_RELEASE:PATH=c:/boost_date_time-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_thread-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_system-vc120.1.61.0.0/lib/native/address-model-64/lib;c:/boost_filesystem-vc120.1.61.0.0/lib/native/address-model-64/lib \
         -DSWIG_EXECUTABLE:FILEPATH=c:/swigwin-3.0.8/swig.exe \
         -DIIO_INCLUDE_DIRS:PATH=c:/libiio-win64 \
         -DIIO_LIBRARIES:FILEPATH=c:/libiio-win64/libiio.lib \
