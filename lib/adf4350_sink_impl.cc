@@ -24,7 +24,11 @@
 
 #include <gnuradio/io_signature.h>
 #include "adf4350_sink_impl.h"
+#include "device_source_impl.h"
 #include <boost/lexical_cast.hpp>
+#include <libm2k/m2k.hpp>
+#include <libm2k/contextbuilder.hpp>
+#include <libm2k/tools/spi_extra.hpp>
 
 namespace gr {
     namespace iio {
@@ -126,13 +130,21 @@ namespace gr {
                             gr::io_signature::make(0, 0, 0)),
                   uri(uri)
         {
+		libm2k::contexts::M2k *context = libm2k::contexts::m2kOpen(device_source_impl::get_context(uri), uri.c_str());
+		m2k_spi_init m2KSpiInit;
+		m2KSpiInit.clock = 0;
+		m2KSpiInit.mosi = 1;
+		m2KSpiInit.miso = 7;
+		m2KSpiInit.bit_numbering = MSB;
+		m2KSpiInit.context = context;
+
             adf4350_init_param default_adf4350_init_param = {
                     /* SPI */
                     {
                             1000000,
                             2,
-                            static_cast<spi_mode>(0),
-                            (void*)(uri.c_str())
+			    SPI_MODE_0,
+			    (void*)&m2KSpiInit
                     },
 			clkin,
 			channel_spacing,
