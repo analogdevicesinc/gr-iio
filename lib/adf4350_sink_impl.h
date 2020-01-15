@@ -23,7 +23,9 @@
 
 #include <gnuradio/iio/adf4350_sink.h>
 #include <pmt/pmt.h>
-#include "drivers/adf4350/adf4350.h"
+extern "C" {
+#include "drivers/adf4350.h"
+}
 
 namespace gr {
     namespace iio {

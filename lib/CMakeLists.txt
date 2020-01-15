@@ -53,9 +53,7 @@ list(APPEND iio_sources
 	iio_modulo_ff_impl.cc
 	iio_modulo_const_ff_impl.cc
 	adf4350_sink_impl.cc
-	drivers/adf4350/adf4350.cpp
-	drivers/delay.cpp
-	communication/spi/spi.cpp
+	drivers/adf4350.c
 	${FLEX_lexer_OUTPUTS}
 	${BISON_parser_OUTPUTS}
 #    moving_variance_impl.cc
