@@ -66,6 +66,6 @@ templates:
     imports: import iio
     make: iio.pluto_sink(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
     callbacks:
-      - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
+      - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${attenuation1}, ${filter}, ${auto_filter})
 
 file_format: 1
