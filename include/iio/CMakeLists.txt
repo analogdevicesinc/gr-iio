@@ -30,5 +30,5 @@ install(FILES
 	attr_sink.h
 	attr_source.h
 	modulo_ff.h modulo_const_ff.h
-	DESTINATION ${GR_INCLUDE_DIR}/iio
+	DESTINATION ${GR_INCLUDE_DIR}
 )
