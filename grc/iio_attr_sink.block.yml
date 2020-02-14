@@ -1,6 +1,6 @@
 id: iio_attr_sink
 label: IIO Attribute Sink
-flags: [ python ]
+flags: [ python, throttle ]
 
 parameters:
 -   id: uri
