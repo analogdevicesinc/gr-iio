@@ -83,7 +83,14 @@ ENDIF()
 ########################################################################
 # Find packages
 ########################################################################
-find_package(Gnuradio "3.8" REQUIRED)
+set(GR_COMPONENTS blocks analog volk pmt filter fft)
+find_package(Gnuradio "3.8" COMPONENTS ${GR_COMPONENTS})
+if(NOT Gnuradio_FOUND)
+    find_package(Gnuradio "3.9" COMPONENTS ${GR_COMPONENTS})
+    if(NOT Gnuradio_FOUND)
+        message(FATAL_ERROR "Unable to find GNURadio")
+    endif(NOT Gnuradio_FOUND)
+endif(NOT Gnuradio_FOUND)
 include(GrVersion)
 include(GrPlatform) #define LIB_SUFFIX
 
@@ -105,13 +112,9 @@ set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 ########################################################################
 # Find gnuradio build dependencies
 ########################################################################
-
-# Search for GNU Radio and its components and versions. Add any
-# components required to the list of GR_REQUIRED_COMPONENTS (in all
-# caps such as FILTER or FFT) and change the version to the minimum
-# API compatible version required.
-find_package(Gnuradio COMPONENTS blocks analog volk pmt filter fft)
-find_package(Gnuradio PATHS "c:/Program Files/gnuradio/lib/cmake/gnuradio" REQUIRED)
+if(WIN32)
+  find_package(Gnuradio PATHS "c:/Program Files/gnuradio/lib/cmake/gnuradio" REQUIRED)
+endif()
 
 find_library(IIO_LIBRARIES iio)
 find_path(IIO_INCLUDE_DIRS iio.h)
