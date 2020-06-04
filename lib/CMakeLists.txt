@@ -76,11 +76,6 @@ target_include_directories(gnuradio-iio
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
-set_target_properties(gnuradio-iio PROPERTIES
-	VERSION ${GR_IIO_VERSION}
-	SOVERSION ${GR_IIO_VERSION_MAJOR}
-	DEFINE_SYMBOL "gnuradio_iio_EXPORTS"
-)
 
 if(APPLE)
     set_target_properties(gnuradio-iio PROPERTIES
@@ -93,3 +88,9 @@ endif(APPLE)
 ########################################################################
 include(GrMiscUtils)
 GR_LIBRARY_FOO(gnuradio-iio)
+
+set_target_properties(gnuradio-iio PROPERTIES
+	VERSION ${GR_IIO_VERSION}
+	SOVERSION ${GR_IIO_VERSION_MAJOR}
+	DEFINE_SYMBOL "gnuradio_iio_EXPORTS"
+)
