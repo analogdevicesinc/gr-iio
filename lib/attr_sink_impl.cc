@@ -27,7 +27,10 @@
 #include "attr_sink_impl.h"
 #include <cstdio>
 #include <iostream>
+#include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
+
+using namespace boost::placeholders;
 
 namespace gr {
   namespace iio {

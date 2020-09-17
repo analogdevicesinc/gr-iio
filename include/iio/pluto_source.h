@@ -36,7 +36,7 @@ namespace gr {
 	class IIO_API pluto_source : virtual public gr::hier_block2
 	{
 	public:
-		typedef boost::shared_ptr<pluto_source> sptr;
+		typedef std::shared_ptr<pluto_source> sptr;
 
 		static sptr make(const std::string &uri,
 				unsigned long long frequency,

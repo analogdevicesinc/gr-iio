@@ -31,7 +31,7 @@ namespace gr {
 		class IIO_API modulo_ff : virtual public sync_block
 		{
 		public:
-			typedef boost::shared_ptr<modulo_ff> sptr;
+			typedef std::shared_ptr<modulo_ff> sptr;
 
 			static sptr make(size_t vlen=1);
 		};

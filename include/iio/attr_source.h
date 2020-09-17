@@ -37,7 +37,7 @@ namespace gr {
     class IIO_API attr_source : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<attr_source> sptr;
+      typedef std::shared_ptr<attr_source> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of iio::attr_source.

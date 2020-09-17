@@ -40,7 +40,7 @@ namespace gr {
     class IIO_API fmcomms2_source : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<fmcomms2_source> sptr;
+      typedef std::shared_ptr<fmcomms2_source> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of iio::device.
@@ -82,7 +82,7 @@ namespace gr {
     class IIO_API fmcomms2_source_f32c : virtual public gr::hier_block2
     {
     public:
-      typedef boost::shared_ptr<fmcomms2_source_f32c> sptr;
+      typedef std::shared_ptr<fmcomms2_source_f32c> sptr;
 
       static sptr make(const std::string &uri,
 		    unsigned long long frequency, unsigned long samplerate,
