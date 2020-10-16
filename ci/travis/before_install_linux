@@ -1,24 +1,24 @@
 #!/bin/sh -e
 
 . ci/travis/lib.sh
-. ci/travis/before_install_lib.sh
 
-BOOST_PACKAGES_BASE="libboost libboost-regex libboost-date-time
-	libboost-program-options libboost-test libboost-filesystem
-	libboost-system libboost-thread"
+# change when needed
+PYTHON_VER=2
 
 handle_centos() {
 	# First EPEL stuff
 	yum install -y epel-release
 
-	yum -y groupinstall 'Development Tools'
-	# FIXME: remove python-mako & python-six when not building gnuradio
-	yum -y install cmake boost-devel python-devel fftw-devel bison flex yum \
-		python-mako python-six \
-		swig git libusb1-devel doxygen libaio-devel avahi-devel bzip2 gzip \
-		rpm rpm-build libxml2-devel
+	# Only CentOS 8 and higher
 
-	__handle_common
+	yum -y groupinstall 'Development Tools'
+	yum -y install yum-utils
+	yum config-manager --set-enabled powertools
+
+	yum -y install cmake boost-devel fftw-devel bison flex yum \
+		swig git libusb1-devel doxygen libaio-devel avahi-devel bzip2 gzip \
+		rpm rpm-build libxml2-devel gmp-devel log4cpp-devel mpir-devel \
+		gnuradio-devel python${PYTHON_VER}-devel
 
 	if [ "$TRAVIS" = "true" ] || [ "$INSIDE_DOCKER" = "1" ] ; then
 		for pkg in libiio libad9361-iio ; do
@@ -37,25 +37,12 @@ handle_ubuntu_docker() {
 }
 
 handle_default() {
-	local BOOST_PACKAGES
-
-	for package in $BOOST_PACKAGES_BASE ; do
-		BOOST_PACKAGES="$BOOST_PACKAGES ${package}${BOOST_VER}-dev"
-	done
-
+	export DEBIAN_FRONTEND=noninteractive
 	sudo apt-get -qq update
-	# FIXME: remove python-mako & python-six when not building gnuradio
-	sudo apt-get install -y build-essential libboost-dev libpython-dev bison \
+	sudo apt-get install -y build-essential libboost-dev bison doxygen \
 		flex git libfftw3-dev swig cmake libaio-dev libavahi-client-dev libavahi-common-dev \
 		libusb-1.0-0-dev libxml2-dev tar bzip2 gzip \
-		python-mako python-six \
-		$BOOST_PACKAGES
-
-	if apt-cache show libserialport-dev &> /dev/null ; then
-		sudo apt-get install -y libserialport-dev
-	fi
-
-	__handle_common
+		libserialport-dev gnuradio-dev libpython${PYTHON_VER}-dev
 
 	if [ "$TRAVIS" = "true" ] || [ "$INSIDE_DOCKER" = "1" ] ; then
 		for pkg in libiio libad9361-iio ; do
