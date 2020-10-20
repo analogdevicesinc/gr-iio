@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# For OS X builds
+export PATH="/usr/local/opt/bison/bin:$PATH"
+
+mkdir -p build
+cd build
+cmake -DCMAKE_CXX_FLAGS="-std=c++11" ..
+make
+cd ..

@@ -5,11 +5,11 @@
 brew_install_or_upgrade cmake boost bison libusb libxml2 python brew-pip \
 	fftw flex swig gnuradio
 
-for pkg in gcc bison gettext ; do
-	brew link --overwrite --force $pkg
-done
-
-if [ "$TRAVIS" == "true" ] ; then
+if [ -n "$PACKAGE_TO_INSTALL" ] ; then
+	for file in $PACKAGE_TO_INSTALL ; do
+		sudo installer -pkg "${file}" -target /
+	done
+elif [ "$INSTALL_FROM_SW_DOWNLOADS" = "1" ] ; then
 	for pkg in libiio libad9361-iio ; do
 		wget http://swdownloads.analog.com/cse/travis_builds/master_latest_${pkg}${LDIST}.pkg
 		sudo installer -pkg master_latest_${pkg}${LDIST}.pkg -target /

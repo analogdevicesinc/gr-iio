@@ -45,10 +45,9 @@ ensure_command_exists sudo
 		-O ${TRAVIS_BUILD_DIR}/build/lib.sh
 }
 
-# For OS X builds
-export PATH="/usr/local/opt/bison/bin:$PATH"
-
 . ${TRAVIS_BUILD_DIR}/build/lib.sh
+
+INSIDE_DOCKER_TRAVIS_CI_ENV="$INSIDE_DOCKER_TRAVIS_CI_ENV PACKAGE_TO_INSTALL"
 
 if [ -z "${LDIST}" -a -f "build/.LDIST" ] ; then
 	export LDIST="-$(cat build/.LDIST)"
