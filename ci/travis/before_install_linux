@@ -2,8 +2,7 @@
 
 . ci/travis/lib.sh
 
-# change when needed
-PYTHON_VER=2
+PYTHON_VER=3
 
 handle_centos() {
 	# First EPEL stuff
