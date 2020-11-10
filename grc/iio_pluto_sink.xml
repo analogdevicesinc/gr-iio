@@ -4,7 +4,7 @@
 	<key>pluto_sink</key>
 	<category>[Industrial IO]/PlutoSDR</category>
 	<flags>throttle</flags>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.pluto_sink($uri, int($frequency), int($samplerate), int($bandwidth), $buffer_size, $cyclic, $attenuation, $filter, $auto_filter)</make>
 	<callback>set_params(int($frequency), int($samplerate), int($bandwidth), $attenuation, $filter, $auto_filter)</callback>
 

@@ -20,10 +20,10 @@
  */
 
 
-#ifndef INCLUDED_IIO_DEVICE_SOURCE_H
-#define INCLUDED_IIO_DEVICE_SOURCE_H
+#ifndef INCLUDED_IIO_DEVICE_SINK_H
+#define INCLUDED_IIO_DEVICE_SINK_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/sync_block.h>
 
 #define DEFAULT_BUFFER_SIZE 0x8000
@@ -40,10 +40,10 @@ namespace gr {
      * \ingroup iio
      *
      */
-    class IIO_API device_source : virtual public gr::sync_block
+    class IIO_API device_sink : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<device_source> sptr;
+      typedef boost::shared_ptr<device_sink> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of iio::device.
@@ -58,21 +58,18 @@ namespace gr {
 		      const std::string &device_phy,
 		      const std::vector<std::string> &params,
 		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
-		      unsigned int decimation = 0);
+		      unsigned int interpolation = 0, bool cyclic = false);
 
       static sptr make_from(struct iio_context *ctx, const std::string &device,
 		      const std::vector<std::string> &channels,
 		      const std::string &device_phy,
 		      const std::vector<std::string> &params,
 		      unsigned int buffer_size = DEFAULT_BUFFER_SIZE,
-		      unsigned int decimation = 0);
-
-      virtual void set_buffer_size(unsigned int buffer_size) = 0;
-      virtual void set_timeout_ms(unsigned long timeout) = 0;
+		      unsigned int interpolation = 0, bool cyclic = false);
     };
 
   } // namespace iio
 } // namespace gr
 
-#endif /* INCLUDED_IIO_DEVICE_SOURCE_H */
+#endif /* INCLUDED_IIO_DEVICE_SINK_H */
 

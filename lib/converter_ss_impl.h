@@ -23,7 +23,7 @@
 #define INCLUDED_IIO_CONVERTER_SS_IMPL_H
 
 #include <iio.h>
-#include <gnuradio/iio/converter_ss.h>
+#include <iio/converter_ss.h>
 
 namespace gr {
 	namespace iio {

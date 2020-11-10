@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/fmcomms5_sink.h>
+#include <iio/fmcomms5_sink.h>
 
 #include "device_sink_impl.h"
 

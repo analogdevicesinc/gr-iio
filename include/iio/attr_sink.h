@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_ATTR_SINK_H
 #define INCLUDED_IIO_ATTR_SINK_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {

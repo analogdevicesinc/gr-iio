@@ -4,7 +4,7 @@
 	<key>iio_device_sink</key>
 	<category>[Industrial IO]</category>
 	<flags>throttle</flags>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.device_sink($uri, $device, $channels, $device_phy, $params, $buffer_size, $interpolation - 1, $cyclic)</make>
 
 	<param>

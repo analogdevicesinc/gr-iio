@@ -4,7 +4,7 @@
 	<key>iio_fmcomms5_source</key>
 	<category>[Industrial IO]/FMComms</category>
 	<flags>throttle</flags>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.fmcomms5_source_f32c($uri, int($frequency1), int($frequency2), int($samplerate), int($bandwidth), $ch1_en, $ch2_en, $ch3_en, $ch4_en, $buffer_size, $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select, $filter)</make>
 	<callback>set_params(int($frequency1), int($frequency2), int($samplerate), int($bandwidth), $quadrature, $rfdc, $bbdc, $gain1, $manual_gain1, $gain2, $manual_gain2, $gain3, $manual_gain3, $gain4, $manual_gain4, $rf_port_select)</callback>
 

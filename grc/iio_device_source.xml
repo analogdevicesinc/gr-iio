@@ -4,7 +4,7 @@
 	<key>iio_device_source</key>
 	<category>[Industrial IO]</category>
 	<flags>throttle</flags>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.device_source($uri, $device, $channels, $device_phy, $params, $buffer_size, $decimation - 1)</make>
 
 	<param>

@@ -3,7 +3,7 @@
   <name>IIO Attribute Sink</name>
   <key>iio_attr_sink</key>
   <category>[Industrial IO]</category>
-  <import>from gnuradio import iio</import>
+  <import>import iio</import>
   <make>iio.attr_sink($uri, $device, $channel, $attr_type, $output, $required_enable)</make>
   <param>
 		<name>uri</name>

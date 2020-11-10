@@ -4,7 +4,7 @@
 	<key>pluto_source</key>
 	<category>[Industrial IO]/PlutoSDR</category>
 	<flags>throttle</flags>
-	<import>from gnuradio import iio</import>
+	<import>import iio</import>
 	<make>iio.pluto_source($uri, int($frequency), int($samplerate), int($bandwidth), $buffer_size, $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter, $auto_filter)</make>
 	<callback>set_params(int($frequency), int($samplerate), int($bandwidth), $quadrature, $rfdc, $bbdc, $gain, $manual_gain, $filter, $auto_filter)</callback>
 

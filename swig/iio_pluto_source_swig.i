@@ -8,9 +8,9 @@
 %include "gnuradio.i"
 
 %{
-#include "gnuradio/iio/pluto_source.h"
+#include "iio/pluto_source.h"
 %}
 
-%include "gnuradio/iio/pluto_source.h"
+%include "iio/pluto_source.h"
 
 GR_SWIG_BLOCK_MAGIC2(iio, pluto_source);
