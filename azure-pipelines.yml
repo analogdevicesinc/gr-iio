@@ -1,0 +1,61 @@
+variables:
+  libiioPipelineId: 9
+  libad9361iioPipelineId: 10
+
+trigger:
+- main
+- master
+- staging/*
+- 20*
+
+pr:
+- main
+- master
+- 20*
+
+jobs:
+- job: LinuxBuilds
+  strategy:
+    matrix:
+      centos_8_x86_64:
+        imageName: 'ubuntu-latest'
+        OS_TYPE: 'centos_docker'
+        OS_VERSION: centos8
+        artifactName: 'Linux-CentOS-8-x86_64'
+        PACKAGE_TO_INSTALL: 'build/*.rpm'
+      ubuntu_20_04_x86_64:
+        imageName: 'ubuntu-latest'
+        OS_TYPE: 'ubuntu_docker'
+        OS_VERSION: focal
+        artifactName: 'Linux-Ubuntu-20.04-x86_64'
+        PACKAGE_TO_INSTALL: 'build/*.deb'
+  pool:
+    vmImage: $(imageName)
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    clean: true
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Get libiio artifacts'
+    inputs:
+      source: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: $(libiioPipelineId)
+      artifact: '$(artifactName)'
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/master'
+      path: '$(Agent.BuildDirectory)/s/build/'
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Get libad9361-iio artifacts'
+    inputs:
+      source: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: $(libad9361iioPipelineId)
+      artifact: '$(artifactName)'
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/master'
+      path: '$(Agent.BuildDirectory)/s/build/'
+  - script: ./ci/travis/before_install_linux
+    displayName: "Install Dependencies"
+  - script: ./ci/travis/make_linux
+    displayName: "Build"
