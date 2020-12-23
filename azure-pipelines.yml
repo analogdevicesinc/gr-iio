@@ -59,3 +59,42 @@ jobs:
     displayName: "Install Dependencies"
   - script: ./ci/travis/make_linux
     displayName: "Build"
+
+- job: macOSBuilds
+  strategy:
+    matrix:
+      macOS_10_15:
+        imageName: 'macOS-10.15'
+        artifactName: 'macOS-10.15'
+  pool:
+    vmImage: $(imageName)
+  variables:
+    PACKAGE_TO_INSTALL: 'build/*.pkg'
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    clean: true
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Get libiio artifacts'
+    inputs:
+      source: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: $(libiioPipelineId)
+      artifact: '$(artifactName)'
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/master'
+      path: '$(Agent.BuildDirectory)/s/build/'
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Get libad9361-iio artifacts'
+    inputs:
+      source: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: $(libad9361iioPipelineId)
+      artifact: '$(artifactName)'
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/master'
+      path: '$(Agent.BuildDirectory)/s/build/'
+  - script: ./ci/travis/before_install_darwin
+    displayName: "Install Dependencies"
+  - script: ./ci/travis/make_darwin
+    displayName: "Build"
