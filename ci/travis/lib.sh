@@ -13,16 +13,22 @@ command_exists() {
 ensure_command_exists() {
 	local cmd="$1"
 	local package="$2"
+	local yes_confirm
 	[ -n "$cmd" ] || return 1
 	[ -n "$package" ] || package="$cmd"
 	! command_exists "$cmd" || return 0
 	# go through known package managers
 	for pacman in apt-get brew yum ; do
 		command_exists $pacman || continue
-		$pacman install -y $package || {
+		if [ "$pacman" = "brew" ] ; then
+			yes_confirm=
+		else
+			yes_confirm="-y"
+		fi
+		"$pacman" install $yes_confirm "$package" || {
 			# Try an update if install doesn't work the first time
-			$pacman -y update && \
-				$pacman install -y $package
+			"$pacman" $yes_confirm update && \
+				"$pacman" install $yes_confirm "$package"
 		}
 		return $?
 	done
@@ -39,10 +45,9 @@ ensure_command_exists sudo
 		-O ${TRAVIS_BUILD_DIR}/build/lib.sh
 }
 
-# For OS X builds
-export PATH="/usr/local/opt/bison/bin:$PATH"
-
 . ${TRAVIS_BUILD_DIR}/build/lib.sh
+
+INSIDE_DOCKER_TRAVIS_CI_ENV="$INSIDE_DOCKER_TRAVIS_CI_ENV PACKAGE_TO_INSTALL"
 
 if [ -z "${LDIST}" -a -f "build/.LDIST" ] ; then
 	export LDIST="-$(cat build/.LDIST)"

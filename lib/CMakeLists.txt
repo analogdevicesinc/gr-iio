@@ -60,7 +60,7 @@ if(NOT iio_sources)
 	return()
 endif(NOT iio_sources)
 
-if ("${PC_GNURADIO_RUNTIME_VERSION}" VERSION_LESS 3.8.0)
+if ("${Gnuradio_VERSION}" VERSION_LESS 3.8.0)
 	set(GR_IS_VERSION_3_7_OR_LESS ON)
 endif()
 
