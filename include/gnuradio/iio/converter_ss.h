@@ -41,7 +41,7 @@ namespace gr {
 		class IIO_API converter_ss : virtual public gr::sync_block
 		{
 		public:
-			typedef boost::shared_ptr<converter_ss> sptr;
+			typedef std::shared_ptr<converter_ss> sptr;
 
 			static sptr make(const struct iio_channel *channel,
 					bool inverse);

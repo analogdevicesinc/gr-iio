@@ -43,7 +43,7 @@ namespace gr {
     class IIO_API device_source : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<device_source> sptr;
+      typedef std::shared_ptr<device_source> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of iio::device.

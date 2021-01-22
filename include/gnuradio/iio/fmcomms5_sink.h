@@ -35,7 +35,7 @@ namespace gr {
     class IIO_API fmcomms5_sink : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<fmcomms5_sink> sptr;
+      typedef std::shared_ptr<fmcomms5_sink> sptr;
 
       static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
@@ -72,7 +72,7 @@ namespace gr {
     class IIO_API fmcomms5_sink_f32c : virtual public gr::hier_block2
     {
     public:
-      typedef boost::shared_ptr<fmcomms5_sink_f32c> sptr;
+      typedef std::shared_ptr<fmcomms5_sink_f32c> sptr;
 
       static sptr make(const std::string &uri, unsigned long long frequency1,
 		    unsigned long long frequency2,
