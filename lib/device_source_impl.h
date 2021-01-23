@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/device_source.h>
 #include <iio.h>
+#include <iio/device_source.h>
 #include <boost/thread.hpp>
 
 namespace gr {

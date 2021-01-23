@@ -87,6 +87,7 @@ set(GR_CMAKE_DIR        ${CMAKE_MODULES_DIR}/iio)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})
 set(GR_PKG_DOC_DIR      ${GR_DOC_DIR}/${CMAKE_PROJECT_NAME})
 set(GR_PKG_CONF_DIR     ${GR_CONF_DIR}/${CMAKE_PROJECT_NAME}/conf.d)
+SET(GR_PKG_EXAMPLES_DIR ${GR_PKG_DATA_DIR}/examples/iio)
 set(GR_PKG_LIBEXEC_DIR  ${GR_LIBEXEC_DIR}/${CMAKE_PROJECT_NAME})
 
 ########################################################################
@@ -121,6 +122,10 @@ find_package(Volk REQUIRED 2.1)
 
 set(GR_IIO_DEPENDENCIES
     Boost_FOUND
+    ENABLE_GNURADIO_RUNTIME
+    ENABLE_GR_ANALOG
+    ENABLE_GR_BLOCKS
+    ENABLE_VOLK
     LIBIIO_FOUND
 )
 
@@ -139,7 +144,9 @@ find_package(pybind11 REQUIRED)
 execute_process(
     COMMAND "${PYTHON_EXECUTABLE}" -c
     "try:\n import numpy\n import os\n inc_path = numpy.get_include()\n if os.path.exists(os.path.join(inc_path, 'numpy', 'arrayobject.h')):\n  print(inc_path, end='')\nexcept:\n pass"
-    OUTPUT_VARIABLE PYTHON_NUMPY_INCLUDE_DIR)
+    OUTPUT_VARIABLE
+    PYTHON_NUMPY_INCLUDE_DIR
+)
 
 ########################################################################
 # Setup doxygen option
@@ -165,13 +172,14 @@ add_custom_target(uninstall
 ########################################################################
 # Add subdirectories
 ########################################################################
+add_subdirectory(docs)
 add_subdirectory(include/iio)
 add_subdirectory(lib)
 
 if(ENABLE_PYTHON)
     message(STATUS "PYTHON and GRC components are enabled")
-    add_subdirectory(grc)
-    add_subdirectory(python)
+    # add_subdirectory(grc)
+    # add_subdirectory(python)
 else(ENABLE_PYTHON)
     message(STATUS "PYTHON and GRC components are disabled")
 endif(ENABLE_PYTHON)

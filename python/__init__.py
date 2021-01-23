@@ -16,5 +16,7 @@ import os
 # import pybind11 generated symbols into the iio namespace
 try:
     from .iio_python import *
-except ModuleNotFoundError:
-    pass
+except ImportError:
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    __path__.append(os.path.join(dirname, "bindings"))
+    from .iio_python import *

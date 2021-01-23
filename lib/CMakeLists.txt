@@ -44,6 +44,9 @@ target_link_libraries(gnuradio-iio
     gnuradio-blocks
 )
 
+########################################################################
+# Begin conditional configuration
+########################################################################
 if(LIBAD9361_FOUND)
 
     target_sources(gnuradio-iio

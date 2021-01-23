@@ -22,8 +22,8 @@
 #ifndef INCLUDED_IIO_ATTR_SINK_IMPL_H
 #define INCLUDED_IIO_ATTR_SINK_IMPL_H
 
-#include <gnuradio/iio/attr_sink.h>
 #include <iio.h>
+#include <iio/attr_sink.h>
 #include <pmt/pmt.h>
 
 #include "device_source_impl.h"

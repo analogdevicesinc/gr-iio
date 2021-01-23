@@ -22,8 +22,8 @@
 #ifndef INCLUDED_IIO_DDS_CONTROL_IMPL_H
 #define INCLUDED_IIO_DDS_CONTROL_IMPL_H
 
-#include <gnuradio/iio/dds_control.h>
 #include <iio.h>
+#include <iio/dds_control.h>
 #include <pmt/pmt.h>
 
 #include "device_source_impl.h"

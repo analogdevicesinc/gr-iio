@@ -1,7 +1,7 @@
-INCLUDE(FindPkgConfig)
+include(FindPkgConfig)
 PKG_CHECK_MODULES(PC_IIO iio)
 
-FIND_PATH(
+find_path(
     IIO_INCLUDE_DIRS
     NAMES iio/api.h
     HINTS $ENV{IIO_DIR}/include
@@ -11,7 +11,7 @@ FIND_PATH(
           /usr/include
 )
 
-FIND_LIBRARY(
+find_library(
     IIO_LIBRARIES
     NAMES gnuradio-iio
     HINTS $ENV{IIO_DIR}/lib
@@ -24,7 +24,11 @@ FIND_LIBRARY(
           /usr/lib64
 )
 
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(IIO DEFAULT_MSG IIO_LIBRARIES IIO_INCLUDE_DIRS)
-MARK_AS_ADVANCED(IIO_LIBRARIES IIO_INCLUDE_DIRS)
+include(FindPackageHandleStandardArgs)
 
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(IIO DEFAULT_MSG IIO_LIBRARIES IIO_INCLUDE_DIRS)
+
+mark_as_advanced(
+    IIO_INCLUDE_DIRS
+    IIO_LIBRARIES
+)

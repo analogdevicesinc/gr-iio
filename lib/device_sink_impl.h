@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/device_sink.h>
 #include <iio.h>
+#include <iio/device_sink.h>
 
 namespace gr {
 namespace iio {

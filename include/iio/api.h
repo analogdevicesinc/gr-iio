@@ -25,9 +25,9 @@
 #include <gnuradio/attributes.h>
 
 #ifdef gnuradio_iio_EXPORTS
-#  define IIO_API __GR_ATTR_EXPORT
+#define IIO_API __GR_ATTR_EXPORT
 #else
-#  define IIO_API __GR_ATTR_IMPORT
+#define IIO_API __GR_ATTR_IMPORT
 #endif
 
 #endif /* INCLUDED_IIO_API_H */

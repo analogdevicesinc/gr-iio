@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/fmcomms5_source.h>
+#include <iio/fmcomms5_source.h>
 
 #include "device_source_impl.h"
 
@@ -117,7 +117,6 @@ public:
                     const char* filter_filename,
                     float Fpass,
                     float Fstop);
-
 };
 
 } // namespace iio
