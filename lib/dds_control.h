@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /*
- * Copyright 2018 Analog Devices Inc.
+ * Copyright 2019 Analog Devices Inc.
  * Author: Travis Collins <travis.collins@analog.com>
  *
  * This is free software; you can redistribute it and/or modify
@@ -19,10 +19,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_ATTR_SINK_IMPL_H
-#define INCLUDED_IIO_ATTR_SINK_IMPL_H
+#ifndef INCLUDED_IIO_DDS_CONTROL_IMPL_H
+#define INCLUDED_IIO_DDS_CONTROL_IMPL_H
 
-#include <gnuradio/iio/attr_sink.h>
+#include <gnuradio/iio/dds_control.h>
 #include <iio.h>
 #include <pmt/pmt.h>
 
@@ -31,34 +31,35 @@
 namespace gr {
 namespace iio {
 
-class attr_sink_impl : public attr_sink
+class dds_control_impl : public dds_control
 {
 private:
-    std::string device;
-    std::string channel;
-    std::string uri;
-    int type;
-    bool output;
-    bool required_enable;
+    std::vector<int> d_enabled;
+    std::vector<long> d_frequencies;
+    std::vector<float> d_phases;
+    std::vector<float> d_scales;
+    std::string d_uri;
 
 protected:
-    struct iio_context* ctx;
-    struct iio_device* dev;
-    struct iio_channel* chan;
+    struct iio_context* d_ctx;
+    struct iio_device* d_dev;
 
 public:
-    attr_sink_impl(const std::string& uri,
-                   const std::string& device,
-                   const std::string& channel,
-                   int type,
-                   bool output,
-                   bool required_enable);
-    ~attr_sink_impl();
+    dds_control_impl(const std::string& uri,
+                     std::vector<int> enabled,
+                     std::vector<long> frequencies,
+                     std::vector<float> phases,
+                     std::vector<float> scales);
+    ~dds_control_impl();
 
-    void write_attribute(pmt::pmt_t pdu);
+    void set_dds_confg(std::vector<long> frequencies,
+                       std::vector<float> phases,
+                       std::vector<float> scales);
+
+    // void write_attribute(pmt::pmt_t pdu);
 };
 
 } // namespace iio
 } // namespace gr
 
-#endif /* INCLUDED_IIO_ATTR_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_DDS_CONTROL_IMPL_H */

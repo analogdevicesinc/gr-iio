@@ -25,31 +25,39 @@
 #include <string>
 #include <vector>
 
-#include <iio/fmcomms2_source.h>
-#include <iio/pluto_source.h>
+#include <gnuradio/iio/fmcomms2_source.h>
+#include <gnuradio/iio/pluto_source.h>
 
 #include "device_source_impl.h"
 
 namespace gr {
-  namespace iio {
+namespace iio {
 
-	class pluto_source_impl : public pluto_source
-				, public fmcomms2_source_f32c
-	{
-	public:
-		explicit pluto_source_impl(fmcomms2_source::sptr block);
+class pluto_source_impl : public pluto_source, public fmcomms2_source_f32c
+{
+private:
+    // void update_rate(unsigned long samplerate)
 
-		static std::string get_uri();
+public:
+    explicit pluto_source_impl(fmcomms2_source::sptr block);
 
-		void set_params(unsigned long long frequency,
-				unsigned long samplerate,
-				unsigned long bandwidth,
-				bool quadrature, bool rfdc, bool bbdc,
-				const char *gain, double gain_value,
-				const char *filter, bool auto_filter);
-	};
+    static std::string get_uri();
 
-	} // namespace iio
+    void set_params(unsigned long long frequency,
+                    unsigned long samplerate,
+                    unsigned long bandwidth,
+                    bool quadrature,
+                    bool rfdc,
+                    bool bbdc,
+                    const char* gain,
+                    double gain_value,
+                    const char* filter_source,
+                    const char* filter_filename,
+                    float Fpass,
+                    float Fstop);
+};
+
+} // namespace iio
 } // namespace gr
 
 #endif /* INCLUDED_IIO_PLUTO_SOURCE_IMPL_H */
