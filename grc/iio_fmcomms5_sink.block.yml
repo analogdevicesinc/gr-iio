@@ -10,22 +10,22 @@ parameters:
 
 -   id: frequency1
     label: LO Frequency (RX1/RX2)
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: frequency2
     label: LO Frequency (RX3/RX4)
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: samplerate
     label: Sample Rate
-    dtype: int
+    dtype: real
     default: 2084000
 
 -   id: bandwidth
     label: RF Bandwidth
-    dtype: int
+    dtype: real
     default: 20000000
 
 -   id: buffer_size
@@ -119,8 +119,8 @@ asserts:
 
 templates:
     imports: import iio
-    make: iio.fmcomms5_sink_f32c(${uri}, ${frequency1}, ${frequency2}, ${samplerate}, ${bandwidth}, ${tx1_en}, ${tx2_en}, ${tx3_en}, ${tx4_en}, ${buffer_size}, ${cyclic}, ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${attenuation3}, ${attenuation4}, ${filter})
+    make: iio.fmcomms5_sink_f32c(${uri}, int(${frequency1}), int(${frequency2}), int(${samplerate}), int(${bandwidth}), ${tx1_en}, ${tx2_en}, ${tx3_en}, ${tx4_en}, ${buffer_size}, ${cyclic}, ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${attenuation3}, ${attenuation4}, ${filter})
     callbacks:
-    - set_params(${frequency1}, ${frequency2}, ${samplerate}, ${bandwidth}, ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${attenuation3}, ${attenuation4})
+    - set_params(int(${frequency1}), int(${frequency2}), int(${samplerate}), int(${bandwidth}), ${rf_port_select}, ${attenuation1}, ${attenuation2}, ${attenuation3}, ${attenuation4})
 
 file_format: 1
