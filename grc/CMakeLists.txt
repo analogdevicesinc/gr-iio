@@ -17,15 +17,5 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-install(FILES
-	iio_device_source.xml iio_device_sink.xml
-	iio_fmcomms2_source.xml iio_fmcomms2_sink.xml
-	iio_fmcomms5_source.xml iio_fmcomms5_sink.xml
-	iio_pluto_source.xml iio_pluto_sink.xml
-	iio_math.xml iio_math_gen.xml iio_power_ff.xml
-	iio_modulo_ff.xml iio_modulo_const_ff.xml
-	iio_attr_sink.xml
-	iio_attr_source.xml
-	iio_attr_updater.xml
-	DESTINATION share/gnuradio/grc/blocks
-)
+file(GLOB yml_files "*.yml")
+install(FILES ${yml_files} DESTINATION ${GRC_BLOCKS_DIR})

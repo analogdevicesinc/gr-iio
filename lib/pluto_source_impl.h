@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/fmcomms2_source.h>
-#include <gnuradio/iio/pluto_source.h>
+#include <iio/fmcomms2_source.h>
+#include <iio/pluto_source.h>
 
 #include "device_source_impl.h"
 

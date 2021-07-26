@@ -71,7 +71,7 @@ class attr_updater(gr.basic_block):
             try:
                 self.message_port_pub(self.port, msg_dic)
             except:
-                print "Error: Failed to publish message"
+                print("Error: Failed to publish message")
                 return
 
             sleep(self.interval/1000)

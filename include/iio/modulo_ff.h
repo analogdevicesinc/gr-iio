@@ -23,7 +23,7 @@
 #ifndef INCLUDED_GR_IIO_MODULO_FF_H
 #define INCLUDED_GR_IIO_MODULO_FF_H
 
-#include <gnuradio/iio/api.h>
+#include <iio/api.h>
 #include <gnuradio/sync_block.h>
 
 namespace gr {

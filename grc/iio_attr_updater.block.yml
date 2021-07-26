@@ -1,0 +1,33 @@
+id: iio_attr_updater
+label: IIO Attribute Updater
+flags: [ python ]
+
+parameters:
+-   id: attr
+    label: Attribute Name
+    dtype: string
+    default: ""
+
+-   id: value
+    label: Value
+    dtype: string
+    default: ""
+
+-   id: update_interval_ms
+    label: Update Interval (ms)
+    dtype: int
+    default: 1
+
+outputs:
+-   domain: message
+    id: out
+
+templates:
+    imports: from gnuradio import iio
+    make: iio.attr_updater(${attr}, ${value}, ${update_interval_ms})
+    callbacks:
+      - update_value(${value})
+
+documentation: https://wiki.analog.com/resources/tools-software/linux-software/gnuradio
+
+file_format: 1

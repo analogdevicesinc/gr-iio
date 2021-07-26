@@ -45,8 +45,8 @@
 #include <gnuradio/blocks/copy.h>
 #include <gnuradio/blocks/null_sink.h>
 #include <gnuradio/blocks/transcendental.h>
-#include <gnuradio/iio/modulo_ff.h>
-#include <gnuradio/iio/power_ff.h>
+#include <iio/modulo_ff.h>
+#include <iio/power_ff.h>
 #include <gnuradio/io_signature.h>
 
 using namespace gr;

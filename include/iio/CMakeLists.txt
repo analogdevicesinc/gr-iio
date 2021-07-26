@@ -1,4 +1,4 @@
-# Copyright 2011 Free Software Foundation, Inc.
+# Copyright 2011,2012 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
 #
@@ -18,19 +18,17 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
-# Include python install macros
+# Install public header files
 ########################################################################
-include(GrPython)
-if(NOT PYTHONINTERP_FOUND)
-    return()
-endif()
-
-########################################################################
-# Install python sources
-########################################################################
-GR_PYTHON_INSTALL(
-    FILES
-    __init__.py
-    attr_updater.py
-    DESTINATION ${GR_PYTHON_DIR}/gnuradio/iio
+install(FILES
+	api.h
+	device_source.h device_sink.h
+	fmcomms2_source.h fmcomms2_sink.h
+	fmcomms5_source.h fmcomms5_sink.h
+	pluto_source.h pluto_sink.h
+	converter_ss.h math.h power_ff.h
+	attr_sink.h
+	attr_source.h
+	modulo_ff.h modulo_const_ff.h
+	DESTINATION ${GR_INCLUDE_DIR}/iio
 )
