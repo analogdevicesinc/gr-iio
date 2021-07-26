@@ -26,8 +26,8 @@
 #include <gnuradio/io_signature.h>
 #include "attr_source_impl.h"
 #include <boost/lexical_cast.hpp>
-#include <boost/chrono.hpp>
-#include <boost/thread/thread.hpp>
+#include <chrono>
+#include <thread>
 #include <vector>
 
 
@@ -255,7 +255,7 @@ namespace gr {
 
       for (sample = 0; sample<samples_per_update; sample++)
       {
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(update_interval_ms));
+        std::this_thread::sleep_for(std::chrono::milliseconds(update_interval_ms));
         if (attr_type == 3)
           get_register_data(address, ( ((int*) out)+sample) );
         else {

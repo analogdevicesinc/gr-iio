@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include <gnuradio/iio/fmcomms5_source.h>
+#include <iio/fmcomms5_source.h>
 
 #include "device_source_impl.h"
 

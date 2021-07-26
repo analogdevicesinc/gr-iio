@@ -1,4 +1,4 @@
-# Copyright 2011 Free Software Foundation, Inc.
+# Copyright 2011,2012 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
 #
@@ -17,5 +17,18 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-file(GLOB yml_files "*.yml")
-install(FILES ${yml_files} DESTINATION ${GRC_BLOCKS_DIR})
+########################################################################
+# Install public header files
+########################################################################
+install(FILES
+	api.h
+	device_source.h device_sink.h
+	fmcomms2_source.h fmcomms2_sink.h
+	fmcomms5_source.h fmcomms5_sink.h
+	pluto_source.h pluto_sink.h
+	converter_ss.h math.h power_ff.h
+	attr_sink.h
+	attr_source.h
+	modulo_ff.h modulo_const_ff.h
+	DESTINATION ${GR_INCLUDE_DIR}
+)

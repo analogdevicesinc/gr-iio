@@ -20,29 +20,23 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_MODULO_CONST_FF_IMPL_H
-#define INCLUDED_IIO_MODULO_CONST_FF_IMPL_H
+#ifndef INCLUDED_GR_IIO_MODULO_FF_H
+#define INCLUDED_GR_IIO_MODULO_FF_H
 
-#include <iio/modulo_const_ff.h>
+#include <iio/api.h>
+#include <gnuradio/sync_block.h>
 
 namespace gr {
 	namespace iio {
-
-		class IIO_API modulo_const_ff_impl : public modulo_const_ff
+		class IIO_API modulo_ff : virtual public sync_block
 		{
-			float d_modulo;
-			size_t d_vlen;
-
 		public:
-			modulo_const_ff_impl(float modulo, size_t vlen);
+			typedef boost::shared_ptr<modulo_ff> sptr;
 
-			int work(int noutput_items,
-					gr_vector_const_void_star &input_items,
-					gr_vector_void_star &output_items);
+			static sptr make(size_t vlen=1);
 		};
 
-	} /* namespace iio */
-} /* namespace gr */
+	}
+}
 
-
-#endif /* INCLUDED_IIO_MODULO_CONST_FF_IMPL_H */
+#endif /* INCLUDED_GR_IIO_MODULO_FF_H */

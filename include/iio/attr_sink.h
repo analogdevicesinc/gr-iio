@@ -19,42 +19,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_ATTR_SINK_IMPL_H
-#define INCLUDED_IIO_ATTR_SINK_IMPL_H
 
-#include <iio.h>
-#include <iio/attr_sink.h>
-#include <pmt/pmt.h>
+#ifndef INCLUDED_IIO_ATTR_SINK_H
+#define INCLUDED_IIO_ATTR_SINK_H
 
-#include "device_source_impl.h"
+#include <iio/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace iio {
 
-    class attr_sink_impl : public attr_sink
+    /*!
+     * \brief <+description of block+>
+     * \ingroup iio
+     *
+     */
+    class IIO_API attr_sink : virtual public gr::block
     {
-     private:
-      std::string device;
-      std::string channel;
-      std::string uri;
-      int type;
-      bool output;
-      bool required_enable;
-
-     protected:
-      struct iio_context *ctx;
-      struct iio_device *dev;
-      struct iio_channel * chan;
-
      public:
-      attr_sink_impl(const std::string &uri, const std::string &device,
-        const std::string &channel, int type, bool output, bool required_enable);
-      ~attr_sink_impl();
+      typedef boost::shared_ptr<attr_sink> sptr;
 
-      void write_attribute(pmt::pmt_t pdu);
+      /*!
+       * \brief Return a shared_ptr to a new instance of iio::attr_sink.
+       *
+       * To avoid accidental use of raw pointers, iio::attr_sink's
+       * constructor is in a private implementation
+       * class. iio::attr_sink::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(const std::string &uri, const std::string &device,
+        const std::string &channel, int type, bool output, bool required_enable);
     };
 
   } // namespace iio
 } // namespace gr
 
-#endif /* INCLUDED_IIO_ATTR_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_ATTR_SINK_H */

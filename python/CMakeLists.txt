@@ -17,5 +17,20 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-file(GLOB yml_files "*.yml")
-install(FILES ${yml_files} DESTINATION ${GRC_BLOCKS_DIR})
+########################################################################
+# Include python install macros
+########################################################################
+include(GrPython)
+if(NOT PYTHONINTERP_FOUND)
+    return()
+endif()
+
+########################################################################
+# Install python sources
+########################################################################
+GR_PYTHON_INSTALL(
+    FILES
+    __init__.py
+    attr_updater.py
+    DESTINATION ${GR_PYTHON_DIR}/iio
+)

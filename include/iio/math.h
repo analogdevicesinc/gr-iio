@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2017 Analog Devices Inc.
+ * Copyright 2016 Analog Devices Inc.
  * Author: Paul Cercueil <paul.cercueil@analog.com>
  * 
  * This is free software; you can redistribute it and/or modify
@@ -19,35 +19,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_PLUTO_SINK_IMPL_H
-#define INCLUDED_IIO_PLUTO_SINK_IMPL_H
 
-#include <string>
-#include <vector>
+#ifndef INCLUDED_IIO_MATH_H
+#define INCLUDED_IIO_MATH_H
 
-#include <iio/fmcomms2_sink.h>
-#include <iio/pluto_sink.h>
-
-#include "device_sink_impl.h"
+#include <iio/api.h>
+#include <gnuradio/hier_block2.h>
 
 namespace gr {
-  namespace iio {
+	namespace iio {
+		class IIO_API iio_math : virtual public gr::hier_block2
+		{
+		public:
+			typedef boost::shared_ptr<iio_math> sptr;
 
-	class pluto_sink_impl : public pluto_sink
-				, public fmcomms2_sink_f32c
-	{
-	public:
-		explicit pluto_sink_impl(fmcomms2_sink::sptr block);
+			static sptr make(const std::string &function,
+					int ninputs = 1);
+		};
 
-		void set_params(unsigned long long frequency,
-				unsigned long samplerate,
-				unsigned long bandwidth,
-				double attenuation,
-				const char *filter,
-				bool auto_filter);
-	};
+		class IIO_API iio_math_gen : virtual public gr::hier_block2
+		{
+		public:
+			typedef boost::shared_ptr<iio_math_gen> sptr;
 
-        } // namespace iio
-} // namespace gr
+			static sptr make(double sampling_freq, double wav_freq,
+					const std::string &function);
+		};
+	}
+}
 
-#endif /* INCLUDED_PLUTO_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_MATH_H */

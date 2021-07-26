@@ -19,35 +19,44 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_PLUTO_SINK_IMPL_H
-#define INCLUDED_IIO_PLUTO_SINK_IMPL_H
 
-#include <string>
-#include <vector>
+#ifndef INCLUDED_IIO_PLUTO_SINK_H
+#define INCLUDED_IIO_PLUTO_SINK_H
 
-#include <iio/fmcomms2_sink.h>
-#include <iio/pluto_sink.h>
-
-#include "device_sink_impl.h"
+#include <iio/api.h>
+#include <gnuradio/hier_block2.h>
 
 namespace gr {
   namespace iio {
-
-	class pluto_sink_impl : public pluto_sink
-				, public fmcomms2_sink_f32c
+	/*!
+	 * \brief Sink block for the PlutoSDR
+	 * \ingroup iio
+	 *
+	 */
+	class IIO_API pluto_sink : virtual public gr::hier_block2
 	{
 	public:
-		explicit pluto_sink_impl(fmcomms2_sink::sptr block);
+		typedef boost::shared_ptr<pluto_sink> sptr;
 
-		void set_params(unsigned long long frequency,
+		static sptr make(const std::string &uri,
+				unsigned long long frequency,
+				unsigned long samplerate,
+				unsigned long bandwidth,
+				unsigned long buffer_size,
+				bool cyclic,
+				double attenuation,
+				const char *filter = "",
+				bool auto_filter = true);
+
+		virtual void set_params(unsigned long long frequency,
 				unsigned long samplerate,
 				unsigned long bandwidth,
 				double attenuation,
-				const char *filter,
-				bool auto_filter);
+				const char *filter = "",
+				bool auto_filter = true) = 0;
 	};
 
         } // namespace iio
 } // namespace gr
 
-#endif /* INCLUDED_PLUTO_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_PLUTO_SINK_H */

@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2017 Analog Devices Inc.
+ * Copyright 2014 Analog Devices Inc.
  * Author: Paul Cercueil <paul.cercueil@analog.com>
  * 
  * This is free software; you can redistribute it and/or modify
@@ -19,35 +19,34 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IIO_PLUTO_SINK_IMPL_H
-#define INCLUDED_IIO_PLUTO_SINK_IMPL_H
 
-#include <string>
-#include <vector>
+#ifndef INCLUDED_IIO_CONVERTER_SS_H
+#define INCLUDED_IIO_CONVERTER_SS_H
 
-#include <iio/fmcomms2_sink.h>
-#include <iio/pluto_sink.h>
+#include <iio/api.h>
+#include <gnuradio/sync_block.h>
 
-#include "device_sink_impl.h"
+extern "C" {
+	struct iio_channel;
+};
 
 namespace gr {
-  namespace iio {
+	namespace iio {
 
-	class pluto_sink_impl : public pluto_sink
-				, public fmcomms2_sink_f32c
-	{
-	public:
-		explicit pluto_sink_impl(fmcomms2_sink::sptr block);
+		/*!
+		 * \brief <+description of block+>
+		 * \ingroup iio
+		 *
+		 */
+		class IIO_API converter_ss : virtual public gr::sync_block
+		{
+		public:
+			typedef boost::shared_ptr<converter_ss> sptr;
 
-		void set_params(unsigned long long frequency,
-				unsigned long samplerate,
-				unsigned long bandwidth,
-				double attenuation,
-				const char *filter,
-				bool auto_filter);
-	};
+			static sptr make(const struct iio_channel *channel,
+					bool inverse);
+		};
+	}
+}
 
-        } // namespace iio
-} // namespace gr
-
-#endif /* INCLUDED_PLUTO_SINK_IMPL_H */
+#endif /* INCLUDED_IIO_CONVERTER_SS_H */
