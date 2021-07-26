@@ -17,7 +17,7 @@ jobs:
       sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y git cmake doxygen graphviz libaio-dev libusb-1.0-0-dev libserialport-dev libavahi-client-dev rpm tar bzip2 gzip
       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libxml2 libxml2-dev bison flex libboost-all-dev
-      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libgmp-dev swig gnuradio gnuradio-dev
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libgmp-dev swig liborc-dev gnuradio gnuradio-dev
     displayName: "Setup Ubuntu"
     condition: contains(variables['image'], 'ubuntu')
 
@@ -49,9 +49,8 @@ jobs:
       mkdir build && cd build
       cmake ..
       make
-      cd ..
+      exit $?
     displayName: Build
-    failOnStderr: 'true'
 
 ###########################################################
 # Deploy
