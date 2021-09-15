@@ -184,9 +184,12 @@ install(
 ########################################################################
 add_subdirectory(include/iio)
 add_subdirectory(lib)
-add_subdirectory(swig)
-add_subdirectory(python)
-add_subdirectory(grc)
+option(WITH_PYTHON "Build python/grc bindings" ON)
+if(WITH_PYTHON)
+	add_subdirectory(swig)
+	add_subdirectory(python)
+	add_subdirectory(grc)
+endif(WITH_PYTHON)
 
 ########################################################################
 # Install cmake search helper for this library
