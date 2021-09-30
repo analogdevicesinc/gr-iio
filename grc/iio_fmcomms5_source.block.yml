@@ -10,22 +10,22 @@ parameters:
 
 -   id: frequency1
     label: LO Frequency (RX1/RX2)
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: frequency2
     label: LO Frequency (RX3/RX4)
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: samplerate
     label: Sample Rate
-    dtype: int
+    dtype: real
     default: 2084000
 
 -   id: bandwidth
     label: RF Bandwidth
-    dtype: int
+    dtype: real
     default: 20000000
 
 -   id: buffer_size
@@ -166,8 +166,8 @@ asserts:
 
 templates:
     imports: import iio
-    make: iio.fmcomms5_source_f32c(${uri}, ${frequency1}, ${frequency2}, ${samplerate}, ${bandwidth}, ${rx1_en}, ${rx2_en}, ${rx3_en}, ${rx4_en}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${gain3}, ${manual_gain3}, ${gain4}, ${manual_gain4}, ${rf_port_select}, ${filter})
+    make: iio.fmcomms5_source_f32c(${uri}, int(${frequency1}), int(${frequency2}), int(${samplerate}), int(${bandwidth}), ${rx1_en}, ${rx2_en}, ${rx3_en}, ${rx4_en}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${gain3}, ${manual_gain3}, ${gain4}, ${manual_gain4}, ${rf_port_select}, ${filter})
     callbacks:
-    - set_params(${frequency1}, ${frequency2}, ${samplerate}, ${bandwidth}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${gain3}, ${manual_gain3}, ${gain4}, ${manual_gain4}, ${rf_port_select})
+    - set_params(int(${frequency1}), int(${frequency2}), int(${samplerate}), int(${bandwidth}), ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${gain3}, ${manual_gain3}, ${gain4}, ${manual_gain4}, ${rf_port_select})
 
 file_format: 1

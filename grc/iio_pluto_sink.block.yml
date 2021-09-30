@@ -10,17 +10,17 @@ parameters:
 
 -   id: frequency
     label: LO Frequency
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: samplerate
     label: Sample Rate
-    dtype: int
+    dtype: real
     default: 2084000
 
 -   id: bandwidth
     label: RF Bandwidth
-    dtype: int
+    dtype: real
     default: 20000000
 
 -   id: buffer_size
@@ -64,8 +64,8 @@ asserts:
 
 templates:
     imports: import iio
-    make: iio.pluto_sink(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
+    make: iio.pluto_sink(${uri}, int(${frequency}), int(${samplerate}), int(${bandwidth}), ${buffer_size}, ${cyclic}, ${attenuation1}, ${filter}, ${auto_filter})
     callbacks:
-      - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${attenuation1}, ${filter}, ${auto_filter})
+      - set_params(int(${frequency}), int(${samplerate}), int({bandwidth}), ${attenuation1}, ${filter}, ${auto_filter})
 
 file_format: 1

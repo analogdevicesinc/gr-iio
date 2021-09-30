@@ -10,17 +10,17 @@ parameters:
 
 -   id: frequency
     label: LO Frequency
-    dtype: int
+    dtype: real
     default: 2400000000
 
 -   id: samplerate
     label: Sample Rate
-    dtype: int
+    dtype: real
     default: 2084000
 
 -   id: bandwidth
     label: RF Bandwidth
-    dtype: int
+    dtype: real
     default: 20000000
 
 -   id: buffer_size
@@ -125,8 +125,8 @@ asserts:
 
 templates:
     imports: import iio
-    make: iio.fmcomms2_source_f32c(${uri}, ${frequency}, ${samplerate}, ${bandwidth}, ${rx1_en}, ${rx2_en}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${rf_port_select}, ${filter}, ${auto_filter})
+    make: iio.fmcomms2_source_f32c(${uri}, int(${frequency}), int(${samplerate}), int(${bandwidth}), ${rx1_en}, ${rx2_en}, ${buffer_size}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${rf_port_select}, ${filter}, ${auto_filter})
     callbacks:
-      - set_params(${frequency}, ${samplerate}, ${bandwidth}, ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${rf_port_select}, ${filter}, ${auto_filter})
+      - set_params(int(${frequency}), int(${samplerate}), int(${bandwidth}), ${quadrature}, ${rfdc}, ${bbdc}, ${gain1}, ${manual_gain1}, ${gain2}, ${manual_gain2}, ${rf_port_select}, ${filter}, ${auto_filter})
 
 file_format: 1
