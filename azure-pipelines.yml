@@ -5,12 +5,12 @@ jobs:
 - job: LinuxBuilds
   # Host Box
   pool:
-    vmImage: 'ubuntu-18.04'
+    vmImage: 'ubuntu-20.04'
   # Docker Images
   strategy:
     matrix:
       ubuntu18:
-        image: tfcollins/test-ubuntu:18.04
+        image: tfcollins/test-ubuntu:20.04
   container: $[ variables['image'] ]
   steps:
   - script: |
