@@ -23,7 +23,7 @@
 #ifndef INCLUDED_IIO_POWER_FF_IMPL_H
 #define INCLUDED_IIO_POWER_FF_IMPL_H
 
-#include <gnuradio/iio/power_ff.h>
+#include <iio/power_ff.h>
 
 namespace gr {
 	namespace iio {
